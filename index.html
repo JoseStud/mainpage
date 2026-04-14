@@ -3,86 +3,128 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Your Name // home</title>
-    <meta
-      name="description"
-      content="Personal website inspired by retro indie web layouts."
-    />
+    <title>anxidev // home</title>
+    <meta name="description" content="anxidev — personal site, projects, and blog." />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+
+    <!-- Rain canvas (behind everything) -->
+    <canvas id="rain-canvas"></canvas>
+
+    <!-- Rain toggle -->
+    <button id="rain-toggle">Disable rain</button>
+
     <div class="page">
+
+      <!-- Header: profile pic + animated logo -->
       <header class="site-header">
-        <h1 class="title">YOURNAME.DEV</h1>
-        <p class="subtitle">small personal site, build notes, and projects</p>
+        <div class="pfp-wrapper">
+          <img
+            src="assets/images/pfp.jpg"
+            alt="Profile picture"
+            class="pfp"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          />
+          <div class="pfp-fallback">👤</div>
+        </div>
+        <div class="header-meta">
+          <div class="logo" aria-label="anxidev">
+            <span class="logo-letter">a</span>
+            <span class="logo-letter">n</span>
+            <span class="logo-letter">x</span>
+            <span class="logo-letter">i</span>
+            <span class="logo-letter">d</span>
+            <span class="logo-letter">e</span>
+            <span class="logo-letter">v</span>
+          </div>
+          <span class="header-sub">personal site · projects · blog</span>
+        </div>
       </header>
 
+      <!-- Three-column layout -->
       <main class="layout">
-        <aside class="stack">
-          <section class="box">
-            <h2><span class="moon">*</span>Menu</h2>
+
+        <!-- LEFT: navigation + status -->
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Navigation</div>
             <nav aria-label="Main navigation">
-              <a class="navlink active" href="index.html">* Home</a>
-              <a class="navlink" href="portfolio.html">* Portfolio</a>
-              <a class="navlink" href="blog.html">* Blog</a>
+              <a class="nav-link active" href="index.html">Home</a>
+              <a class="nav-link" href="blog.html">Blog</a>
+              <a class="nav-link" href="portfolio.html">Projects</a>
+              <a class="nav-link" href="#">About</a>
             </nav>
-          </section>
-
-          <section class="box">
-            <h2><span class="moon">*</span>Status</h2>
-            <p>
-              Systems: <span class="status-ok">OK</span><br />
-              Website: <span class="status-ok">ONLINE</span><br />
-              Coffee: <span class="status-ok">READY</span>
-            </p>
-          </section>
-        </aside>
-
-        <div class="stack">
-          <section class="box">
-            <h2><span class="moon">*</span>Welcome to YOURNAME.DEV</h2>
-            <p>
-              This is my little website and blog. I build web products, scripts,
-              and side projects whenever the mood hits.
-            </p>
-            <p>
-              You can read my latest notes in <a href="blog.html">/blog</a> and
-              browse shipped work in <a href="portfolio.html">/portfolio</a>.
-            </p>
-          </section>
-
-          <section class="box">
-            <h2><span class="moon">*</span>Quick facts</h2>
-            <ul>
-              <li>Role: Developer / Designer</li>
-              <li>Stack: JavaScript, TypeScript, Node.js</li>
-              <li>Interests: performance, DX, clean UI</li>
-              <li>Timezone: UTC+/-0</li>
-            </ul>
-          </section>
-
-          <section class="box post-list">
-            <h2><span class="moon">*</span>Latest posts</h2>
-            <div>
-              - <strong><a href="blog.html">How I structure frontend projects</a></strong>
-            </div>
-            <div>
-              -
-              <strong
-                ><a href="blog.html"
-                  >Lessons from shipping my side project</a
-                ></strong
-              >
-            </div>
-            <div>
-              - <strong><a href="blog.html">Clean APIs for solo developers</a></strong>
-            </div>
-          </section>
+          </div>
+          <div class="box">
+            <div class="box-title">Status</div>
+            <div class="status-row"><span class="status-dot"></span>Online</div>
+            <div class="status-row"><span class="status-dot"></span>Systems OK</div>
+            <div class="status-row"><span class="status-dot"></span>Coffee: ready</div>
+          </div>
         </div>
+
+        <!-- CENTER: latest posts + projects -->
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Latest posts</div>
+            <div class="post-item">
+              <div><a class="post-link" href="blog.html">How I structure frontend projects</a></div>
+              <div class="post-date">Apr 10, 2026</div>
+            </div>
+            <div class="post-item">
+              <div><a class="post-link" href="blog.html">Lessons from shipping my side project</a></div>
+              <div class="post-date">Mar 22, 2026</div>
+            </div>
+            <div class="post-item">
+              <div><a class="post-link" href="blog.html">Clean APIs for solo developers</a></div>
+              <div class="post-date">Feb 14, 2026</div>
+            </div>
+          </div>
+          <div class="box">
+            <div class="box-title">Projects</div>
+            <div class="project-item">
+              <a class="project-name" href="portfolio.html">mainpage</a>
+              <span class="tag">html</span><span class="tag">css</span>
+              <div class="project-desc">this personal website</div>
+            </div>
+            <div class="project-item">
+              <a class="project-name" href="#">some-tool</a>
+              <span class="tag">js</span>
+              <div class="project-desc">a utility script</div>
+            </div>
+            <div class="project-item">
+              <a class="project-name" href="#">another-thing</a>
+              <span class="tag">ts</span><span class="tag">node</span>
+              <div class="project-desc">work in progress</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: social links + info -->
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Stars</div>
+            <a class="star-link" href="#">GitHub</a>
+            <a class="star-link" href="#">Twitter / X</a>
+            <a class="star-link" href="#">RSS</a>
+          </div>
+          <div class="box">
+            <div class="box-title">Info</div>
+            <div class="info-text">
+              dev<br>
+              somewhere, earth<br>
+              UTC+0<br>
+              <br>
+              js · ts · node
+            </div>
+          </div>
+        </div>
+
       </main>
 
       <footer class="site-footer">
-        <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> anxidev</p>
       </footer>
     </div>
 
