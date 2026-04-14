@@ -3,76 +3,95 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Blog // Your Name</title>
+    <title>anxidev // blog</title>
     <meta name="description" content="Blog posts and notes." />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+
+    <canvas id="rain-canvas"></canvas>
+    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
+
     <div class="page">
+
       <header class="site-header">
-        <h1 class="title">YOURNAME.DEV</h1>
-        <p class="subtitle">notes, logs, and technical writing</p>
+        <div class="pfp-wrapper">
+          <img
+            src="assets/images/pfp.jpg"
+            alt="Profile picture"
+            class="pfp"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          />
+          <div class="pfp-fallback" aria-hidden="true">👤</div>
+        </div>
+        <div class="header-meta">
+          <div class="logo" role="img" aria-label="anxidev">
+            <span class="logo-letter">a</span>
+            <span class="logo-letter">n</span>
+            <span class="logo-letter">x</span>
+            <span class="logo-letter">i</span>
+            <span class="logo-letter">d</span>
+            <span class="logo-letter">e</span>
+            <span class="logo-letter">v</span>
+          </div>
+          <span class="header-sub">personal site · projects · blog</span>
+        </div>
       </header>
 
       <main class="layout">
-        <aside class="stack">
-          <section class="box">
-            <h2><span class="moon">*</span>Menu</h2>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Navigation</div>
             <nav aria-label="Main navigation">
-              <a class="navlink" href="index.html">* Home</a>
-              <a class="navlink" href="portfolio.html">* Portfolio</a>
-              <a class="navlink active" href="blog.html">* Blog</a>
+              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link active" aria-current="page" href="blog.html">Blog</a>
+              <a class="nav-link" href="portfolio.html">Projects</a>
+              <a class="nav-link" href="#">About</a>
             </nav>
-          </section>
-
-          <section class="box">
-            <h2><span class="moon">*</span>Feed</h2>
-            <p>
-              Writing about product engineering, frontend architecture, and
-              lessons from shipping.
-            </p>
-          </section>
-        </aside>
-
-        <div class="stack post-list">
-          <section class="box">
-            <h2><span class="moon">*</span>/blog</h2>
-            <div>
-              - <strong><a href="#">How I structure frontend projects</a></strong>
-              <span class="meta"> - April 2026</span>
-            </div>
-            <p>
-              A practical approach to folder layout, naming conventions, and
-              maintainable UI architecture.
-            </p>
-          </section>
-
-          <section class="box">
-            <div>
-              - <strong><a href="#">Lessons from shipping my side project</a></strong>
-              <span class="meta"> - March 2026</span>
-            </div>
-            <p>
-              Key takeaways from building, launching, and improving a personal
-              product end to end.
-            </p>
-          </section>
-
-          <section class="box">
-            <div>
-              - <strong><a href="#">Clean APIs for solo developers</a></strong>
-              <span class="meta"> - February 2026</span>
-            </div>
-            <p>
-              Simple patterns to design APIs that are easy to extend and debug
-              over time.
-            </p>
-          </section>
+          </div>
         </div>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">/blog</div>
+            <div class="post-item">
+              <div><a class="post-link" href="#">How I structure frontend projects</a></div>
+              <div class="post-date">Apr 10, 2026</div>
+              <div style="color:var(--muted);font-size:0.78rem;margin-top:3px;">
+                A practical approach to folder layout, naming conventions, and maintainable UI architecture.
+              </div>
+            </div>
+            <div class="post-item">
+              <div><a class="post-link" href="#">Lessons from shipping my side project</a></div>
+              <div class="post-date">Mar 22, 2026</div>
+              <div style="color:var(--muted);font-size:0.78rem;margin-top:3px;">
+                Key takeaways from building, launching, and improving a personal product end to end.
+              </div>
+            </div>
+            <div class="post-item">
+              <div><a class="post-link" href="#">Clean APIs for solo developers</a></div>
+              <div class="post-date">Feb 14, 2026</div>
+              <div style="color:var(--muted);font-size:0.78rem;margin-top:3px;">
+                Simple patterns to design APIs that are easy to extend and debug over time.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Stars</div>
+            <a class="star-link" href="#">GitHub</a>
+            <a class="star-link" href="#">Twitter / X</a>
+            <a class="star-link" href="#">RSS</a>
+          </div>
+        </div>
+
       </main>
 
       <footer class="site-footer">
-        <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> anxidev</p>
       </footer>
     </div>
 
