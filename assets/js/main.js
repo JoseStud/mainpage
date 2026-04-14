@@ -25,6 +25,7 @@ if (canvas) {
   }));
 
   let animRunning = true;
+  let rafId = null;
 
   function drawRain() {
     if (!animRunning) return;
@@ -44,7 +45,7 @@ if (canvas) {
         d.x = Math.random() * canvas.width;
       }
     });
-    requestAnimationFrame(drawRain);
+    rafId = requestAnimationFrame(drawRain);
   }
 
   drawRain();
@@ -59,6 +60,8 @@ if (canvas) {
     if (savedDisabled) {
       canvas.classList.add('rain-hidden');
       animRunning = false;
+      cancelAnimationFrame(rafId);
+      rafId = null;
       toggleBtn.textContent = 'Enable rain';
       toggleBtn.setAttribute('aria-pressed', 'false');
     }
@@ -67,6 +70,8 @@ if (canvas) {
       const isHidden = canvas.classList.toggle('rain-hidden');
       if (isHidden) {
         animRunning = false;
+        cancelAnimationFrame(rafId);
+        rafId = null;
         toggleBtn.textContent = 'Enable rain';
         toggleBtn.setAttribute('aria-pressed', 'false');
         localStorage.setItem(STORAGE_KEY, 'true');
@@ -75,7 +80,7 @@ if (canvas) {
         toggleBtn.textContent = 'Disable rain';
         toggleBtn.setAttribute('aria-pressed', 'true');
         localStorage.setItem(STORAGE_KEY, 'false');
-        drawRain(); // restart loop
+        if (rafId === null) drawRain();
       }
     });
   }
