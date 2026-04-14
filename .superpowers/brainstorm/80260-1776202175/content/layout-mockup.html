@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>anxidev — layout mockup</title>
+<style>
+  :root {
+    --bg: #05070b;
+    --panel: #0d1220;
+    --panel-2: #141926;
+    --text: #d8e5ff;
+    --muted: #7a90b8;
+    --link: #7eb8f7;
+    --line: #2a3550;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: Tahoma, Verdana, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── RAIN ── */
+  #rain-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.55;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    width: min(900px, 95%);
+    margin: 0 auto;
+    padding: 1.5rem 0 2rem;
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 1.2rem;
+    flex-wrap: wrap;
+  }
+
+  /* Profile pic */
+  .pfp {
+    width: 72px;
+    height: 72px;
+    border: 2px solid #3d5a8a;
+    border-radius: 4px;
+    background: #0d1a30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+    box-shadow: 0 0 12px rgba(80,130,220,0.2);
+  }
+
+  /* GIF-style letter logo */
+  .logo {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    user-select: none;
+  }
+
+  .logo-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(160deg, #1c2e50, #0e1a30);
+    border: 1px solid #2d4470;
+    border-radius: 3px;
+    padding: 4px 7px;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 1.6rem;
+    color: #a8ccff;
+    text-shadow: 0 0 8px rgba(120,180,255,0.6);
+    animation: letterPulse 3s ease-in-out infinite;
+    box-shadow: 0 0 6px rgba(80,140,240,0.15);
+  }
+
+  .logo-letter:nth-child(1) { animation-delay: 0s; }
+  .logo-letter:nth-child(2) { animation-delay: 0.15s; }
+  .logo-letter:nth-child(3) { animation-delay: 0.3s; }
+  .logo-letter:nth-child(4) { animation-delay: 0.45s; }
+  .logo-letter:nth-child(5) { animation-delay: 0.6s; }
+  .logo-letter:nth-child(6) { animation-delay: 0.75s; }
+  .logo-letter:nth-child(7) { animation-delay: 0.9s; }
+
+  @keyframes letterPulse {
+    0%, 100% { color: #a8ccff; text-shadow: 0 0 8px rgba(120,180,255,0.6); border-color: #2d4470; }
+    40% { color: #dbeeff; text-shadow: 0 0 14px rgba(160,210,255,0.9), 0 0 4px #fff; border-color: #5580c0; }
+  }
+
+  .header-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-left: 0.2rem;
+  }
+
+  .header-sub {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  /* ── LAYOUT ── */
+  .layout {
+    display: grid;
+    grid-template-columns: 180px 1fr 160px;
+    gap: 0.65rem;
+    align-items: start;
+  }
+
+  /* ── BOX ── */
+  .box {
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1px solid var(--line);
+    padding: 0.7rem 0.85rem;
+    margin-bottom: 0.65rem;
+  }
+
+  .box:last-child { margin-bottom: 0; }
+
+  .box-title {
+    font-size: 0.82rem;
+    font-weight: bold;
+    color: #7eb8f7;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── LEFT SIDEBAR ── */
+  .nav-link {
+    display: block;
+    color: var(--link);
+    text-decoration: none;
+    padding: 0.1rem 0;
+    font-size: 0.85rem;
+  }
+  .nav-link::before { content: "✦ "; font-size: 0.7rem; }
+  .nav-link.active { color: #fff; }
+
+  .status-dot {
+    display: inline-block;
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #5fe85a;
+    margin-right: 5px;
+    box-shadow: 0 0 5px #5fe85a;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    font-size: 0.82rem;
+    margin: 0.18rem 0;
+    color: var(--muted);
+  }
+
+  /* ── MAIN ── */
+  .post-item {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.85rem;
+  }
+  .post-item:last-child { border-bottom: none; }
+  .post-date { color: var(--muted); font-size: 0.78rem; }
+
+  .project-item {
+    margin: 0.5rem 0;
+    font-size: 0.85rem;
+  }
+  .project-tag {
+    display: inline-block;
+    background: #0e1f3a;
+    border: 1px solid #2d4470;
+    color: #6ba8e8;
+    font-size: 0.7rem;
+    padding: 1px 6px;
+    border-radius: 2px;
+    margin-left: 4px;
+  }
+
+  /* ── RIGHT SIDEBAR ── */
+  .star-link {
+    display: block;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    padding: 0.1rem 0;
+  }
+  .star-link::before { content: "✩ "; }
+  .star-link:hover { color: var(--link); }
+
+  /* ── NOTICE LABEL ── */
+  .mockup-notice {
+    position: fixed;
+    bottom: 12px; right: 12px;
+    background: #1a2a4a;
+    border: 1px solid #3d5a8a;
+    color: #7eb8f7;
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border-radius: 4px;
+    z-index: 999;
+    font-family: Tahoma, sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="rain-canvas"></canvas>
+
+<div class="page">
+
+  <!-- HEADER: profile pic + logo -->
+  <header class="site-header">
+    <div class="pfp">🧑</div>
+    <div class="header-meta">
+      <div class="logo">
+        <span class="logo-letter">a</span>
+        <span class="logo-letter">n</span>
+        <span class="logo-letter">x</span>
+        <span class="logo-letter">i</span>
+        <span class="logo-letter">d</span>
+        <span class="logo-letter">e</span>
+        <span class="logo-letter">v</span>
+      </div>
+      <span class="header-sub">personal site · projects · blog</span>
+    </div>
+  </header>
+
+  <!-- THREE-COLUMN LAYOUT -->
+  <div class="layout">
+
+    <!-- LEFT: nav + status -->
+    <div>
+      <div class="box">
+        <div class="box-title">Navigation</div>
+        <a class="nav-link active" href="#">Home</a>
+        <a class="nav-link" href="#">Blog</a>
+        <a class="nav-link" href="#">Projects</a>
+        <a class="nav-link" href="#">About</a>
+      </div>
+      <div class="box">
+        <div class="box-title">Status</div>
+        <div class="status-row"><span class="status-dot"></span>Online</div>
+        <div class="status-row"><span class="status-dot"></span>Systems OK</div>
+        <div class="status-row"><span class="status-dot"></span>Coffee: ready</div>
+      </div>
+    </div>
+
+    <!-- CENTER: blog + projects -->
+    <div>
+      <div class="box">
+        <div class="box-title">Latest posts</div>
+        <div class="post-item">
+          <div><a href="#" style="color:var(--link);text-decoration:none;">How I structure frontend projects</a></div>
+          <div class="post-date">Apr 10, 2026</div>
+        </div>
+        <div class="post-item">
+          <div><a href="#" style="color:var(--link);text-decoration:none;">Lessons from shipping my side project</a></div>
+          <div class="post-date">Mar 22, 2026</div>
+        </div>
+        <div class="post-item">
+          <div><a href="#" style="color:var(--link);text-decoration:none;">Clean APIs for solo developers</a></div>
+          <div class="post-date">Feb 14, 2026</div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="box-title">Projects</div>
+        <div class="project-item">
+          <a href="#" style="color:var(--link);text-decoration:none;">mainpage</a>
+          <span class="project-tag">html</span>
+          <span class="project-tag">css</span>
+          <div style="color:var(--muted);font-size:0.78rem;">personal website</div>
+        </div>
+        <div class="project-item">
+          <a href="#" style="color:var(--link);text-decoration:none;">some-tool</a>
+          <span class="project-tag">js</span>
+          <div style="color:var(--muted);font-size:0.78rem;">a utility script</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: stars / social -->
+    <div>
+      <div class="box">
+        <div class="box-title">Stars</div>
+        <a class="star-link" href="#">GitHub</a>
+        <a class="star-link" href="#">Twitter</a>
+        <a class="star-link" href="#">RSS Feed</a>
+      </div>
+      <div class="box">
+        <div class="box-title">Info</div>
+        <div style="font-size:0.82rem;color:var(--muted);line-height:1.7;">
+          dev<br>somewhere, earth<br>UTC+0<br><br>
+          js · ts · node
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="mockup-notice">layout mockup — anxidev</div>
+
+<script>
+// Rain
+const canvas = document.getElementById('rain-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const drops = Array.from({length: 120}, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  speed: 4 + Math.random() * 6,
+  length: 12 + Math.random() * 18,
+  opacity: 0.15 + Math.random() * 0.35,
+  width: 0.5 + Math.random() * 0.8
+}));
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drops.forEach(d => {
+    ctx.beginPath();
+    ctx.moveTo(d.x, d.y);
+    ctx.lineTo(d.x - d.length * 0.15, d.y + d.length);
+    ctx.strokeStyle = `rgba(140, 185, 255, ${d.opacity})`;
+    ctx.lineWidth = d.width;
+    ctx.stroke();
+    d.y += d.speed;
+    if (d.y > canvas.height + d.length) {
+      d.y = -d.length;
+      d.x = Math.random() * canvas.width;
+    }
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+<h2>dimden.dev UI Replication</h2>
+<p class="subtitle">Two approaches for adding the rain, GIF logo, and profile pic to your site</p>
+
+<div style="margin-bottom:1.5rem;">
+  <h3 style="margin-bottom:0.5rem;">Elements being replicated</h3>
+  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1rem;">
+    <div style="background:#1a2035;border:1px solid #3d4b68;border-radius:6px;padding:0.8rem 1.2rem;flex:1;min-width:160px;">
+      <div style="font-size:1.4rem;margin-bottom:0.3rem;">🌧️</div>
+      <strong>Rain background</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.85rem;color:#9fb2d9;">Animated falling raindrops drawn on a canvas overlay</p>
+    </div>
+    <div style="background:#1a2035;border:1px solid #3d4b68;border-radius:6px;padding:0.8rem 1.2rem;flex:1;min-width:160px;">
+      <div style="font-size:1.4rem;margin-bottom:0.3rem;">✨</div>
+      <strong>Animated logo</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.85rem;color:#9fb2d9;">Logo rendered as an animated GIF (glitchy/sparkle effect)</p>
+    </div>
+    <div style="background:#1a2035;border:1px solid #3d4b68;border-radius:6px;padding:0.8rem 1.2rem;flex:1;min-width:160px;">
+      <div style="font-size:1.4rem;margin-bottom:0.3rem;">🖼️</div>
+      <strong>Profile picture</strong>
+      <p style="margin:0.3rem 0 0;font-size:0.85rem;color:#9fb2d9;">Profile photo in the sidebar with a styled border</p>
+    </div>
+  </div>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Add to existing layout</h3>
+      <p>Keep your current two-column layout, boxes, and navigation. Layer rain on top, replace the text title with an animated GIF logo, and add a profile pic to the sidebar. Minimal disruption.</p>
+      <div style="margin-top:0.5rem;background:#111827;border:1px solid #2d3a52;border-radius:4px;padding:0.6rem 0.8rem;font-size:0.82rem;color:#9fb2d9;">
+        ✓ Preserves all existing content<br>
+        ✓ Faster to implement<br>
+        ✗ May not feel as close to dimden.dev overall
+      </div>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Full dimden.dev-style redesign</h3>
+      <p>Rebuild the layout to match dimden.dev more closely: wider page, header with GIF logo + profile pic side by side, rain behind everything, and the same dark atmosphere. Bigger visual change.</p>
+      <div style="margin-top:0.5rem;background:#111827;border:1px solid #2d3a52;border-radius:4px;padding:0.6rem 0.8rem;font-size:0.82rem;color:#9fb2d9;">
+        ✓ Closest to the reference site<br>
+        ✓ More cohesive atmosphere<br>
+        ✗ More work, replaces existing layout
+      </div>
+    </div>
+  </div>
+</div>
