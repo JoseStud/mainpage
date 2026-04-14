@@ -13,7 +13,7 @@
     <canvas id="rain-canvas"></canvas>
 
     <!-- Rain toggle -->
-    <button id="rain-toggle">Disable rain</button>
+    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
 
     <div class="page">
 
@@ -26,10 +26,10 @@
             class="pfp"
             onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
           />
-          <div class="pfp-fallback">👤</div>
+          <div class="pfp-fallback" aria-hidden="true">👤</div>
         </div>
         <div class="header-meta">
-          <div class="logo" aria-label="anxidev">
+          <div class="logo" role="img" aria-label="anxidev">
             <span class="logo-letter">a</span>
             <span class="logo-letter">n</span>
             <span class="logo-letter">x</span>
@@ -50,7 +50,7 @@
           <div class="box">
             <div class="box-title">Navigation</div>
             <nav aria-label="Main navigation">
-              <a class="nav-link active" href="index.html">Home</a>
+              <a class="nav-link active" aria-current="page" href="index.html">Home</a>
               <a class="nav-link" href="blog.html">Blog</a>
               <a class="nav-link" href="portfolio.html">Projects</a>
               <a class="nav-link" href="#">About</a>
