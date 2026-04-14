@@ -67,12 +67,12 @@ if (canvas) {
       const isHidden = canvas.classList.toggle('rain-hidden');
       if (isHidden) {
         animRunning = false;
-        toggleBtn.textContent = 'Disable rain';
+        toggleBtn.textContent = 'Enable rain';
         toggleBtn.setAttribute('aria-pressed', 'false');
         localStorage.setItem(STORAGE_KEY, 'true');
       } else {
         animRunning = true;
-        toggleBtn.textContent = 'Enable rain';
+        toggleBtn.textContent = 'Disable rain';
         toggleBtn.setAttribute('aria-pressed', 'true');
         localStorage.setItem(STORAGE_KEY, 'false');
         drawRain(); // restart loop
