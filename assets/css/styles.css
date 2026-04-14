@@ -65,7 +65,7 @@ a:hover { color: var(--link-hover); }
 
 #rain-toggle:hover {
   color: var(--text);
-  border-color: #3a5080;
+  border-color: var(--link);
 }
 
 /* ── Page wrapper ── */
@@ -129,7 +129,7 @@ a:hover { color: var(--link-hover); }
   justify-content: center;
   background: linear-gradient(170deg, #162440, #0c1828);
   border: 1px solid #2a4070;
-  border-radius: 2px;
+  border-radius: 2px; /* intentionally tighter than --border-radius (3px) */
   padding: 3px 7px;
   font-family: 'Courier New', Courier, monospace;
   font-weight: bold;
@@ -251,6 +251,15 @@ a:hover { color: var(--link-hover); }
 
 .post-item a { text-decoration: none; }
 .post-item a:hover { text-decoration: underline; }
+
+.post-link {
+  color: var(--link);
+  text-decoration: none;
+}
+.post-link:hover {
+  text-decoration: underline;
+  color: var(--link-hover);
+}
 
 .post-date {
   color: var(--muted);
