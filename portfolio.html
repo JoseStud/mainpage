@@ -3,69 +3,89 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Portfolio // Your Name</title>
+    <title>anxidev // projects</title>
     <meta name="description" content="Portfolio projects and case studies." />
     <link rel="stylesheet" href="assets/css/styles.css" />
   </head>
   <body>
+
+    <canvas id="rain-canvas"></canvas>
+    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
+
     <div class="page">
+
       <header class="site-header">
-        <h1 class="title">YOURNAME.DEV</h1>
-        <p class="subtitle">selected work and experiments</p>
+        <div class="pfp-wrapper">
+          <img
+            src="assets/images/pfp.jpg"
+            alt="Profile picture"
+            class="pfp"
+            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+          />
+          <div class="pfp-fallback" aria-hidden="true">👤</div>
+        </div>
+        <div class="header-meta">
+          <div class="logo" role="img" aria-label="anxidev">
+            <span class="logo-letter">a</span>
+            <span class="logo-letter">n</span>
+            <span class="logo-letter">x</span>
+            <span class="logo-letter">i</span>
+            <span class="logo-letter">d</span>
+            <span class="logo-letter">e</span>
+            <span class="logo-letter">v</span>
+          </div>
+          <span class="header-sub">personal site · projects · blog</span>
+        </div>
       </header>
 
       <main class="layout">
-        <aside class="stack">
-          <section class="box">
-            <h2><span class="moon">*</span>Menu</h2>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Navigation</div>
             <nav aria-label="Main navigation">
-              <a class="navlink" href="index.html">* Home</a>
-              <a class="navlink active" href="portfolio.html">* Portfolio</a>
-              <a class="navlink" href="blog.html">* Blog</a>
+              <a class="nav-link" href="index.html">Home</a>
+              <a class="nav-link" href="blog.html">Blog</a>
+              <a class="nav-link active" aria-current="page" href="portfolio.html">Projects</a>
+              <a class="nav-link" href="#">About</a>
             </nav>
-          </section>
-
-          <section class="box">
-            <h2><span class="moon">*</span>Scope</h2>
-            <p>
-              A small collection of products, tools, and client work shipped over
-              the last few years.
-            </p>
-          </section>
-        </aside>
-
-        <div class="stack project-list">
-          <section class="box">
-            <h2><span class="moon">*</span>/portfolio</h2>
-            <h3>* Project One</h3>
-            <p>
-              Dashboard and workflow tooling for a SaaS product, focused on
-              reducing support overhead and improving onboarding.
-            </p>
-            <p class="meta">Tech: React, Node.js, PostgreSQL</p>
-            <p><a href="#">View project</a></p>
-
-            <h3>* Project Two</h3>
-            <p>
-              Marketing and CMS platform rebuild with a component system that
-              sped up page delivery and reduced maintenance cost.
-            </p>
-            <p class="meta">Tech: Vue, Firebase, Tailwind</p>
-            <p><a href="#">View project</a></p>
-
-            <h3>* Project Three</h3>
-            <p>
-              Internal data app for analytics and reporting with role-based views
-              and reliable export flows.
-            </p>
-            <p class="meta">Tech: Next.js, TypeScript, Supabase</p>
-            <p><a href="#">View project</a></p>
-          </section>
+          </div>
         </div>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">/projects</div>
+            <div class="project-item">
+              <a class="project-name" href="#">Project One</a>
+              <span class="tag">react</span><span class="tag">node</span><span class="tag">postgres</span>
+              <div class="project-desc">Dashboard and workflow tooling for a SaaS product.</div>
+            </div>
+            <div class="project-item">
+              <a class="project-name" href="#">Project Two</a>
+              <span class="tag">vue</span><span class="tag">firebase</span>
+              <div class="project-desc">Marketing and CMS platform rebuild with a component system.</div>
+            </div>
+            <div class="project-item">
+              <a class="project-name" href="#">Project Three</a>
+              <span class="tag">next.js</span><span class="tag">ts</span><span class="tag">supabase</span>
+              <div class="project-desc">Internal data app for analytics and reporting.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="box">
+            <div class="box-title">Stars</div>
+            <a class="star-link" href="#">GitHub</a>
+            <a class="star-link" href="#">Twitter / X</a>
+            <a class="star-link" href="#">RSS</a>
+          </div>
+        </div>
+
       </main>
 
       <footer class="site-footer">
-        <p>&copy; <span id="year"></span> Your Name. All rights reserved.</p>
+        <p>&copy; <span id="year"></span> anxidev</p>
       </footer>
     </div>
 
