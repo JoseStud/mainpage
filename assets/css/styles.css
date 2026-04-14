@@ -220,6 +220,7 @@ a:hover { color: var(--link-hover); }
 .nav-link.active::before { opacity: 1; }
 
 .nav-link:hover { color: var(--link-hover); }
+.nav-link.active:hover { color: #fff; }
 
 /* ── Status ── */
 .status-row {
@@ -265,6 +266,12 @@ a:hover { color: var(--link-hover); }
   color: var(--muted);
   font-size: 0.75rem;
   margin-top: 1px;
+}
+
+.post-excerpt {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 3px;
 }
 
 /* ── Projects ── */
