@@ -59,7 +59,7 @@ body {
 }
 
 .bg-photo {
-  --bg-photo-frame-count: 16;
+  --bg-photo-frame-count: 24;
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -83,12 +83,12 @@ body {
   aspect-ratio: 128 / 85;
   transform: translate(-50%, -50%);
   background:
-    url("../images/subway-night-strip-320x213-16.png") 0 center /
+    url("../images/subway-night-strip-320x213-24.png") 0 center /
     calc(var(--bg-photo-frame-count) * 100%) 100% no-repeat;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  animation: bg-photo-play 2s steps(15) infinite alternate;
+  animation: bg-photo-play 2.18s steps(23) infinite alternate;
 }
 
 .bg-photo::after {
