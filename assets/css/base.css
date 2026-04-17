@@ -83,12 +83,12 @@ body {
   aspect-ratio: 3 / 2;
   transform: translate(-50%, -50%);
   background:
-    url("../images/subway-night-sprite-192x128-8.png") 0 center /
+    url("../images/subway-night-strip-192x128-8.png") 0 center /
     calc(var(--bg-photo-frame-count) * 100%) 100% no-repeat;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  animation: bg-photo-play 12s steps(8) infinite alternate;
+  animation: bg-photo-play 12s steps(7) infinite alternate;
 }
 
 .bg-photo::after {
