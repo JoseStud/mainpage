@@ -59,23 +59,42 @@ body {
 }
 
 .bg-photo {
+  --bg-photo-frame-count: 8;
   position: fixed;
-  inset: -18px;
+  inset: 0;
   z-index: 0;
+  overflow: hidden;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(2, 1, 2, 0.34), rgba(7, 2, 5, 0.46)),
-    url("../images/rainy-window-bg-960.webp") center top / cover no-repeat;
-  opacity: 0.62;
-  transform: scale(1.02);
+  opacity: 0.56;
 }
 
-@media (min-width: 960px) {
-  .bg-photo {
-    background-image:
-      linear-gradient(180deg, rgba(2, 1, 2, 0.34), rgba(7, 2, 5, 0.46)),
-      url("../images/rainy-window-bg-1600.webp");
-  }
+.bg-photo::before,
+.bg-photo::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+.bg-photo::before {
+  top: 50%;
+  left: 50%;
+  width: max(100vw, 150vh);
+  min-height: 100vh;
+  aspect-ratio: 3 / 2;
+  transform: translate(-50%, -50%);
+  background:
+    url("../images/subway-night-sprite-192x128-8.png") 0 center /
+    calc(var(--bg-photo-frame-count) * 100%) 100% no-repeat;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  animation: bg-photo-play 12s steps(8) infinite alternate;
+}
+
+.bg-photo::after {
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(2, 1, 2, 0.18), rgba(7, 2, 5, 0.42) 54%, rgba(2, 1, 2, 0.72));
 }
 
 a {

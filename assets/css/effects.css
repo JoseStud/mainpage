@@ -82,6 +82,11 @@ body::after {
   mix-blend-mode: multiply;
 }
 
+:root[data-theme="light"] .bg-photo::after {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(247, 238, 232, 0.16) 54%, rgba(228, 214, 209, 0.24));
+}
+
 :root[data-theme="light"] #rain-canvas {
   opacity: 0.28;
   mix-blend-mode: multiply;
@@ -113,6 +118,16 @@ body.rain-ready .rain-fallback {
 
   100% {
     transform: translate3d(-5%, 12%, 0);
+  }
+}
+
+@keyframes bg-photo-play {
+  0% {
+    background-position: 0 center;
+  }
+
+  100% {
+    background-position: 100% center;
   }
 }
 
@@ -148,6 +163,7 @@ body.rain-ready .rain-fallback {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .bg-photo::before,
   body::after,
   .rain-fallback,
   .logo,
