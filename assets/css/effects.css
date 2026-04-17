@@ -121,16 +121,6 @@ body.rain-ready .rain-fallback {
   }
 }
 
-@keyframes bg-photo-play {
-  0% {
-    background-position: 0 center;
-  }
-
-  100% {
-    background-position: 100% center;
-  }
-}
-
 @keyframes logo-flicker {
   0%,
   100% {
@@ -163,12 +153,16 @@ body.rain-ready .rain-fallback {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-photo::before,
+  .bg-photo-video,
   body::after,
   .rain-fallback,
   .logo,
   .logo-letter {
     animation: none !important;
+  }
+
+  .bg-photo-video {
+    display: none;
   }
 
   #rain-canvas,

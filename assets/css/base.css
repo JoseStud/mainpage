@@ -59,7 +59,6 @@ body {
 }
 
 .bg-photo {
-  --bg-photo-frame-count: 24;
   position: fixed;
   inset: 0;
   z-index: 0;
@@ -69,30 +68,43 @@ body {
 }
 
 .bg-photo::before,
-.bg-photo::after {
-  content: "";
+.bg-photo::after,
+.bg-photo-video {
   position: absolute;
-  pointer-events: none;
-}
-
-.bg-photo::before {
   top: 50%;
   left: 50%;
   width: max(100vw, 150vh);
   min-height: 100vh;
-  aspect-ratio: 128 / 85;
+  aspect-ratio: 320 / 213;
   transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.bg-photo::before,
+.bg-photo::after {
+  content: "";
+}
+
+.bg-photo::before {
   background:
-    url("../images/subway-night-strip-320x213-24.png") 0 center /
-    calc(var(--bg-photo-frame-count) * 100%) 100% no-repeat;
+    url("../images/subway-night-poster-640.webp") center / cover no-repeat;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
-  animation: bg-photo-play 2.18s steps(23) infinite alternate;
+}
+
+.bg-photo-video {
+  object-fit: cover;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 .bg-photo::after {
   inset: 0;
+  width: auto;
+  min-height: 0;
+  transform: none;
   background:
     linear-gradient(180deg, rgba(2, 1, 2, 0.06), rgba(7, 2, 5, 0.24) 54%, rgba(2, 1, 2, 0.48));
 }
