@@ -1,0 +1,111 @@
+.page {
+  position: relative;
+  z-index: 4;
+  width: min(1040px, calc(100% - 1rem));
+  margin: 0 auto;
+  padding: 0.55rem 0 2rem;
+}
+
+.site-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.18rem;
+  padding: 0.1rem 0 0.65rem;
+  text-align: center;
+}
+
+.site-header::before {
+  content: "";
+  width: min(922px, 100%);
+  height: 78px;
+  margin-bottom: -0.75rem;
+  pointer-events: none;
+  opacity: 0.34;
+  background:
+    linear-gradient(180deg, transparent 0 36px, rgba(234, 117, 91, 0.2) 36px 38px, transparent 38px),
+    linear-gradient(90deg, transparent 0 9%, rgba(249, 163, 107, 0.24) 9% 9.25%, transparent 9.25% 23%, rgba(249, 163, 107, 0.24) 23% 23.25%, transparent 23.25% 50%, rgba(249, 163, 107, 0.24) 50% 50.25%, transparent 50.25% 77%, rgba(249, 163, 107, 0.24) 77% 77.25%, transparent 77.25%),
+    linear-gradient(90deg, transparent 0 16%, rgba(255, 255, 255, 0.11) 16% 16.12%, transparent 16.12% 61%, rgba(255, 255, 255, 0.11) 61% 61.12%, transparent 61.12%);
+}
+
+.layout {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 285px);
+  align-items: start;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.col-main {
+  min-width: 0;
+}
+
+.col-side {
+  position: relative;
+  min-width: 0;
+}
+
+.portal-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  align-items: start;
+}
+
+.portal-split > .box {
+  height: 100%;
+}
+
+.portal-split-signals {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.box {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 10px 15px;
+  border: 2px solid var(--panel-edge);
+  border-radius: 4px;
+  background: var(--panel);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02), var(--shadow);
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 28%),
+    linear-gradient(90deg, rgba(249, 163, 107, 0.025), transparent 44%);
+}
+
+.menu-box,
+.online-box,
+.now-box,
+.status-box,
+.buttons-box,
+.buttoncode-box,
+.controls-box {
+  background: var(--panel-strong);
+}
+
+.box[data-shell]:empty,
+.site-footer[data-shell]:empty {
+  display: none;
+}
+
+.site-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(107, 66, 89, 0.55);
+  text-align: center;
+  color: var(--muted);
+}

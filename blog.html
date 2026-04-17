@@ -1,100 +1,275 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>anxidev // blog</title>
-    <meta name="description" content="Blog posts and notes." />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-  </head>
-  <body>
+<head>
+<meta charset="utf-8">
+<title>anxidev // blog</title>
+<meta name="description" content="anxidev blog archive - small essays, field notes, and slow posts.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script>
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "dark"
+  }/*EDITMODE-END*/;
+</script>
+</head>
+<body>
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+<button id="rain-toggle" aria-pressed="true">disable rain</button>
 
-    <canvas id="rain-canvas" aria-hidden="true"></canvas>
-    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
-
-    <div class="page">
-
-      <header class="site-header">
-        <div class="pfp-wrapper">
-          <img
-            src="assets/images/pfp.jpg"
-            alt="Profile picture"
-            class="pfp"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-          />
-          <div class="pfp-fallback" aria-hidden="true">👤</div>
-        </div>
-        <div class="header-meta">
-          <div class="logo" role="img" aria-label="anxidev">
-            <span class="logo-letter">a</span>
-            <span class="logo-letter">n</span>
-            <span class="logo-letter">x</span>
-            <span class="logo-letter">i</span>
-            <span class="logo-letter">d</span>
-            <span class="logo-letter">e</span>
-            <span class="logo-letter">v</span>
-          </div>
-          <span class="header-sub">personal site · projects · blog</span>
-        </div>
-      </header>
-
-      <main class="layout">
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Navigation</div>
-            <nav aria-label="Main navigation">
-              <a class="nav-link" href="index.html">Home</a>
-              <a class="nav-link active" aria-current="page" href="blog.html">Blog</a>
-              <a class="nav-link" href="portfolio.html">Projects</a>
-              <a class="nav-link" href="#">About</a>
-            </nav>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">/blog</div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">How I structure frontend projects</a></div>
-              <div class="post-date">Apr 10, 2026</div>
-              <div class="post-excerpt">
-                A practical approach to folder layout, naming conventions, and maintainable UI architecture.
-              </div>
-            </div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">Lessons from shipping my side project</a></div>
-              <div class="post-date">Mar 22, 2026</div>
-              <div class="post-excerpt">
-                Key takeaways from building, launching, and improving a personal product end to end.
-              </div>
-            </div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">Clean APIs for solo developers</a></div>
-              <div class="post-date">Feb 14, 2026</div>
-              <div class="post-excerpt">
-                Simple patterns to design APIs that are easy to extend and debug over time.
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Stars</div>
-            <a class="star-link" href="#">GitHub</a>
-            <a class="star-link" href="#">Twitter / X</a>
-            <a class="star-link" href="#">RSS</a>
-          </div>
-        </div>
-
-      </main>
-
-      <footer class="site-footer">
-        <p>&copy; <span id="year"></span> anxidev</p>
-      </footer>
+<div class="page">
+  <header class="site-header">
+    <div class="pfp-wrapper">
+      <img
+        src="assets/images/pfp.png"
+        alt="profile picture"
+        class="pfp"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+      >
+      <div class="pfp-fallback" aria-hidden="true">AX</div>
     </div>
 
-    <script src="assets/js/main.js"></script>
-  </body>
+    <div class="header-meta">
+      <div class="masthead-top">
+        <span>anxidev // archive board</span>
+        <span>04.17.2026 sync</span>
+      </div>
+
+      <div class="logo" role="img" aria-label="anxidev">
+        <span class="logo-letter">a</span>
+        <span class="logo-letter">n</span>
+        <span class="logo-letter">x</span>
+        <span class="logo-letter">i</span>
+        <span class="logo-letter">d</span>
+        <span class="logo-letter">e</span>
+        <span class="logo-letter">v</span>
+      </div>
+
+      <div class="header-sub">
+        <span>~ /blog.html · archive mode · no seo sludge</span>
+        <span>same shell, more words</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="main-rail stack">
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>/blog.log</span></span>
+          <span class="box-meta">24 entries total</span>
+        </div>
+
+        <p>
+          Field notes, project writeups, interface obsessions, and the occasional argument in defense of
+          obsolete web features. Posts are sorted like a notebook, not a content funnel.
+        </p>
+
+        <div class="archive-grid">
+          <div class="archive-card">2026<strong>7 posts</strong></div>
+          <div class="archive-card">2025<strong>11 posts</strong></div>
+          <div class="archive-card">2024<strong>4 posts</strong></div>
+          <div class="archive-card">2023<strong>2 posts</strong></div>
+        </div>
+      </section>
+
+      <section class="box box--ticker">
+        <marquee class="ticker" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
+          plain text first, polish later · no "read time" badges · notes over strategy · archive is alive ·
+        </marquee>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>Recent Entries</span></span>
+          <span class="box-meta">latest notes</span>
+        </div>
+
+        <div class="post-row">
+          <div class="post-line">
+            <span class="post-arrow">-</span>
+            <div>
+              <b>on keeping a pocket notebook when you already have a phone</b>
+              <div class="post-date">April 12th, 2026</div>
+            </div>
+          </div>
+          <div class="post-excerpt">A defense of low-bandwidth memory and the dignity of losing a note once in a while.</div>
+        </div>
+
+        <div class="post-row">
+          <div class="post-line">
+            <span class="post-arrow">-</span>
+            <div>
+              <b>i rewrote my RSS reader in 180 lines and i feel better now</b>
+              <div class="post-date">March 28th, 2026</div>
+            </div>
+          </div>
+          <div class="post-excerpt">SQLite, one goroutine, no categories, no cloud sync, much less psychic noise.</div>
+        </div>
+
+        <div class="post-row">
+          <div class="post-line">
+            <span class="post-arrow">-</span>
+            <div>
+              <b>CRTs, grain, and the quiet violence of perfect pixels</b>
+              <div class="post-date">February 14th, 2026</div>
+            </div>
+          </div>
+          <div class="post-excerpt">What happens when interfaces erase every trace of warmth, error, and age.</div>
+        </div>
+
+        <div class="post-row">
+          <div class="post-line">
+            <span class="post-arrow">-</span>
+            <div>
+              <b>a defense of the guestbook, at length</b>
+              <div class="post-date">January 2nd, 2026</div>
+            </div>
+          </div>
+          <div class="post-excerpt">Guestbooks are postcards. Comments are conversations. They should not be forced into one box.</div>
+        </div>
+
+        <div class="post-row">
+          <div class="post-line">
+            <span class="post-arrow">-</span>
+            <div>
+              <b>everything i learned from running a tiny forum for four years</b>
+              <div class="post-date">December 19th, 2025</div>
+            </div>
+          </div>
+          <div class="post-excerpt">The moderator's knife, the lurker majority, and why small rooms produce better conversations.</div>
+        </div>
+      </section>
+
+      <div class="split-grid">
+        <section class="box">
+          <div class="box-title">
+            <span class="title-group"><span class="box-icon">☾</span><span>Tags</span></span>
+            <span class="box-meta">what keeps recurring</span>
+          </div>
+
+          <div class="tag-cloud">
+            <span class="tag">small-tools</span>
+            <span class="tag">old-software</span>
+            <span class="tag">notes</span>
+            <span class="tag">rss</span>
+            <span class="tag">sleep</span>
+            <span class="tag">typography</span>
+            <span class="tag">guestbooks</span>
+            <span class="tag">terminals</span>
+          </div>
+        </section>
+
+        <section class="box">
+          <div class="box-title">
+            <span class="title-group"><span class="box-icon">☾</span><span>Draft Board</span></span>
+            <span class="box-meta">still cooking</span>
+          </div>
+
+          <ul class="note-list">
+            <li><strong>ambient software</strong> - why more apps should feel like a lamp instead of a workplace.</li>
+            <li><strong>plain text rituals</strong> - the point of delaying formatting on purpose.</li>
+            <li><strong>orange UI</strong> - why warmth reads as inhabited when blue often reads as sterile.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <aside class="side-rail stack">
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">✩</span><span>Stars</span></span>
+          <span class="box-meta">navigation</span>
+        </div>
+
+        <nav class="nav-list" aria-label="Primary">
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="index.html#about">About me</a>
+          <a class="nav-link active" aria-current="page" href="blog.html">Blog</a>
+          <a class="nav-link" href="portfolio.html">Projects</a>
+          <a class="nav-link" href="index.html#guestbook">Guestbook</a>
+          <a class="nav-link" href="index.html#album">Photo room</a>
+          <a class="nav-link" href="https://github.com/JoseStud" target="_blank" rel="noopener">GitHub</a>
+          <a class="nav-link" href="mailto:ax@anxiden.dev">E-mail</a>
+        </nav>
+      </section>
+
+      <section class="box center-box">
+        <span class="status-pre">Archive status</span>
+        <div class="status-big"><span class="status-light"></span>Live!</div>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">#</span><span>Visitors</span></span>
+          <span class="box-meta">shared counter</span>
+        </div>
+
+        <div class="counter" id="counter">
+          <span>0</span><span>0</span><span>4</span><span>7</span><span>2</span><span>8</span><span>1</span>
+        </div>
+        <div class="counter-label">archive readers still arriving</div>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">✧</span><span>On The Desk</span></span>
+          <span class="box-meta">current stack</span>
+        </div>
+
+        <ul class="note-list">
+          <li><strong>reading</strong> - The Glass Bead Game, A Pattern Language</li>
+          <li><strong>drinking</strong> - hojicha, fourth pot</li>
+          <li><strong>rewriting</strong> - one section per night, never all at once</li>
+        </ul>
+      </section>
+
+      <section class="box center-box button-card">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>Site Button</span></span>
+          <span class="box-meta">same tiny banner</span>
+        </div>
+
+        <img src="assets/images/button-anxidev.svg" alt="anxidev button" class="button-preview">
+        <textarea class="button-code" readonly><a href="index.html"><img src="assets/images/button-anxidev.svg" alt="anxidev"></a></textarea>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">⚙</span><span>Controls</span></span>
+          <span class="box-meta">local only</span>
+        </div>
+
+        <div class="control-list">
+          <label class="checkline"><input type="checkbox" id="sidebar-rain-toggle" checked> Enable rain overlay</label>
+          <span class="supporting-copy">The archive keeps the same weather as home.</span>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <span>(c) 2021-<span id="year"></span> anxidev. archive still breathing.</span><br>
+    <span class="footer-accent">slow posts, warm palette, no growth hacks</span>
+  </footer>
+</div>
+
+<button class="tweaks-btn" id="tweaksBtn">tweaks</button>
+<div class="tweaks-panel" id="tweaksPanel" role="dialog" aria-label="Tweaks">
+  <div class="hd">
+    <span>TWEAKS</span>
+    <button class="tw-close" id="tweaksClose" aria-label="close">x</button>
+  </div>
+  <div class="bd">
+    <div class="tw-row">
+      <label>theme</label>
+      <div class="seg" id="segTheme">
+        <button data-val="dark">DARK</button>
+        <button data-val="light">LIGHT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
 </html>

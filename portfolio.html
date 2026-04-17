@@ -1,94 +1,287 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>anxidev // projects</title>
-    <meta name="description" content="Portfolio projects and case studies." />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-  </head>
-  <body>
+<head>
+<meta charset="utf-8">
+<title>anxidev // projects</title>
+<meta name="description" content="anxidev projects - small software, warm tools, and experiments.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="assets/css/styles.css">
+<script>
+  window.TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+    "theme": "dark"
+  }/*EDITMODE-END*/;
+</script>
+</head>
+<body>
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+<button id="rain-toggle" aria-pressed="true">disable rain</button>
 
-    <canvas id="rain-canvas" aria-hidden="true"></canvas>
-    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
-
-    <div class="page">
-
-      <header class="site-header">
-        <div class="pfp-wrapper">
-          <img
-            src="assets/images/pfp.jpg"
-            alt="Profile picture"
-            class="pfp"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-          />
-          <div class="pfp-fallback" aria-hidden="true">👤</div>
-        </div>
-        <div class="header-meta">
-          <div class="logo" role="img" aria-label="anxidev">
-            <span class="logo-letter">a</span>
-            <span class="logo-letter">n</span>
-            <span class="logo-letter">x</span>
-            <span class="logo-letter">i</span>
-            <span class="logo-letter">d</span>
-            <span class="logo-letter">e</span>
-            <span class="logo-letter">v</span>
-          </div>
-          <span class="header-sub">personal site · projects · blog</span>
-        </div>
-      </header>
-
-      <main class="layout">
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Navigation</div>
-            <nav aria-label="Main navigation">
-              <a class="nav-link" href="index.html">Home</a>
-              <a class="nav-link" href="blog.html">Blog</a>
-              <a class="nav-link active" aria-current="page" href="portfolio.html">Projects</a>
-              <a class="nav-link" href="#">About</a>
-            </nav>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">/projects</div>
-            <div class="project-item">
-              <a class="project-name" href="#">Project One</a>
-              <span class="tag">react</span><span class="tag">node</span><span class="tag">postgres</span>
-              <div class="project-desc">Dashboard and workflow tooling for a SaaS product.</div>
-            </div>
-            <div class="project-item">
-              <a class="project-name" href="#">Project Two</a>
-              <span class="tag">vue</span><span class="tag">firebase</span>
-              <div class="project-desc">Marketing and CMS platform rebuild with a component system.</div>
-            </div>
-            <div class="project-item">
-              <a class="project-name" href="#">Project Three</a>
-              <span class="tag">next.js</span><span class="tag">ts</span><span class="tag">supabase</span>
-              <div class="project-desc">Internal data app for analytics and reporting.</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Stars</div>
-            <a class="star-link" href="#">GitHub</a>
-            <a class="star-link" href="#">Twitter / X</a>
-            <a class="star-link" href="#">RSS</a>
-          </div>
-        </div>
-
-      </main>
-
-      <footer class="site-footer">
-        <p>&copy; <span id="year"></span> anxidev</p>
-      </footer>
+<div class="page">
+  <header class="site-header">
+    <div class="pfp-wrapper">
+      <img
+        src="assets/images/pfp.png"
+        alt="profile picture"
+        class="pfp"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+      >
+      <div class="pfp-fallback" aria-hidden="true">AX</div>
     </div>
 
-    <script src="assets/js/main.js"></script>
-  </body>
+    <div class="header-meta">
+      <div class="masthead-top">
+        <span>anxidev // workbench</span>
+        <span>04.17.2026 shelf pass</span>
+      </div>
+
+      <div class="logo" role="img" aria-label="anxidev">
+        <span class="logo-letter">a</span>
+        <span class="logo-letter">n</span>
+        <span class="logo-letter">x</span>
+        <span class="logo-letter">i</span>
+        <span class="logo-letter">d</span>
+        <span class="logo-letter">e</span>
+        <span class="logo-letter">v</span>
+      </div>
+
+      <div class="header-sub">
+        <span>~ /portfolio.html · project shelf · hand-made software</span>
+        <span>small tools, warm chrome</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <div class="main-rail stack">
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>/projects</span></span>
+          <span class="box-meta">6 active things</span>
+        </div>
+
+        <p>
+          Most of what I ship is small, direct, and built to solve a specific itch. If a project cannot
+          explain itself in a paragraph, it is probably too swollen already.
+        </p>
+      </section>
+
+      <section class="box box--ticker">
+        <marquee class="ticker" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
+          software should be specific · shipping small beats planning huge · interfaces can be warm too ·
+        </marquee>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>Project Shelf</span></span>
+          <span class="box-meta">current lineup</span>
+        </div>
+
+        <div class="project-entry">
+          <b>attic</b>
+          <div class="tag-row">
+            <span class="tag">python</span>
+            <span class="tag">static</span>
+            <span class="tag">v0.9</span>
+          </div>
+          <div class="project-copy">
+            Static site generator that refuses to add JavaScript unless the page actually asks for it.
+          </div>
+          <div class="project-links">
+            <a href="https://github.com/JoseStud" target="_blank" rel="noopener">Source</a>
+            <a href="index.html">Used on this site</a>
+          </div>
+        </div>
+
+        <div class="project-entry">
+          <b>lamp</b>
+          <div class="tag-row">
+            <span class="tag">rust</span>
+            <span class="tag">gtk</span>
+            <span class="tag">v1.2</span>
+          </div>
+          <div class="project-copy">
+            RSS reader with one window, no account system, and a desktop footprint small enough to keep open all day.
+          </div>
+        </div>
+
+        <div class="project-entry">
+          <b>kettle</b>
+          <div class="tag-row">
+            <span class="tag">go</span>
+            <span class="tag">cli</span>
+            <span class="tag">v0.4</span>
+          </div>
+          <div class="project-copy">
+            Palette brewer that extracts warm, usable terminal themes from photos instead of hex-picking by hand.
+          </div>
+        </div>
+
+        <div class="project-entry">
+          <b>moth</b>
+          <div class="tag-row">
+            <span class="tag">node</span>
+            <span class="tag">sqlite</span>
+            <span class="tag">v2.1</span>
+          </div>
+          <div class="project-copy">
+            Guestbook engine with gentle rate limiting, simple moderation, and zero CAPTCHA theater.
+          </div>
+        </div>
+
+        <div class="project-entry">
+          <b>dust</b>
+          <div class="tag-row">
+            <span class="tag">swift</span>
+            <span class="tag">ios</span>
+            <span class="tag">beta</span>
+          </div>
+          <div class="project-copy">
+            Journaling app that only allows one tiny entry per day, on purpose.
+          </div>
+        </div>
+
+        <div class="project-entry">
+          <b>fern</b>
+          <div class="tag-row">
+            <span class="tag">typescript</span>
+            <span class="tag">parser</span>
+            <span class="tag">v0.1</span>
+          </div>
+          <div class="project-copy">
+            Slightly haunted parser for sidenote-heavy writing, designed around real authoring habits instead of purity.
+          </div>
+        </div>
+      </section>
+
+      <div class="split-grid">
+        <section class="box">
+          <div class="box-title">
+            <span class="title-group"><span class="box-icon">☾</span><span>By Language</span></span>
+            <span class="box-meta">where the tools live</span>
+          </div>
+
+          <ul class="note-list">
+            <li><strong>python</strong> - attic</li>
+            <li><strong>rust</strong> - lamp</li>
+            <li><strong>go</strong> - kettle</li>
+            <li><strong>node</strong> - moth</li>
+            <li><strong>swift</strong> - dust</li>
+            <li><strong>typescript</strong> - fern</li>
+          </ul>
+        </section>
+
+        <section class="box">
+          <div class="box-title">
+            <span class="title-group"><span class="box-icon">☾</span><span>Workbench Notes</span></span>
+            <span class="box-meta">what matters</span>
+          </div>
+
+          <ul class="note-list">
+            <li><strong>scope first</strong> - each project should fit in one head, not a roadmap deck.</li>
+            <li><strong>defaults matter</strong> - typography, color, and rhythm count as features.</li>
+            <li><strong>maintenance wins</strong> - fewer moving parts means the project can stay charming.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+
+    <aside class="side-rail stack">
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">✩</span><span>Stars</span></span>
+          <span class="box-meta">navigation</span>
+        </div>
+
+        <nav class="nav-list" aria-label="Primary">
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="index.html#about">About me</a>
+          <a class="nav-link" href="blog.html">Blog</a>
+          <a class="nav-link active" aria-current="page" href="portfolio.html">Projects</a>
+          <a class="nav-link" href="index.html#guestbook">Guestbook</a>
+          <a class="nav-link" href="index.html#album">Photo room</a>
+          <a class="nav-link" href="https://github.com/JoseStud" target="_blank" rel="noopener">GitHub</a>
+          <a class="nav-link" href="mailto:ax@anxiden.dev">E-mail</a>
+        </nav>
+      </section>
+
+      <section class="box center-box">
+        <span class="status-pre">Workbench status</span>
+        <div class="status-big"><span class="status-light"></span>Stable!</div>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">#</span><span>Visitors</span></span>
+          <span class="box-meta">shared counter</span>
+        </div>
+
+        <div class="counter" id="counter">
+          <span>0</span><span>0</span><span>4</span><span>7</span><span>2</span><span>8</span><span>1</span>
+        </div>
+        <div class="counter-label">project shelf traffic</div>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">✧</span><span>Release Notes</span></span>
+          <span class="box-meta">recent moves</span>
+        </div>
+
+        <ul class="note-list">
+          <li><strong>attic</strong> - cleaner front-matter parsing, less hidden magic.</li>
+          <li><strong>kettle</strong> - warmer defaults for low-contrast photos.</li>
+          <li><strong>moth</strong> - simpler moderation flow and better error copy.</li>
+        </ul>
+      </section>
+
+      <section class="box center-box button-card">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">☾</span><span>Site Button</span></span>
+          <span class="box-meta">same tiny banner</span>
+        </div>
+
+        <img src="assets/images/button-anxidev.svg" alt="anxidev button" class="button-preview">
+        <textarea class="button-code" readonly><a href="index.html"><img src="assets/images/button-anxidev.svg" alt="anxidev"></a></textarea>
+      </section>
+
+      <section class="box">
+        <div class="box-title">
+          <span class="title-group"><span class="box-icon">⚙</span><span>Controls</span></span>
+          <span class="box-meta">local only</span>
+        </div>
+
+        <div class="control-list">
+          <label class="checkline"><input type="checkbox" id="sidebar-rain-toggle" checked> Enable rain overlay</label>
+          <span class="supporting-copy">The workbench keeps the same weather as the rest of the site.</span>
+        </div>
+      </section>
+    </aside>
+  </main>
+
+  <footer class="site-footer">
+    <span>(c) 2021-<span id="year"></span> anxidev. tools still in motion.</span><br>
+    <span class="footer-accent">small software, warm interface, no bloat</span>
+  </footer>
+</div>
+
+<button class="tweaks-btn" id="tweaksBtn">tweaks</button>
+<div class="tweaks-panel" id="tweaksPanel" role="dialog" aria-label="Tweaks">
+  <div class="hd">
+    <span>TWEAKS</span>
+    <button class="tw-close" id="tweaksClose" aria-label="close">x</button>
+  </div>
+  <div class="bd">
+    <div class="tw-row">
+      <label>theme</label>
+      <div class="seg" id="segTheme">
+        <button data-val="dark">DARK</button>
+        <button data-val="light">LIGHT</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="assets/js/main.js"></script>
+</body>
 </html>

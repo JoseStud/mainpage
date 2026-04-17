@@ -1,0 +1,147 @@
+@font-face {
+  font-family: "NEC_APC3";
+  src: url("../fonts/pixelfonts/Web437_NEC_APC3_8x16.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NEC_APC3";
+  src: url("../fonts/pixelfonts/Web437_Nix8810_M16.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RussianGothic";
+  src: local("Arial");
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0400-04ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-color: #6b4259 #050207;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(180deg, rgba(2, 1, 2, 0.88), rgba(7, 2, 5, 0.92) 52%, rgba(2, 1, 2, 0.96)),
+    radial-gradient(circle at 14% 18%, rgba(249, 163, 107, 0.05), transparent 24%),
+    radial-gradient(circle at 80% 12%, rgba(83, 44, 72, 0.18), transparent 22%),
+    radial-gradient(circle at 58% 72%, rgba(102, 64, 92, 0.12), transparent 22%);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: center, 14% 18%, 80% 12%, 58% 72%;
+  background-size: auto, auto, auto, auto;
+  background-attachment: scroll, scroll, scroll, scroll;
+  color: var(--text);
+  font-family: "RussianGothic", "MS UI Gothic", "NEC_APC3", Tahoma, Verdana, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  text-shadow: var(--screen-shadow);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-photo {
+  position: fixed;
+  inset: -18px;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(2, 1, 2, 0.34), rgba(7, 2, 5, 0.46)),
+    url("../images/rainy-window-bg-960.webp") center top / cover no-repeat;
+  opacity: 0.62;
+  transform: scale(1.02);
+}
+
+@media (min-width: 960px) {
+  .bg-photo {
+    background-image:
+      linear-gradient(180deg, rgba(2, 1, 2, 0.34), rgba(7, 2, 5, 0.46)),
+      url("../images/rainy-window-bg-1600.webp");
+  }
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgba(249, 163, 107, 0.16);
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease,
+    text-shadow 180ms ease;
+}
+
+a:hover {
+  color: var(--accent-soft);
+  text-decoration: underline;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.55rem;
+  top: 0.45rem;
+  z-index: 5;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid rgba(107, 66, 89, 0.82);
+  border-radius: 3px;
+  background: rgba(12, 4, 8, 0.72);
+  color: var(--text-strong);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.skip-link:hover,
+.skip-link:focus-visible {
+  text-decoration: none;
+  outline: 0;
+  border-color: rgba(255, 209, 177, 0.92);
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+ul {
+  padding-left: 1.15rem;
+}
+
+textarea,
+input,
+button {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}

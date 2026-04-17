@@ -1,0 +1,8 @@
+services:
+  mainpage:
+    image: ghcr.io/placeholder/mainpage:main
+    container_name: mainpage
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "8000:80"

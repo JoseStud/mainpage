@@ -1,0 +1,27 @@
+services:
+  app:
+    image: nginx:1.27-alpine
+    networks:
+      - traefik_proxy
+    volumes:
+      - /home/ubuntu/mainpage-site:/usr/share/nginx/html:ro
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.hostname != swarm-witness
+      labels:
+        - traefik.enable=true
+        - traefik.http.routers.mainpage.rule=Host(`anxiden.dev`) || Host(`www.anxiden.dev`)
+        - traefik.http.routers.mainpage.entrypoints=websecure
+        - traefik.http.routers.mainpage.tls=true
+        - traefik.http.routers.mainpage.tls.certresolver=letsencrypt
+        - traefik.http.routers.mainpage.middlewares=mainpage-www
+        - traefik.http.middlewares.mainpage-www.redirectregex.regex=^https://www\\.anxiden\\.dev/(.*)
+        - traefik.http.middlewares.mainpage-www.redirectregex.replacement=https://anxiden.dev/$$1
+        - traefik.http.middlewares.mainpage-www.redirectregex.permanent=true
+        - traefik.http.services.mainpage.loadbalancer.server.port=80
+
+networks:
+  traefik_proxy:
+    external: true
