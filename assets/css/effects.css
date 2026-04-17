@@ -153,7 +153,7 @@ body.rain-ready .rain-fallback {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .bg-photo-video,
+  .bg-photo-window,
   body::after,
   .rain-fallback,
   .logo,
@@ -161,7 +161,7 @@ body.rain-ready .rain-fallback {
     animation: none !important;
   }
 
-  .bg-photo-video {
+  .bg-photo-window {
     display: none;
   }
 

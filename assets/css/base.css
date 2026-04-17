@@ -67,9 +67,9 @@ body {
   opacity: 0.72;
 }
 
-.bg-photo::before,
+.bg-photo-scene,
 .bg-photo::after,
-.bg-photo-video {
+.bg-photo-window {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -80,12 +80,7 @@ body {
   pointer-events: none;
 }
 
-.bg-photo::before,
-.bg-photo::after {
-  content: "";
-}
-
-.bg-photo::before {
+.bg-photo-scene {
   background:
     url("../images/subway-night-poster-640.webp") center / cover no-repeat;
   image-rendering: pixelated;
@@ -93,14 +88,23 @@ body {
   image-rendering: crisp-edges;
 }
 
-.bg-photo-video {
-  object-fit: cover;
+.bg-photo-window {
+  top: 14.0845%;
+  left: 57.8125%;
+  width: 42.1875%;
+  height: 58.6854%;
+  min-height: 0;
+  aspect-ratio: 27 / 25;
+  transform: none;
+  background:
+    url("../images/subway-window-geometry-6fps.webp") center / 100% 100% no-repeat;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
 }
 
 .bg-photo::after {
+  content: "";
   inset: 0;
   width: auto;
   min-height: 0;
