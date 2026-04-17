@@ -31,6 +31,14 @@ body::after {
   animation: drift 120s linear infinite;
 }
 
+:root[data-theme="light"] body::before {
+  opacity: 0.06;
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.1;
+}
+
 #rain-canvas {
   position: fixed;
   inset: 0;
@@ -67,6 +75,21 @@ body::after {
     );
   background-size: 220px 240px, 320px 360px;
   animation: rain-fallback-slide 12s linear infinite;
+}
+
+:root[data-theme="light"] .bg-photo {
+  opacity: 0.34;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] #rain-canvas {
+  opacity: 0.28;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .rain-fallback {
+  opacity: 0.12;
+  mix-blend-mode: multiply;
 }
 
 body.rain-ready .rain-fallback {

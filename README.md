@@ -52,26 +52,30 @@ This repo now includes:
 
 ## Architecture
 
-- `index.html`, `blog.html`, `portfolio.html` hold page-specific content and page metadata.
-- The HTML pages load the focused CSS modules directly so the browser can fetch them in parallel.
-- `assets/css/tokens.css` defines the color palette, glow, and panel variables.
+- `index.html`, `blog.html`, `portfolio.html` now hold page-specific content only, plus a few shared shell mount points.
+- `assets/css/styles.css` is the single stylesheet entrypoint and imports the focused CSS modules below.
+- `assets/css/tokens.css` defines theme tokens for dark/light variants.
 - `assets/css/base.css` handles resets, document-wide typography, and default element styling.
 - `assets/css/effects.css` contains the CRT overlays, drifting background particles, rain canvas styling, and animation keyframes.
-- `assets/css/layout.css` defines the page shell, boxes, columns, and footer framing.
-- `assets/css/components.css` styles the header, logo, feeds, project blocks, widgets, buttons, terminal rows, and other reusable UI pieces.
+- `assets/css/layout.css` defines the page shell, columns, shared mounts, footer framing, and floating rain control.
+- `assets/css/components.css` styles the header, feeds, project blocks, sidebar widgets, counters, buttons, tweaks panel, and other reusable UI pieces.
 - `assets/css/responsive.css` adjusts the shell for tablet and mobile breakpoints.
 - `assets/js/main.js` boots the shared shell and feature modules.
-- `assets/js/config/shell.js` is the source of truth for shared nav links, sidebar copy, badge buttons, rotating messages, and footer text.
-- `assets/js/ui/shell.js` renders the shared sidebar/footer into `data-shell` placeholders.
+- `assets/js/config/shell.js` is the source of truth for shared header copy, nav links, sidebar content, controls, counter labels, and footer text.
+- `assets/js/ui/shell.js` renders the shared header, sidebar, footer, and tweaks UI into the page mounts.
 - `assets/js/features/clock.js` updates the live local-time readout.
 - `assets/js/features/status-rotator.js` rotates the "Last loop" messages.
-- `assets/js/features/rain.js` runs the canvas rain effect and persists its toggle in `localStorage` under `rain-disabled`.
+- `assets/js/features/rain.js` runs the canvas rain effect and keeps the floating button and sidebar toggle in sync using `localStorage` key `rain-disabled`.
+- `assets/js/features/counter.js` advances the shared visitor counter.
+- `assets/js/features/tweaks.js` owns the hidden theme controls/edit-mode bridge.
+- `assets/js/features/year.js` syncs the footer year.
 - `assets/images/avatar-200.webp`, `assets/images/avatar-400.webp`, `assets/images/rainy-window-bg-960.webp`, and `assets/images/rainy-window-bg-1600.webp` are the optimized image variants used in production.
 
 ## Editing notes
 
 - Keep page-specific writing and content boxes in the top-level HTML files.
-- Update shared sidebar/footer data in `assets/js/config/shell.js`.
+- Update shared shell copy and widget content in `assets/js/config/shell.js`.
+- Update shared chrome markup in `assets/js/ui/shell.js` instead of duplicating HTML across pages.
+- Add behavior in the smallest relevant feature module under `assets/js/features/`.
 - Add styling in the smallest relevant CSS module instead of growing one large file.
 - Preserve the `data-page` value on `<body>` so the shared shell can mark the active page correctly.
-- The visual theme still pulls `Silkscreen` from Google Fonts in the page `<head>`, so typography changes should account for that dependency.

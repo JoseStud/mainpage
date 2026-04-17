@@ -18,3 +18,24 @@
   --screen-shadow: 0 0 14px rgba(255, 228, 216, 0.08), 0 0 18px rgba(102, 64, 92, 0.14);
   --green-shadow: 0 0 18px rgba(98, 255, 117, 0.18);
 }
+
+:root[data-theme="light"] {
+  --bg: #efe0d7;
+  --bg-2: #f8efe9;
+  --panel: rgba(255, 248, 243, 0.78);
+  --panel-strong: rgba(255, 251, 248, 0.88);
+  --panel-edge: #b07c69;
+  --text: #40261a;
+  --text-strong: #23120b;
+  --muted: #8a6257;
+  --line: rgba(176, 124, 105, 0.38);
+  --accent: #a54d27;
+  --accent-soft: #7a3116;
+  --accent-dim: #d9b2a3;
+  --moon: #bc6746;
+  --ok: #2d7945;
+  --warn: #925b3b;
+  --shadow: 0 0 22px rgba(132, 84, 63, 0.14);
+  --screen-shadow: 0 0 10px rgba(255, 255, 255, 0.12);
+  --green-shadow: 0 0 14px rgba(45, 121, 69, 0.12);
+}

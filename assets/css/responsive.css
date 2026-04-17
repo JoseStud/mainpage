@@ -57,6 +57,11 @@
     margin: 0 auto;
   }
 
+  .room-image {
+    width: 100%;
+    height: auto;
+  }
+
   .button-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -69,5 +74,10 @@
   .project-top,
   .project-links {
     gap: 0.4rem;
+  }
+
+  #rain-toggle {
+    right: 0.5rem;
+    bottom: 0.5rem;
   }
 }

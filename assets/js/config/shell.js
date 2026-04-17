@@ -41,15 +41,31 @@ const sharedButtons = [
 
 const sharedButtonCode = {
   title: "Site button",
+  chip: "88x31 ready",
   preview: { top: "ANXI", bottom: "JOSE", tone: "teal" },
-  code: '<a href="https://anxidev.dev/">ANXIDEV // JOSE</a>',
-  note: "Temporary text button until I draw the real 88x31.",
+  code: '<a href="https://anxidev.dev/"><img src="https://anxidev.dev/assets/images/button-anxidev.svg" alt="anxidev"></a>',
+  note: "Swap the URL once the live domain settles.",
+};
+
+const sharedCounterDigits = ["0", "0", "4", "7", "2", "8", "1"];
+
+const sharedControls = {
+  title: "Controls",
+  chip: "local only",
+  rainLabel: "Enable rain overlay",
+  note: "Rain preference is stored in this browser only.",
+  secondaryNote: "Theme switching stays tucked behind the hidden tweaks panel.",
 };
 
 const pageShells = {
   home: {
+    header: {
+      lead: "anxidev // attic relay",
+      sub: "/index.html · plain html / css / js · rain on glass",
+    },
     stars: {
       title: "Stars",
+      chip: "navigation",
       items: sharedStarLinks,
     },
     online: {
@@ -59,11 +75,13 @@ const pageShells = {
     },
     findMe: {
       title: "Find me",
+      chip: "outbound",
       items: sharedFindMe,
       note: "GitHub is the only live external stop for now.",
     },
     currentInterests: {
       title: "Current interests",
+      chip: "in focus",
       items: [
         {
           label: "Documentation",
@@ -101,6 +119,7 @@ const pageShells = {
     },
     extras: {
       title: "Extras",
+      chip: "someday shelf",
       items: [
         {
           label: "Guestbook",
@@ -118,16 +137,29 @@ const pageShells = {
       ],
       note: "Static-first extras for this version. No backend magic yet.",
     },
+    counter: {
+      title: "Visitors",
+      chip: "since 2021",
+      digits: sharedCounterDigits,
+      label: "counter still clicking upward",
+    },
     buttons: {
       title: "Buttons",
+      chip: "88x31 wall",
       items: sharedButtons,
     },
     buttonCode: sharedButtonCode,
+    controls: sharedControls,
     footerText: "jose online / anxidev humming",
   },
   blog: {
+    header: {
+      lead: "anxidev // archive board",
+      sub: "/blog.html · archive mode · notes over growth loops",
+    },
     stars: {
       title: "Stars",
+      chip: "navigation",
       items: sharedStarLinks,
     },
     online: {
@@ -137,11 +169,13 @@ const pageShells = {
     },
     findMe: {
       title: "Find me",
+      chip: "paths out",
       items: sharedFindMe,
       note: "Most roads still lead back to GitHub or this site.",
     },
     currentInterests: {
       title: "Writing threads",
+      chip: "current pile",
       items: [
         {
           label: "Books I am reading",
@@ -179,6 +213,7 @@ const pageShells = {
     },
     extras: {
       title: "Extras",
+      chip: "room tone",
       items: [
         {
           label: "Shelf state",
@@ -195,16 +230,29 @@ const pageShells = {
       ],
       note: "This room stays closer to notebooks than publication pipelines.",
     },
+    counter: {
+      title: "Visitors",
+      chip: "shared counter",
+      digits: sharedCounterDigits,
+      label: "archive readers still arriving",
+    },
     buttons: {
       title: "Buttons",
+      chip: "shared wall",
       items: sharedButtons,
     },
     buttonCode: sharedButtonCode,
+    controls: sharedControls,
     footerText: "draft shelf still glowing",
   },
   portfolio: {
+    header: {
+      lead: "anxidev // workbench",
+      sub: "/portfolio.html · project shelf · hand-made software",
+    },
     stars: {
       title: "Stars",
+      chip: "navigation",
       items: sharedStarLinks,
     },
     online: {
@@ -214,11 +262,13 @@ const pageShells = {
     },
     findMe: {
       title: "Find me",
+      chip: "real repos",
       items: sharedFindMe,
-      note: "The project shelf is grounded in real repos, even when the notes stay rough.",
+      note: "The project shelf stays grounded in actual experiments.",
     },
     currentInterests: {
       title: "Workbench focus",
+      chip: "active tracks",
       items: [
         {
           label: "Workflows",
@@ -256,6 +306,7 @@ const pageShells = {
     },
     extras: {
       title: "Extras",
+      chip: "bench notes",
       items: [
         {
           label: "Source of truth",
@@ -272,11 +323,19 @@ const pageShells = {
       ],
       note: "No fake product polish. Just a real workbench.",
     },
+    counter: {
+      title: "Visitors",
+      chip: "shared counter",
+      digits: sharedCounterDigits,
+      label: "project shelf traffic",
+    },
     buttons: {
       title: "Buttons",
+      chip: "shared wall",
       items: sharedButtons,
     },
     buttonCode: sharedButtonCode,
+    controls: sharedControls,
     footerText: "repos stacked / notes attached",
   },
 };

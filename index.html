@@ -12,399 +12,234 @@
   }/*EDITMODE-END*/;
 </script>
 </head>
-<body>
+<body data-page="home">
+<a class="skip-link" href="#content">skip to content</a>
+<div class="bg-photo" aria-hidden="true"></div>
+<div class="rain-fallback" aria-hidden="true"></div>
 <canvas id="rain-canvas" aria-hidden="true"></canvas>
-<button id="rain-toggle" aria-pressed="true">disable rain</button>
+<button id="rain-toggle" type="button" aria-pressed="true">Disable rain</button>
 
 <div class="page">
-  <header class="site-header">
-    <div class="pfp-wrapper">
-      <img
-        src="assets/images/pfp.png"
-        alt="profile picture"
-        class="pfp"
-        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-      >
-      <div class="pfp-fallback" aria-hidden="true">AX</div>
-    </div>
+  <header class="site-header" data-shell="header"></header>
 
-    <div class="header-meta">
-      <div class="masthead-top">
-        <span>anxidev // attic relay</span>
-        <span>04.17.2026 build</span>
-      </div>
-
-      <div class="logo" role="img" aria-label="anxidev">
-        <span class="logo-letter">a</span>
-        <span class="logo-letter">n</span>
-        <span class="logo-letter">x</span>
-        <span class="logo-letter">i</span>
-        <span class="logo-letter">d</span>
-        <span class="logo-letter">e</span>
-        <span class="logo-letter">v</span>
-      </div>
-
-      <div class="header-sub">
-        <span>~ /index.html · plain html / css / js · rain on glass</span>
-        <span>bogota night shift · warm orange preserved</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="layout">
-    <div class="main-rail stack">
-      <section class="box" id="about">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">☾</span><span>Welcome to anxidev.dev!</span></span>
-          <span class="box-meta">small web home</span>
+  <main class="layout" id="content">
+    <div class="col col-main">
+      <section class="box" id="welcome">
+        <div class="box-heading">
+          <h1 class="box-title">Welcome to anxidev.dev</h1>
+          <span class="box-chip">small web home</span>
         </div>
 
-        <img src="assets/images/avatar-200.webp" alt="anxidev avatar" class="intro-avatar">
+        <div class="intro-grid">
+          <div class="avatar-stack">
+            <div class="avatar-display">
+              <img src="assets/images/avatar-400.webp" alt="Jose's pixel avatar" class="avatar-image">
+            </div>
+            <a class="mood-chip" href="#current-obsessions">-0.18 / +0.67<br>lamp glow mode</a>
+          </div>
 
-        <div class="mood-chip">
-          <span class="mood-value">-0.18 / +0.67</span>
-          <span>lamp glow mode</span>
+          <div class="intro-copy">
+            <p>
+              This is my hand-built corner of the web for notes, projects, experiments, and whatever survives
+              the late shift. No framework, no feed algorithm, no popup trying to become a relationship.
+            </p>
+            <p>
+              I like slow pages, old interface chrome, tiny tools, rainy backgrounds, and software that still
+              feels like it was made by a person instead of a dashboard committee.
+            </p>
+
+            <div class="facts-block">
+              <span class="section-label">Quick facts</span>
+              <ul class="facts-list">
+                <li>based in Bogota, usually coding late and publishing slowly</li>
+                <li>mostly building with JavaScript, Go, Python, and static deploys</li>
+                <li>likes guestbooks, RSS, orange phosphor, and warm terminal windows</li>
+                <li>email works: <a href="mailto:ax@anxiden.dev">ax@anxiden.dev</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-
-        <p>
-          This is my hand-built corner of the web for notes, projects, experiments, and whatever survives
-          the late shift. No framework, no feed algorithm, no popup trying to become a relationship.
-        </p>
-        <p>
-          I like slow pages, old interface chrome, tiny tools, rainy backgrounds, and software that still
-          feels like it was made by a person instead of a dashboard committee.
-        </p>
-
-        <p>Quick facts:</p>
-        <ul class="fact-list">
-          <li>based in Bogota, usually coding late and publishing slowly</li>
-          <li>mostly building with JavaScript, Go, Python, and static deploys</li>
-          <li>likes guestbooks, RSS, orange phosphor, and warm terminal windows</li>
-          <li>email works: <a href="mailto:ax@anxiden.dev">ax@anxiden.dev</a></li>
-        </ul>
       </section>
 
-      <section class="box box--ticker">
-        <marquee class="ticker" scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
+      <section class="box marquee-box" aria-label="Site ticker">
+        <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
           thanks for visiting · hand-coded pages only · kettle is warm · guestbook is open · rain engine is local · buttons encouraged ·
         </marquee>
       </section>
 
       <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">☾</span><span>Blog</span></span>
-          <a class="box-meta" href="blog.html">full archive</a>
+        <div class="box-heading">
+          <h2 class="box-title">From the logbook</h2>
+          <a class="rss-link" href="blog.html#reading-desk">full archive</a>
         </div>
 
-        <div class="post-row">
-          <div class="post-line">
-            <span class="post-arrow">-</span>
-            <div>
-              <b><a href="blog.html">on keeping a pocket notebook when you already have a phone</a></b>
-              <div class="post-date">Posted on Friday, April 12th, 2026</div>
-            </div>
+        <div class="compact-feed">
+          <div class="compact-line">
+            <span class="compact-bullet">-</span>
+            <a href="blog.html#reading-desk">on keeping a pocket notebook when you already have a phone</a>
+            <span class="compact-date">Apr 12, 2026</span>
           </div>
-        </div>
-
-        <div class="post-row">
-          <div class="post-line">
-            <span class="post-arrow">-</span>
-            <div>
-              <b><a href="blog.html">i rewrote my RSS reader in 180 lines and i feel better now</a></b>
-              <div class="post-date">Posted on Friday, March 28th, 2026</div>
-            </div>
+          <div class="compact-line">
+            <span class="compact-bullet">-</span>
+            <a href="blog.html#reading-desk">i rewrote my RSS reader in 180 lines and i feel better now</a>
+            <span class="compact-date">Mar 28, 2026</span>
           </div>
-        </div>
-
-        <div class="post-row">
-          <div class="post-line">
-            <span class="post-arrow">-</span>
-            <div>
-              <b><a href="blog.html">CRTs, grain, and the quiet violence of perfect pixels</a></b>
-              <div class="post-date">Posted on Saturday, February 14th, 2026</div>
-            </div>
+          <div class="compact-line">
+            <span class="compact-bullet">-</span>
+            <a href="blog.html#reading-desk">CRTs, grain, and the quiet violence of perfect pixels</a>
+            <span class="compact-date">Feb 14, 2026</span>
           </div>
-        </div>
-
-        <div class="post-row">
-          <div class="post-line">
-            <span class="post-arrow">-</span>
-            <div>
-              <b><a href="blog.html">a defense of the guestbook, at length</a></b>
-              <div class="post-date">Posted on Friday, January 2nd, 2026</div>
-            </div>
+          <div class="compact-line">
+            <span class="compact-bullet">-</span>
+            <a href="blog.html#reading-desk">a defense of the guestbook, at length</a>
+            <span class="compact-date">Jan 02, 2026</span>
           </div>
         </div>
       </section>
 
       <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">☾</span><span>Projects</span></span>
-          <a class="box-meta" href="portfolio.html">open shelf</a>
+        <div class="box-heading">
+          <h2 class="box-title">Project shelf</h2>
+          <a class="rss-link" href="portfolio.html#project-shelf">open shelf</a>
         </div>
 
-        <div class="project-entry">
-          <b><a href="portfolio.html">attic</a></b>
-          <div class="tag-row">
-            <span class="tag">python</span>
-            <span class="tag">static</span>
-            <span class="tag">v0.9</span>
-          </div>
-          <div class="project-copy">A static site generator that refuses to become a platform.</div>
-        </div>
+        <div class="project-stack">
+          <article class="project-block">
+            <div class="project-line">
+              <h3><a class="project-name" href="portfolio.html#project-shelf">attic</a></h3>
+              <span class="tag">python</span>
+              <span class="tag">static</span>
+              <span class="tag">v0.9</span>
+            </div>
+            <p class="project-summary">A static site generator that refuses to become a platform.</p>
+          </article>
 
-        <div class="project-entry">
-          <b><a href="portfolio.html">lamp</a></b>
-          <div class="tag-row">
-            <span class="tag">rust</span>
-            <span class="tag">desktop</span>
-            <span class="tag">v1.2</span>
-          </div>
-          <div class="project-copy">An RSS reader with one window, one mood, and no social features.</div>
-        </div>
+          <article class="project-block">
+            <div class="project-line">
+              <h3><a class="project-name" href="portfolio.html#project-shelf">lamp</a></h3>
+              <span class="tag">rust</span>
+              <span class="tag">desktop</span>
+              <span class="tag">v1.2</span>
+            </div>
+            <p class="project-summary">An RSS reader with one window, one mood, and no social features.</p>
+          </article>
 
-        <div class="project-entry">
-          <b><a href="portfolio.html">kettle</a></b>
-          <div class="tag-row">
-            <span class="tag">go</span>
-            <span class="tag">cli</span>
-            <span class="tag">v0.4</span>
-          </div>
-          <div class="project-copy">Brews warm terminal palettes from photos of desks, rooms, and rainy windows.</div>
-        </div>
+          <article class="project-block">
+            <div class="project-line">
+              <h3><a class="project-name" href="portfolio.html#project-shelf">kettle</a></h3>
+              <span class="tag">go</span>
+              <span class="tag">cli</span>
+              <span class="tag">v0.4</span>
+            </div>
+            <p class="project-summary">Brews warm terminal palettes from photos of desks, rooms, and rainy windows.</p>
+          </article>
 
-        <div class="project-entry">
-          <b><a href="portfolio.html">moth</a></b>
-          <div class="tag-row">
-            <span class="tag">node</span>
-            <span class="tag">sqlite</span>
-            <span class="tag">v2.1</span>
-          </div>
-          <div class="project-copy">Guestbook engine for humans, with light friction for bots and zero captchas.</div>
+          <article class="project-block">
+            <div class="project-line">
+              <h3><a class="project-name" href="portfolio.html#project-shelf">moth</a></h3>
+              <span class="tag">node</span>
+              <span class="tag">sqlite</span>
+              <span class="tag">v2.1</span>
+            </div>
+            <p class="project-summary">Guestbook engine for humans, with light friction for bots and zero captchas.</p>
+          </article>
         </div>
       </section>
 
-      <div class="split-grid">
-        <section class="box terminal-box">
-          <div class="box-title">
-            <span class="title-group"><span class="box-icon">☾</span><span>Systems</span></span>
-            <span class="box-meta">status board</span>
+      <div class="portal-split portal-split-signals">
+        <section class="box terminal-box" id="site-signals">
+          <div class="box-heading">
+            <h2 class="box-title">Systems</h2>
+            <span class="box-chip">status board</span>
           </div>
 
-          <div class="terminal-heading">NOC</div>
-          <div class="terminal-copy">
-            attic relay status: <span class="status-ok">OK</span>
+          <div class="terminal-header">
+            <span>attic relay status</span>
+            <span class="jp-label">NOC</span>
           </div>
 
-          <table class="status-table">
-            <tr>
-              <td>[ <span class="status-ok">OK</span> ] mainpage</td>
-              <td>[ <span class="status-ok">OK</span> ] mail relay</td>
-            </tr>
-            <tr>
-              <td>[ <span class="status-ok">OK</span> ] blog archive</td>
-              <td>[ <span class="status-warn">WARM</span> ] kettle</td>
-            </tr>
-            <tr>
-              <td>[ <span class="status-ok">OK</span> ] guestbook</td>
-              <td>[ <span class="status-ok">OK</span> ] photo room</td>
-            </tr>
-          </table>
+          <div class="terminal-grid">
+            <div class="terminal-row">[ <span class="terminal-ok">OK</span> ] mainpage</div>
+            <div class="terminal-row">[ <span class="terminal-ok">OK</span> ] mail relay</div>
+            <div class="terminal-row">[ <span class="terminal-ok">OK</span> ] blog archive</div>
+            <div class="terminal-row">[ <span class="terminal-warn">WARM</span> ] kettle</div>
+            <div class="terminal-row">[ <span class="terminal-ok">OK</span> ] guestbook</div>
+            <div class="terminal-row">[ <span class="terminal-ok">OK</span> ] photo room</div>
+          </div>
         </section>
 
-        <section class="box" id="guestbook">
-          <div class="box-title">
-            <span class="title-group"><span class="box-icon">☾</span><span>Guestbook</span></span>
-            <span class="box-meta">latest sign-ins</span>
+        <section class="box guestbook-box" id="guestbook">
+          <div class="box-heading">
+            <h2 class="box-title">Guestbook</h2>
+            <span class="box-chip">latest sign-ins</span>
           </div>
 
-          <div class="guestbook-entry">
-            <div class="guestbook-meta">
-              <span>mira@small.garden</span>
-              <span>Apr 16, 11:42 PM</span>
-            </div>
-            Your notebook post made me take mine out again. Sites like this still feel inhabited.
-          </div>
+          <div class="entry-list">
+            <article class="entry-item">
+              <div class="entry-top">
+                <span class="entry-title">mira@small.garden</span>
+                <span class="entry-state is-open">Apr 16, 11:42 PM</span>
+              </div>
+              <p class="entry-summary">Your notebook post made me take mine out again. Sites like this still feel inhabited.</p>
+            </article>
 
-          <div class="guestbook-entry">
-            <div class="guestbook-meta">
-              <span>anon</span>
-              <span>Apr 14, 03:17 AM</span>
-            </div>
-            Reading this with tea and a window cracked open. Please never add a newsletter popup.
-          </div>
+            <article class="entry-item">
+              <div class="entry-top">
+                <span class="entry-title">anon</span>
+                <span class="entry-state is-open">Apr 14, 03:17 AM</span>
+              </div>
+              <p class="entry-summary">Reading this with tea and a window cracked open. Please never add a newsletter popup.</p>
+            </article>
 
-          <div class="guestbook-entry">
-            <div class="guestbook-meta">
-              <span>j.wolf</span>
-              <span>Apr 11, 06:02 PM</span>
-            </div>
-            Kettle turned my terminal into the color of old oak. Very good decision.
+            <article class="entry-item">
+              <div class="entry-top">
+                <span class="entry-title">j.wolf</span>
+                <span class="entry-state is-open">Apr 11, 06:02 PM</span>
+              </div>
+              <p class="entry-summary">Kettle turned my terminal into the color of old oak. Very good decision.</p>
+            </article>
           </div>
         </section>
       </div>
 
-      <section class="box photo-feature" id="album">
-        <div>
-          <img src="assets/images/rainy-window-bg-960.webp" alt="Rainy window photo">
+      <section class="box" id="album">
+        <span id="current-obsessions" aria-hidden="true"></span>
+        <div class="box-heading">
+          <h2 class="box-title">Photo room</h2>
+          <span class="box-chip">spring tape scans</span>
         </div>
 
-        <div class="photo-details">
-          <div class="box-title">
-            <span class="title-group"><span class="box-icon">☾</span><span>Photo Room</span></span>
-            <span class="box-meta">spring tape scans</span>
-          </div>
+        <div class="tile-layout">
+          <img src="assets/images/rainy-window-bg-960.webp" alt="Rainy window reflecting orange room light" class="room-image">
 
-          <h3>Orange light, rainy glass, desk at 2AM.</h3>
-          <p>
-            The photo room is where I drop disposable camera scans, room details, bad weather, and proof
-            that the site aesthetic is not just an act.
-          </p>
-          <p>
-            Latest batch: tram reflections, lamp corners, warm tea, window condensation, and one shelf that
-            somehow looks different every week.
-          </p>
-          <a href="index.html#album">Open the room log</a>
+          <div class="room-copy">
+            <p>
+              The photo room is where I drop disposable camera scans, room details, bad weather, and proof
+              that the site aesthetic is not just an act.
+            </p>
+            <p>
+              Latest batch: tram reflections, lamp corners, warm tea, window condensation, and one shelf that
+              somehow looks different every week.
+            </p>
+
+            <ul class="room-list">
+              <li>orange light, rainy glass, desk at 2AM</li>
+              <li>maps taped beside the monitor and notes everywhere</li>
+              <li>the room this whole site keeps trying to imitate</li>
+            </ul>
+          </div>
         </div>
       </section>
     </div>
 
-    <aside class="side-rail stack">
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">✩</span><span>Stars</span></span>
-          <span class="box-meta">navigation</span>
-        </div>
-
-        <nav class="nav-list" aria-label="Primary">
-          <a class="nav-link active" aria-current="page" href="index.html">Home</a>
-          <a class="nav-link" href="#about">About me</a>
-          <a class="nav-link" href="blog.html">Blog</a>
-          <a class="nav-link" href="portfolio.html">Projects</a>
-          <a class="nav-link" href="#guestbook">Guestbook</a>
-          <a class="nav-link" href="#album">Photo room</a>
-          <a class="nav-link" href="https://github.com/JoseStud" target="_blank" rel="noopener">GitHub</a>
-          <a class="nav-link" href="mailto:ax@anxiden.dev">E-mail</a>
-        </nav>
-      </section>
-
-      <section class="box center-box">
-        <span class="status-pre">I'm</span>
-        <div class="status-big"><span class="status-light"></span>Online!</div>
-      </section>
-
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">♪</span><span>Last Song</span></span>
-          <span class="box-meta">14 min ago</span>
-        </div>
-
-        <div class="music-box">
-          <img src="assets/images/rainy-window-bg-960.webp" alt="album cover" class="music-cover">
-          <div>
-            <span class="music-title">kettle hum</span>
-            <div class="music-artist">slow radio, season 4</div>
-            <div class="subtle">played while editing CSS in the dark</div>
-          </div>
-        </div>
-      </section>
-
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">#</span><span>Visitors</span></span>
-          <span class="box-meta">since 2021</span>
-        </div>
-
-        <div class="counter" id="counter">
-          <span>0</span><span>0</span><span>4</span><span>7</span><span>2</span><span>8</span><span>1</span>
-        </div>
-        <div class="counter-label">counter still clicking upward</div>
-      </section>
-
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">✦</span><span>Buttons</span></span>
-          <span class="box-meta">88x31 wall</span>
-        </div>
-
-        <div class="badge-grid">
-          <a class="badge-button theme-gold" href="#about"><strong>SLOW WEB</strong><span>made by hand</span></a>
-          <a class="badge-button theme-slate" href="blog.html"><strong>FIELD LOG</strong><span>24 entries</span></a>
-          <a class="badge-button theme-sea" href="portfolio.html"><strong>PROJECTS</strong><span>small software</span></a>
-          <a class="badge-button theme-plum" href="#album"><strong>PHOTO ROOM</strong><span>rain + lamps</span></a>
-          <a class="badge-button theme-rose" href="#guestbook"><strong>GUESTBOOK</strong><span>be nice</span></a>
-          <a class="badge-button theme-lime" href="mailto:ax@anxiden.dev"><strong>E-MAIL</strong><span>slow replies</span></a>
-        </div>
-      </section>
-
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">✧</span><span>Current Status</span></span>
-          <span class="box-meta">3 hours ago</span>
-        </div>
-
-        <div class="micro-post-head">
-          <img src="assets/images/avatar-200.webp" alt="avatar" class="micro-avatar">
-          <div>
-            <span class="micro-author">anxidev</span>
-            <span class="micro-date">sorting books by how sleepy they make me</span>
-          </div>
-        </div>
-
-        <p class="supporting-copy">
-          Rebuilt the shell to feel denser and stranger, but kept the warm amber glow. Cold blue was
-          correct for the reference, just not for this house.
-        </p>
-      </section>
-
-      <section class="box center-box button-card">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">☾</span><span>Site Button</span></span>
-          <span class="box-meta">hotlink if useful</span>
-        </div>
-
-        <img src="assets/images/button-anxidev.svg" alt="anxidev button" class="button-preview">
-        <textarea class="button-code" readonly><a href="index.html"><img src="assets/images/button-anxidev.svg" alt="anxidev"></a></textarea>
-        <p>Swap the path for your deployed URL later. The button can stay tiny and a little overdramatic.</p>
-      </section>
-
-      <section class="box">
-        <div class="box-title">
-          <span class="title-group"><span class="box-icon">⚙</span><span>Controls</span></span>
-          <span class="box-meta">local only</span>
-        </div>
-
-        <div class="control-list">
-          <label class="checkline"><input type="checkbox" id="sidebar-rain-toggle" checked> Enable rain overlay</label>
-          <span class="supporting-copy">Theme switching still lives in the hidden edit-mode tweaks panel.</span>
-        </div>
-      </section>
-    </aside>
+    <aside class="col col-side" data-shell="sidebar"></aside>
   </main>
 
-  <footer class="site-footer">
-    <span>(c) 2021-<span id="year"></span> anxidev. all lights left on.</span><br>
-    <span class="footer-accent">hand-coded, slow-served, warm by design</span>
-  </footer>
+  <footer class="site-footer" data-shell="footer"></footer>
 </div>
 
-<button class="tweaks-btn" id="tweaksBtn">tweaks</button>
-<div class="tweaks-panel" id="tweaksPanel" role="dialog" aria-label="Tweaks">
-  <div class="hd">
-    <span>TWEAKS</span>
-    <button class="tw-close" id="tweaksClose" aria-label="close">x</button>
-  </div>
-  <div class="bd">
-    <div class="tw-row">
-      <label>theme</label>
-      <div class="seg" id="segTheme">
-        <button data-val="dark">DARK</button>
-        <button data-val="light">LIGHT</button>
-      </div>
-    </div>
-  </div>
-</div>
+<div data-shell="tweaks"></div>
 
-<script src="assets/js/main.js"></script>
+<script type="module" src="assets/js/main.js"></script>
 </body>
 </html>

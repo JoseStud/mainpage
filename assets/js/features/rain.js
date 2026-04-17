@@ -30,10 +30,6 @@ function createDrops(width, height) {
   return Array.from({ length: getDropCount() }, () => createDrop(width, height));
 }
 
-function isCheckboxToggle(control) {
-  return control instanceof HTMLInputElement && control.type === "checkbox";
-}
-
 export function initRain() {
   const canvas = document.getElementById("rain-canvas");
   if (!canvas) {
@@ -45,7 +41,8 @@ export function initRain() {
     return;
   }
 
-  const toggleControl = document.getElementById("rain-toggle");
+  const toggleButton = document.getElementById("rain-toggle");
+  const sidebarToggle = document.getElementById("sidebar-rain-toggle");
   const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const saveDataEnabled = Boolean(navigator.connection && navigator.connection.saveData);
   let drops = [];
@@ -62,6 +59,7 @@ export function initRain() {
 
   function drawRain() {
     if (!rainEnabled) {
+      animationFrame = null;
       return;
     }
 
@@ -97,25 +95,12 @@ export function initRain() {
     animationFrame = window.requestAnimationFrame(drawRain);
   }
 
-  function syncToggleControl() {
-    if (!toggleControl) {
-      return;
-    }
-
-    if (isCheckboxToggle(toggleControl)) {
-      toggleControl.checked = !rainEnabled;
-      return;
-    }
-
-    toggleControl.textContent = rainEnabled ? "Disable rain" : "Enable rain";
-    toggleControl.setAttribute("aria-pressed", rainEnabled ? "true" : "false");
-  }
-
   function stopRain() {
     if (animationFrame !== null) {
       window.cancelAnimationFrame(animationFrame);
       animationFrame = null;
     }
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
@@ -125,11 +110,25 @@ export function initRain() {
     }
   }
 
-  function setRainState(enabled) {
+  function syncControls() {
+    if (toggleButton) {
+      toggleButton.textContent = rainEnabled ? "Disable rain" : "Enable rain";
+      toggleButton.setAttribute("aria-pressed", rainEnabled ? "true" : "false");
+    }
+
+    if (sidebarToggle) {
+      sidebarToggle.checked = rainEnabled;
+    }
+  }
+
+  function setRainState(enabled, persist = true) {
     rainEnabled = enabled;
     canvas.classList.toggle("rain-hidden", !enabled);
-    syncToggleControl();
-    window.localStorage.setItem(STORAGE_KEY, enabled ? "false" : "true");
+    syncControls();
+
+    if (persist) {
+      window.localStorage.setItem(STORAGE_KEY, enabled ? "false" : "true");
+    }
 
     if (enabled) {
       startRain();
@@ -141,6 +140,7 @@ export function initRain() {
 
   resizeCanvas();
   document.body.classList.add("rain-ready");
+
   window.addEventListener("resize", resizeCanvas, { passive: true });
 
   document.addEventListener("visibilitychange", () => {
@@ -156,11 +156,11 @@ export function initRain() {
 
   const savedDisabled = window.localStorage.getItem(STORAGE_KEY) === "true";
   const autoStartEnabled = !prefersReducedMotion.matches && !saveDataEnabled;
-  setRainState(!savedDisabled && autoStartEnabled);
+  setRainState(!savedDisabled && autoStartEnabled, false);
 
   const handleReducedMotionChange = (event) => {
     if (event.matches) {
-      setRainState(false);
+      setRainState(false, false);
     }
   };
 
@@ -170,15 +170,15 @@ export function initRain() {
     prefersReducedMotion.addListener(handleReducedMotionChange);
   }
 
-  if (toggleControl) {
-    if (isCheckboxToggle(toggleControl)) {
-      toggleControl.addEventListener("change", () => {
-        setRainState(!toggleControl.checked);
-      });
-    } else {
-      toggleControl.addEventListener("click", () => {
-        setRainState(!rainEnabled);
-      });
-    }
+  if (toggleButton) {
+    toggleButton.addEventListener("click", () => {
+      setRainState(!rainEnabled);
+    });
+  }
+
+  if (sidebarToggle) {
+    sidebarToggle.addEventListener("change", () => {
+      setRainState(sidebarToggle.checked);
+    });
   }
 }
