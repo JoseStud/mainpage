@@ -65,7 +65,7 @@ body {
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.56;
+  opacity: 0.72;
 }
 
 .bg-photo::before,
@@ -80,10 +80,10 @@ body {
   left: 50%;
   width: max(100vw, 150vh);
   min-height: 100vh;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 128 / 85;
   transform: translate(-50%, -50%);
   background:
-    url("../images/subway-night-strip-192x128-8.png") 0 center /
+    url("../images/subway-night-strip-320x213-8.png") 0 center /
     calc(var(--bg-photo-frame-count) * 100%) 100% no-repeat;
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
@@ -94,7 +94,7 @@ body {
 .bg-photo::after {
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(2, 1, 2, 0.18), rgba(7, 2, 5, 0.42) 54%, rgba(2, 1, 2, 0.72));
+    linear-gradient(180deg, rgba(2, 1, 2, 0.06), rgba(7, 2, 5, 0.24) 54%, rgba(2, 1, 2, 0.48));
 }
 
 a {
