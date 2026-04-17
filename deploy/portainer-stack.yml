@@ -1,6 +1,6 @@
 services:
   mainpage:
-    image: ghcr.io/placeholder/mainpage:main
+    image: ghcr.io/josestud/mainpage:456082fcbd0166addacbbbf71c2e2ce04454319c
     container_name: mainpage
     restart: unless-stopped
     pull_policy: always
