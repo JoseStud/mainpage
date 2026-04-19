@@ -1,0 +1,86 @@
+.tweaks-btn {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 3.1rem;
+  z-index: 9;
+  display: none;
+  border: 1px solid var(--panel-edge);
+  border-radius: 4px;
+  background: var(--panel-strong);
+  color: var(--text-strong);
+  padding: 0.32rem 0.58rem;
+  cursor: pointer;
+}
+
+.tweaks-btn.visible {
+  display: inline-block;
+}
+
+.tweaks-panel {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 5.5rem;
+  z-index: 9;
+  display: none;
+  width: 240px;
+  border: 2px solid var(--panel-edge);
+  border-radius: 6px;
+  background: var(--panel-strong);
+  box-shadow: var(--shadow);
+}
+
+.tweaks-panel.open {
+  display: block;
+}
+
+.tweaks-panel .hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.62rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--accent);
+}
+
+.tweaks-panel .bd {
+  padding: 0.62rem 0.75rem 0.75rem;
+}
+
+.tw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--panel-edge);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.seg button {
+  border: 0;
+  background: var(--panel-strong);
+  color: var(--text);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.seg button.on {
+  background: var(--accent);
+  color: var(--bg-2);
+}
+
+.tw-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}

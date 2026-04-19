@@ -1,0 +1,483 @@
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+body::before {
+  z-index: 3;
+  opacity: 0.1;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.035) 0,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px,
+      transparent 4px
+    );
+}
+
+body::after {
+  z-index: 1;
+  opacity: 0.2;
+  background:
+    radial-gradient(ellipse at 50% -8%, rgb(var(--starfield-glow-rgb) / 0.2), transparent 50%),
+    radial-gradient(ellipse at 50% 116%, rgb(var(--starfield-deep-rgb) / 0.72), transparent 68%);
+}
+
+:root[data-theme="light"] body::before {
+  opacity: 0.06;
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.1;
+}
+
+#rain-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.26;
+  mix-blend-mode: screen;
+  transition: opacity 220ms ease;
+}
+
+#rain-canvas.rain-hidden {
+  opacity: 0;
+}
+
+.rain-fallback {
+  position: fixed;
+  inset: -18%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  background-image:
+    repeating-linear-gradient(
+      168deg,
+      rgba(214, 232, 255, 0.58) 0 2px,
+      transparent 2px 18px
+    ),
+    repeating-linear-gradient(
+      168deg,
+      rgba(177, 210, 255, 0.24) 0 2px,
+      transparent 2px 26px
+    );
+  background-size: 220px 240px, 320px 360px;
+  animation: rain-fallback-slide 12s linear infinite;
+  transition: opacity 720ms ease;
+}
+
+:root[data-theme="light"] .bg-photo::before {
+  opacity: 0.3;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .bg-sprinkle {
+  opacity: calc(var(--sprinkle-opacity, 0.5) * 0.74);
+  mix-blend-mode: normal;
+}
+
+:root[data-theme="light"] .bg-sprinkle--cloud {
+  background:
+    radial-gradient(ellipse at 14% 62%, rgba(255, 255, 255, 0.44) 0 14%, transparent 34%),
+    radial-gradient(ellipse at 34% 38%, rgba(250, 241, 255, 0.38) 0 20%, transparent 40%),
+    radial-gradient(ellipse at 54% 28%, rgba(239, 227, 255, 0.36) 0 19%, transparent 40%),
+    radial-gradient(ellipse at 74% 36%, rgba(214, 191, 255, 0.34) 0 21%, transparent 42%),
+    radial-gradient(ellipse at 88% 60%, rgba(255, 255, 255, 0.28) 0 13%, transparent 32%),
+    radial-gradient(ellipse at 52% 62%, rgba(197, 169, 240, 0.18) 0 38%, transparent 72%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 28px rgba(239, 227, 255, 0.18);
+}
+
+:root[data-theme="light"] .bg-sprinkle--icon {
+  filter:
+    blur(var(--sprinkle-blur, 0px))
+    drop-shadow(0 0 4px rgba(255, 255, 255, 0.24));
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.14;
+}
+
+:root[data-theme="light"] #rain-canvas {
+  opacity: 0.12;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .rain-fallback {
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+body.rain-ready .rain-fallback {
+  opacity: 0;
+}
+
+:root[data-theme-transition="sunrise"] body::before,
+:root[data-theme-transition="sunrise"] body::after,
+:root[data-theme-transition="sunrise"] .bg-photo::before,
+:root[data-theme-transition="sunrise"] .bg-photo::after,
+:root[data-theme-transition="sunrise"] .bg-sunrise-band,
+:root[data-theme-transition="sunrise"] .bg-sunrise-sun,
+:root[data-theme-transition="sunrise"] .bg-scene-layer,
+:root[data-theme-transition="sunrise"] #rain-canvas,
+:root[data-theme-transition="sunrise"] .rain-fallback {
+  will-change: opacity, transform;
+}
+
+:root[data-theme-transition="sunrise"] .bg-sprinkle,
+:root[data-theme-transition="sunrise"] .logo,
+:root[data-theme-transition="sunrise"] .logo-letter {
+  animation-play-state: paused;
+}
+
+:root[data-theme-transition="sunrise"] .bg-sunrise-band--horizon {
+  animation: sunrise-horizon-rise var(--sunrise-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-sunrise-band--wash {
+  animation: sunrise-wash-lift var(--sunrise-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-sunrise-band--veil {
+  animation: sunrise-veil-settle var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-sunrise-sun {
+  animation: sunrise-sun-arc var(--sunrise-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-photo::before {
+  animation: sunrise-photo-lift var(--sunrise-duration) cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-photo::after,
+:root[data-theme-transition="sunrise"] body::after {
+  animation: sunrise-vignette-soften var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] body::before {
+  animation: sunrise-noise-thin var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-scene-layer--stars {
+  animation: sunrise-stars-fade var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-scene-layer--clouds {
+  animation: sunrise-clouds-lift var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] .bg-scene-layer--icons {
+  animation: sunrise-icons-soften var(--sunrise-duration) ease both;
+}
+
+:root[data-theme-transition="sunrise"] #rain-canvas:not(.rain-hidden),
+:root[data-theme-transition="sunrise"] body:not(.rain-ready) .rain-fallback {
+  animation: sunrise-rain-soften var(--sunrise-duration) ease both;
+}
+
+@keyframes bg-sprinkle-float {
+  0% {
+    transform:
+      translate3d(-50%, -50%, 0)
+      translate3d(var(--sprinkle-shift-x, 0px), var(--sprinkle-shift-y, 0px), 0)
+      rotate(var(--sprinkle-rotation, 0deg));
+  }
+
+  100% {
+    transform:
+      translate3d(-50%, -50%, 0)
+      translate3d(
+        calc(var(--sprinkle-shift-x, 0px) + var(--sprinkle-drift-x, 0px)),
+        calc(var(--sprinkle-shift-y, 0px) + var(--sprinkle-drift-y, 0px)),
+        0
+      )
+      rotate(calc(var(--sprinkle-rotation, 0deg) + var(--sprinkle-drift-rotation, 0deg)));
+  }
+}
+
+@keyframes bg-cloud-drift {
+  0% {
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(var(--cloud-scale, 1))
+      translate3d(var(--sprinkle-shift-x, 0px), var(--sprinkle-shift-y, 0px), 0);
+    opacity: calc(var(--sprinkle-opacity, 0.5) * 0.82);
+  }
+
+  100% {
+    transform:
+      translate3d(-50%, -50%, 0)
+      scale(calc(var(--cloud-scale, 1) * 1.05))
+      translate3d(
+        calc(var(--sprinkle-shift-x, 0px) + var(--sprinkle-drift-x, 0px)),
+        calc(var(--sprinkle-shift-y, 0px) + var(--sprinkle-drift-y, 0px)),
+        0
+      );
+    opacity: var(--sprinkle-opacity, 0.5);
+  }
+}
+
+@keyframes bg-star-twinkle {
+  0% {
+    transform: translate3d(-50%, -50%, 0) scale(0.86);
+    opacity: calc(var(--sprinkle-opacity, 0.5) * 0.65);
+  }
+
+  100% {
+    transform: translate3d(-50%, -50%, 0) scale(1.08);
+    opacity: var(--sprinkle-opacity, 0.5);
+  }
+}
+
+@keyframes rain-fallback-slide {
+  0% {
+    transform: translate3d(0, -8%, 0);
+  }
+
+  100% {
+    transform: translate3d(-5%, 12%, 0);
+  }
+}
+
+@keyframes sunrise-horizon-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 18%, 0) scale(1.08);
+  }
+
+  18% {
+    opacity: 0.24;
+  }
+
+  48% {
+    opacity: 0.94;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  72% {
+    opacity: 0.78;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -6%, 0) scale(0.98);
+  }
+}
+
+@keyframes sunrise-wash-lift {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 8%, 0) scale(1.02);
+  }
+
+  34% {
+    opacity: 0.22;
+  }
+
+  64% {
+    opacity: 0.86;
+  }
+
+  100% {
+    opacity: 0.08;
+    transform: translate3d(0, -2%, 0) scale(1);
+  }
+}
+
+@keyframes sunrise-veil-settle {
+  0% {
+    opacity: 0;
+  }
+
+  58% {
+    opacity: 0.08;
+  }
+
+  100% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes sunrise-sun-arc {
+  0% {
+    opacity: 0;
+    transform: translate3d(-50%, 18%, 0) scale(0.74);
+  }
+
+  18% {
+    opacity: 0.18;
+  }
+
+  42% {
+    opacity: 0.94;
+    transform: translate3d(-50%, 2%, 0) scale(1);
+  }
+
+  74% {
+    opacity: 0.54;
+    transform: translate3d(-50%, -10%, 0) scale(1.06);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(-50%, -18%, 0) scale(1.1);
+  }
+}
+
+@keyframes sunrise-photo-lift {
+  0% {
+    opacity: 0.34;
+    transform: scale(1.08);
+  }
+
+  56% {
+    opacity: 0.44;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 0.3;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes sunrise-vignette-soften {
+  0% {
+    opacity: 0.68;
+  }
+
+  60% {
+    opacity: 0.34;
+  }
+
+  100% {
+    opacity: 0.14;
+  }
+}
+
+@keyframes sunrise-noise-thin {
+  0% {
+    opacity: 0.1;
+  }
+
+  100% {
+    opacity: 0.06;
+  }
+}
+
+@keyframes sunrise-stars-fade {
+  0% {
+    opacity: 1;
+  }
+
+  42% {
+    opacity: 0.86;
+  }
+
+  72% {
+    opacity: 0.24;
+  }
+
+  100% {
+    opacity: 0.08;
+  }
+}
+
+@keyframes sunrise-clouds-lift {
+  0% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  60% {
+    opacity: 0.92;
+  }
+
+  100% {
+    opacity: 0.68;
+    transform: translate3d(0, -1.6%, 0);
+  }
+}
+
+@keyframes sunrise-icons-soften {
+  0% {
+    opacity: 1;
+  }
+
+  62% {
+    opacity: 0.82;
+  }
+
+  100% {
+    opacity: 0.52;
+  }
+}
+
+@keyframes sunrise-rain-soften {
+  0% {
+    opacity: 0.26;
+  }
+
+  62% {
+    opacity: 0.18;
+  }
+
+  100% {
+    opacity: 0.08;
+  }
+}
+
+@keyframes logo-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  14%,
+  18%,
+  51%,
+  55% {
+    opacity: 0.93;
+  }
+}
+
+@keyframes letter-pulse {
+  0%,
+  100% {
+    transform: translateY(var(--letter-shift, 0));
+    text-shadow:
+      0 0 10px rgb(var(--logo-glow-rgb) / 0.42),
+      0 0 2px rgb(var(--logo-sheen-rgb) / 0.82);
+  }
+
+  50% {
+    transform: translateY(calc(var(--letter-shift, 0rem) - 1px));
+    text-shadow:
+      0 0 18px rgb(var(--accent-highlight-rgb) / 0.72),
+      0 0 3px rgb(var(--logo-sheen-rgb) / 0.92);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-sprinkle,
+  .rain-fallback,
+  .logo,
+  .logo-letter {
+    animation: none !important;
+  }
+
+  #rain-canvas,
+  a {
+    transition: none !important;
+  }
+}

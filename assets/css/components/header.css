@@ -1,0 +1,86 @@
+.header-led,
+.header-sub {
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.header-led {
+  font-size: 11px;
+}
+
+.header-sub {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: none;
+}
+
+.logo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
+.logo-link:hover {
+  text-decoration: none;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0;
+  padding: 0.12rem 0.25rem 0.1rem;
+  animation: logo-flicker 7s steps(1, end) infinite;
+}
+
+.logo-letter {
+  --letter-shift: 0rem;
+  display: inline-block;
+  color: var(--logo-ink);
+  font-family: "Silkscreen", monospace;
+  font-size: clamp(1.9rem, 5vw, 2.35rem);
+  line-height: 0.8;
+  letter-spacing: -0.16em;
+  transform: translateY(var(--letter-shift));
+  text-shadow:
+    0 0 10px rgb(var(--logo-glow-rgb) / 0.52),
+    0 0 2px rgb(var(--logo-sheen-rgb) / 0.88);
+  animation: letter-pulse 1.35s ease-in-out infinite;
+}
+
+.logo-letter:nth-child(1) {
+  margin-right: -0.34rem;
+  animation-delay: 0s;
+}
+
+.logo-letter:nth-child(2) {
+  margin-right: -0.18rem;
+  animation-delay: 0.08s;
+}
+
+.logo-letter:nth-child(3) {
+  margin-right: -0.14rem;
+  animation-delay: 0.16s;
+}
+
+.logo-letter:nth-child(4) {
+  margin-right: -0.16rem;
+  --letter-shift: 0.06rem;
+  animation-delay: 0.24s;
+}
+
+.logo-letter:nth-child(5) {
+  margin-right: -0.08rem;
+  animation-delay: 0.32s;
+}
+
+.logo-letter:nth-child(6) {
+  margin-right: -0.14rem;
+  --letter-shift: 0.03rem;
+  animation-delay: 0.4s;
+}
+
+.logo-letter:nth-child(7) {
+  animation-delay: 0.48s;
+}

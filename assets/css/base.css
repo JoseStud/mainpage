@@ -1,0 +1,348 @@
+@font-face {
+  font-family: "NEC_APC3";
+  src: url("../fonts/pixelfonts/Web437_NEC_APC3_8x16.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "NEC_APC3";
+  src: url("../fonts/pixelfonts/Web437_Nix8810_M16.woff") format("woff");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "RussianGothic";
+  src: local("Arial");
+  font-weight: 400;
+  font-style: normal;
+  unicode-range: U+0400-04ff;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scrollbar-color: #6b4259 #050207;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(
+      180deg,
+      rgb(var(--starfield-deep-rgb) / 0.78),
+      rgb(var(--starfield-base-rgb) / 0.28) 46%,
+      rgb(var(--starfield-deep-rgb) / 0.9)
+    ),
+    radial-gradient(circle at 16% 14%, rgb(var(--starfield-glow-rgb) / 0.2), transparent 28%),
+    radial-gradient(circle at 82% 10%, rgb(var(--starfield-star-rgb) / 0.1), transparent 24%),
+    radial-gradient(circle at 54% 78%, rgb(var(--starfield-base-rgb) / 0.22), transparent 34%);
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+  background-position: center, 16% 14%, 82% 10%, 54% 78%;
+  background-size: auto, auto, auto, auto;
+  background-attachment: scroll, scroll, scroll, scroll;
+  color: var(--text);
+  font-family: "RussianGothic", "MS UI Gothic", "NEC_APC3", Tahoma, Verdana, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  text-shadow: var(--screen-shadow);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-photo {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+}
+
+.bg-photo::before,
+.bg-photo::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bg-photo::before {
+  inset: -10%;
+  z-index: 1;
+  opacity: 0.34;
+  transform: scale(1.08);
+  background:
+    radial-gradient(circle at 18% 20%, rgb(var(--starfield-glow-rgb) / 0.2), transparent 24%),
+    radial-gradient(circle at 72% 18%, rgb(var(--starfield-star-rgb) / 0.12), transparent 18%),
+    linear-gradient(180deg, rgb(var(--starfield-deep-rgb) / 0.14), rgb(var(--starfield-deep-rgb) / 0.34)),
+    url("../../background.jpg") center / cover no-repeat;
+  filter: blur(18px) saturate(0.9) brightness(0.72);
+  mix-blend-mode: screen;
+}
+
+.bg-photo::after {
+  z-index: 4;
+  opacity: 0.68;
+  background:
+    linear-gradient(
+      90deg,
+      rgb(var(--starfield-deep-rgb) / 0.52),
+      transparent 18%,
+      transparent 82%,
+      rgb(var(--starfield-deep-rgb) / 0.52)
+    ),
+    linear-gradient(180deg, rgb(var(--starfield-deep-rgb) / 0.08), rgb(var(--starfield-deep-rgb) / 0.36));
+}
+
+.bg-sunrise {
+  position: absolute;
+  inset: -10%;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+  contain: paint;
+}
+
+.bg-sunrise-band,
+.bg-sunrise-sun {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.bg-sunrise-band {
+  inset: auto;
+  mix-blend-mode: screen;
+}
+
+.bg-sunrise-band--horizon {
+  left: -20%;
+  right: -20%;
+  bottom: -28%;
+  height: 76%;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      ellipse at 50% 100%,
+      rgb(var(--sunrise-horizon-rgb) / 0.92) 0 18%,
+      rgb(var(--sunrise-peach-rgb) / 0.64) 30%,
+      rgb(var(--sunrise-blush-rgb) / 0.24) 48%,
+      transparent 74%
+    );
+  filter: blur(16px);
+}
+
+.bg-sunrise-band--wash {
+  inset: -4% -10%;
+  background:
+    linear-gradient(
+      180deg,
+      rgb(var(--sunrise-day-rgb) / 0) 0%,
+      rgb(var(--sunrise-blush-rgb) / 0.12) 34%,
+      rgb(var(--sunrise-peach-rgb) / 0.24) 68%,
+      rgb(var(--sunrise-day-rgb) / 0.56) 100%
+    );
+  filter: blur(14px);
+}
+
+.bg-sunrise-band--veil {
+  inset: -6%;
+  background:
+    radial-gradient(circle at 50% 28%, rgb(var(--sunrise-day-rgb) / 0.18), transparent 34%),
+    linear-gradient(180deg, rgb(var(--sunrise-day-rgb) / 0.05), rgb(var(--sunrise-day-rgb) / 0.62));
+}
+
+.bg-sunrise-sun {
+  left: 50%;
+  bottom: -10%;
+  width: clamp(180px, 28vw, 360px);
+  height: clamp(180px, 28vw, 360px);
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgb(var(--sunrise-sun-rgb) / 0.95) 0 18%,
+      rgb(var(--sunrise-peach-rgb) / 0.56) 36%,
+      rgb(var(--sunrise-horizon-rgb) / 0.18) 56%,
+      transparent 78%
+    );
+  filter: blur(10px);
+  mix-blend-mode: screen;
+  transform: translate3d(-50%, 18%, 0) scale(0.74);
+}
+
+.bg-photo-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  contain: paint;
+}
+
+.bg-scene-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  contain: paint;
+}
+
+.bg-scene-layer--clouds {
+  z-index: 1;
+}
+
+.bg-scene-layer--stars {
+  z-index: 2;
+}
+
+.bg-scene-layer--icons {
+  z-index: 3;
+}
+
+.bg-sprinkle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: var(--sprinkle-opacity, 0.5);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.bg-sprinkle--cloud {
+  z-index: 2;
+  border-radius: 999px;
+  background:
+    radial-gradient(ellipse at 14% 62%, rgb(var(--starfield-star-rgb) / 0.42) 0 14%, transparent 34%),
+    radial-gradient(ellipse at 34% 38%, rgb(var(--starfield-glow-rgb) / 0.36) 0 20%, transparent 40%),
+    radial-gradient(ellipse at 54% 28%, rgb(var(--starfield-glow-rgb) / 0.34) 0 19%, transparent 40%),
+    radial-gradient(ellipse at 74% 36%, rgb(var(--starfield-base-rgb) / 0.34) 0 21%, transparent 42%),
+    radial-gradient(ellipse at 88% 60%, rgb(var(--starfield-star-rgb) / 0.28) 0 13%, transparent 32%),
+    radial-gradient(ellipse at 52% 62%, rgb(var(--starfield-deep-rgb) / 0.2) 0 38%, transparent 72%);
+  box-shadow:
+    inset 0 0 0 1px rgb(var(--starfield-glow-rgb) / 0.08),
+    0 0 28px rgb(var(--starfield-glow-rgb) / 0.18);
+  filter:
+    blur(var(--cloud-blur, 16px))
+    saturate(1.08)
+    drop-shadow(0 0 30px rgb(var(--starfield-glow-rgb) / 0.14));
+  transform:
+    translate3d(-50%, -50%, 0)
+    scale(var(--cloud-scale, 1))
+    translate3d(var(--sprinkle-shift-x, 0px), var(--sprinkle-shift-y, 0px), 0);
+  animation:
+    bg-cloud-drift var(--sprinkle-float-duration, 34s) ease-in-out infinite alternate;
+  animation-delay: var(--sprinkle-delay, 0s);
+}
+
+.bg-sprinkle--icon {
+  z-index: 4;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  filter:
+    blur(var(--sprinkle-blur, 0px))
+    drop-shadow(0 0 10px rgb(var(--starfield-star-rgb) / 0.2));
+  transform:
+    translate3d(-50%, -50%, 0)
+    translate3d(var(--sprinkle-shift-x, 0px), var(--sprinkle-shift-y, 0px), 0)
+    rotate(var(--sprinkle-rotation, 0deg));
+  animation:
+    bg-sprinkle-float var(--sprinkle-float-duration, 24s) ease-in-out infinite alternate;
+  animation-delay: var(--sprinkle-delay, 0s);
+}
+
+.bg-sprinkle--star {
+  z-index: 3;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle, rgb(var(--starfield-star-rgb) / 0.94) 0 42%, transparent 64%);
+  box-shadow:
+    0 0 10px rgb(var(--starfield-star-rgb) / 0.32),
+    0 0 20px rgb(var(--starfield-glow-rgb) / 0.14);
+  transform: translate3d(-50%, -50%, 0);
+  animation:
+    bg-star-twinkle var(--sprinkle-twinkle-duration, 6.4s) ease-in-out infinite alternate;
+  animation-delay: var(--sprinkle-delay, 0s);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  text-shadow: 0 0 10px rgba(249, 163, 107, 0.16);
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease,
+    text-shadow 180ms ease;
+}
+
+a:hover {
+  color: var(--accent-contrast);
+  text-decoration: underline;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.55rem;
+  top: 0.45rem;
+  z-index: 5;
+  padding: 0.15rem 0.4rem;
+  border: 1px solid var(--panel-edge);
+  border-radius: 3px;
+  background: var(--panel);
+  color: var(--text-strong);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.skip-link:hover,
+.skip-link:focus-visible {
+  text-decoration: none;
+  outline: 0;
+  border-color: rgba(255, 209, 177, 0.92);
+}
+
+h1,
+h2,
+h3,
+p,
+ul {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+}
+
+ul {
+  padding-left: 1.15rem;
+}
+
+textarea,
+input,
+button {
+  font: inherit;
+}
+
+button {
+  color: inherit;
+}

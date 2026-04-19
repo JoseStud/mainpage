@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{title}}</title>
+<meta name="description" content="{{description}}">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030105" media="(prefers-color-scheme: dark)" data-theme-color="dark">
+<meta name="theme-color" content="#efe0d7" media="(prefers-color-scheme: light)" data-theme-color="light">
+<script>
+(() => {
+  const STORAGE_KEY = "theme";
+  const LIGHT_MEDIA = "(prefers-color-scheme: light)";
+  const root = document.documentElement;
+  let storedTheme = null;
+
+  try {
+    const value = window.localStorage.getItem(STORAGE_KEY);
+    if (value === "dark" || value === "light") {
+      storedTheme = value;
+    }
+  } catch (_error) {
+    storedTheme = null;
+  }
+
+  const theme =
+    storedTheme || (typeof window.matchMedia === "function" && window.matchMedia(LIGHT_MEDIA).matches ? "light" : "dark");
+  const themeSource = storedTheme ? "storage" : "system";
+
+  root.dataset.theme = theme;
+  window.TWEAK_DEFAULTS = Object.assign({}, window.TWEAK_DEFAULTS, {
+    theme,
+    themeSource,
+  });
+
+  document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach((meta) => {
+    const metaTheme = meta.getAttribute("data-theme-color");
+    meta.setAttribute(
+      "media",
+      themeSource === "storage"
+        ? metaTheme === theme
+          ? "all"
+          : "not all"
+        : `(prefers-color-scheme: ${metaTheme})`,
+    );
+  });
+})();
+</script>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="{{page}}">
+<a class="skip-link" href="#content">skip to content</a>
+<div class="bg-photo" aria-hidden="true">
+  <div class="bg-sunrise" aria-hidden="true">
+    <span class="bg-sunrise-band bg-sunrise-band--horizon"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--wash"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--veil"></span>
+    <span class="bg-sunrise-sun"></span>
+  </div>
+  <div class="bg-photo-scene"></div>
+</div>
+<div class="rain-fallback" aria-hidden="true"></div>
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+<div class="utility-toggles" role="group" aria-label="Site controls">
+  <button class="utility-toggle" id="theme-toggle" type="button" aria-label="Light mode" aria-pressed="false" title="Switch to light mode">LIGHT</button>
+  <button class="utility-toggle" id="rain-toggle" type="button" aria-pressed="true">Disable rain</button>
+</div>
+<script>
+(() => {
+  const themeToggle = document.getElementById("theme-toggle");
+  const theme = window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.theme;
+  if (!themeToggle || theme !== "light") {
+    return;
+  }
+
+  themeToggle.setAttribute("aria-pressed", "true");
+  themeToggle.setAttribute("title", "Switch to dark mode");
+})();
+</script>
+
+<div class="page">
+  <header class="site-header" data-shell="header">{{header}}</header>
+
+  <main class="layout" id="content">
+    <div class="col col-main">{{content}}</div>
+    <aside class="col col-side" data-shell="sidebar">{{sidebar}}</aside>
+  </main>
+
+  <footer class="site-footer" data-shell="footer">{{footer}}</footer>
+</div>
+
+<div data-shell="tweaks">{{tweaks}}</div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

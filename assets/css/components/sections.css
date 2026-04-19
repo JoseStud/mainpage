@@ -1,0 +1,243 @@
+.shell-note + .shell-note {
+  margin-top: 0.3rem;
+}
+
+.findme-box .box-title::before {
+  content: "↗";
+}
+
+.interests-box .box-title::before {
+  content: "✎";
+}
+
+.extras-box .box-title::before,
+.guestbook-box .box-title::before {
+  content: "⌂";
+}
+
+.obsession-list,
+.entry-list,
+.shell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.shell-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.obsession-item,
+.entry-item,
+.shell-item {
+  padding-bottom: 0.55rem;
+  border-bottom: 1px dashed rgba(122, 82, 100, 0.45);
+}
+
+.obsession-item:last-child,
+.entry-item:last-child,
+.shell-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.obsession-label,
+.entry-title,
+.shell-item-title {
+  display: block;
+  color: var(--text-strong);
+}
+
+.obsession-copy,
+.entry-summary,
+.shell-item-meta,
+.shell-note {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.obsession-copy,
+.entry-summary,
+.shell-item-meta {
+  margin-top: 0.14rem;
+}
+
+.subsection-block + .subsection-block {
+  margin-top: 0.85rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed rgba(122, 82, 100, 0.45);
+}
+
+.subsection-title {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--moon);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subsection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.28rem;
+  color: var(--text-strong);
+}
+
+.entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.entry-state,
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12rem 0.38rem;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel-strong);
+  color: var(--accent-contrast);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.entry-state.is-live,
+.project-status.is-live {
+  border-color: rgba(98, 255, 117, 0.45);
+  color: var(--ok);
+}
+
+.entry-state.is-draft,
+.project-status.is-draft {
+  border-color: rgba(234, 117, 91, 0.45);
+  color: var(--moon);
+}
+
+.entry-state.is-notes,
+.project-status.is-notes {
+  border-color: rgba(166, 106, 129, 0.45);
+  color: #f3c0c2;
+}
+
+.entry-state.is-building,
+.project-status.is-building {
+  border-color: rgba(249, 163, 107, 0.45);
+  color: var(--accent);
+}
+
+.entry-state.is-open,
+.project-status.is-open,
+.entry-state.is-soon,
+.project-status.is-soon {
+  border-color: rgba(194, 152, 159, 0.45);
+  color: #f3c8c1;
+}
+
+.room-copy p + p {
+  margin-top: 0.65rem;
+}
+
+.room-list {
+  margin-top: 0.75rem;
+}
+
+.room-list li + li {
+  margin-top: 0.24rem;
+}
+
+.room-image {
+  display: block;
+  width: 168px;
+  height: 132px;
+  object-fit: cover;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel);
+}
+
+.tag-row {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  margin-top: 0.35rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.12rem 0.35rem;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel-strong);
+  color: var(--accent-contrast);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding-left: 1.1rem;
+}
+
+.note-list li {
+  color: var(--text-strong);
+}
+
+.note-list strong {
+  color: var(--accent-contrast);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.24rem;
+}
+
+.project-summary {
+  color: var(--text-strong);
+  line-height: 1.5;
+}
+
+.project-links {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-top: 0.4rem;
+  color: var(--muted);
+}
+
+.project-links a {
+  color: var(--accent);
+}
+
+.shell-link,
+.shell-copy {
+  display: block;
+  color: var(--text);
+  line-height: 1.45;
+}
+
+.shell-link:hover {
+  text-decoration: none;
+}
+
+.shell-link:hover .shell-item-title {
+  color: var(--accent-contrast);
+}
+
+.shell-note {
+  margin-top: 0.5rem;
+}

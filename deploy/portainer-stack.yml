@@ -1,8 +1,24 @@
 services:
   mainpage:
-    image: ghcr.io/josestud/mainpage:456082fcbd0166addacbbbf71c2e2ce04454319c
+    image: ghcr.io/placeholder/mainpage:main
     container_name: mainpage
     restart: unless-stopped
     pull_policy: always
+    environment:
+      - MULTI_SCROBBLER_BASE_URL=http://multi-scrobbler:9078
     ports:
       - "8000:80"
+    depends_on:
+      - multi-scrobbler
+
+  multi-scrobbler:
+    image: foxxmd/multi-scrobbler:latest
+    container_name: multi-scrobbler
+    restart: unless-stopped
+    ports:
+      - "9078:9078"
+    volumes:
+      - multi_scrobbler_config:/config
+
+volumes:
+  multi_scrobbler_config:

@@ -1,0 +1,32 @@
+name: Validate Site
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-html:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install xmllint
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes libxml2-utils
+
+      - name: Check generated page drift
+        run: node scripts/build-pages.mjs --check
+
+      - name: Validate entry pages
+        run: |
+          set -euo pipefail
+          for file in index.html blog.html portfolio.html; do
+            echo "Validating ${file}"
+            xmllint --html --noout "${file}"
+          done

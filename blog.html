@@ -1,100 +1,485 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>anxidev // blog</title>
-    <meta name="description" content="Blog posts and notes." />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-  </head>
-  <body>
+<head>
+<meta charset="utf-8">
+<title>anxidev // blog</title>
+<meta name="description" content="anxidev blog archive - small essays, field notes, and slow posts.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030105" media="(prefers-color-scheme: dark)" data-theme-color="dark">
+<meta name="theme-color" content="#efe0d7" media="(prefers-color-scheme: light)" data-theme-color="light">
+<script>
+(() => {
+  const STORAGE_KEY = "theme";
+  const LIGHT_MEDIA = "(prefers-color-scheme: light)";
+  const root = document.documentElement;
+  let storedTheme = null;
 
-    <canvas id="rain-canvas" aria-hidden="true"></canvas>
-    <button id="rain-toggle" aria-pressed="true">Disable rain</button>
+  try {
+    const value = window.localStorage.getItem(STORAGE_KEY);
+    if (value === "dark" || value === "light") {
+      storedTheme = value;
+    }
+  } catch (_error) {
+    storedTheme = null;
+  }
 
-    <div class="page">
+  const theme =
+    storedTheme || (typeof window.matchMedia === "function" && window.matchMedia(LIGHT_MEDIA).matches ? "light" : "dark");
+  const themeSource = storedTheme ? "storage" : "system";
 
-      <header class="site-header">
-        <div class="pfp-wrapper">
-          <img
-            src="assets/images/pfp.jpg"
-            alt="Profile picture"
-            class="pfp"
-            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
-          />
-          <div class="pfp-fallback" aria-hidden="true">👤</div>
+  root.dataset.theme = theme;
+  window.TWEAK_DEFAULTS = Object.assign({}, window.TWEAK_DEFAULTS, {
+    theme,
+    themeSource,
+  });
+
+  document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach((meta) => {
+    const metaTheme = meta.getAttribute("data-theme-color");
+    meta.setAttribute(
+      "media",
+      themeSource === "storage"
+        ? metaTheme === theme
+          ? "all"
+          : "not all"
+        : `(prefers-color-scheme: ${metaTheme})`,
+    );
+  });
+})();
+</script>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="blog">
+<a class="skip-link" href="#content">skip to content</a>
+<div class="bg-photo" aria-hidden="true">
+  <div class="bg-sunrise" aria-hidden="true">
+    <span class="bg-sunrise-band bg-sunrise-band--horizon"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--wash"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--veil"></span>
+    <span class="bg-sunrise-sun"></span>
+  </div>
+  <div class="bg-photo-scene"></div>
+</div>
+<div class="rain-fallback" aria-hidden="true"></div>
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+<div class="utility-toggles" role="group" aria-label="Site controls">
+  <button class="utility-toggle" id="theme-toggle" type="button" aria-label="Light mode" aria-pressed="false" title="Switch to light mode">LIGHT</button>
+  <button class="utility-toggle" id="rain-toggle" type="button" aria-pressed="true">Disable rain</button>
+</div>
+<script>
+(() => {
+  const themeToggle = document.getElementById("theme-toggle");
+  const theme = window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.theme;
+  if (!themeToggle || theme !== "light") {
+    return;
+  }
+
+  themeToggle.setAttribute("aria-pressed", "true");
+  themeToggle.setAttribute("title", "Switch to dark mode");
+})();
+</script>
+
+<div class="page">
+  <header class="site-header" data-shell="header"><span class="header-led">anxidev // archive board</span>
+
+    <a class="logo-link" href="index.html" aria-label="anxidev home">
+      <span class="logo" role="img" aria-label="anxidev"><span class="logo-letter">a</span><span class="logo-letter">n</span><span class="logo-letter">x</span><span class="logo-letter">i</span><span class="logo-letter">d</span><span class="logo-letter">e</span><span class="logo-letter">v</span></span>
+    </a>
+
+    <span class="header-sub">/blog.html · archive mode · notes over growth loops</span></header>
+
+  <main class="layout" id="content">
+    <div class="col col-main"><section class="box" id="reading-desk">
+        <div class="box-heading">
+          <h1 class="box-title">/blog.log</h1>
+          <span class="box-chip">24 entries total</span>
         </div>
-        <div class="header-meta">
-          <div class="logo" role="img" aria-label="anxidev">
-            <span class="logo-letter">a</span>
-            <span class="logo-letter">n</span>
-            <span class="logo-letter">x</span>
-            <span class="logo-letter">i</span>
-            <span class="logo-letter">d</span>
-            <span class="logo-letter">e</span>
-            <span class="logo-letter">v</span>
-          </div>
-          <span class="header-sub">personal site · projects · blog</span>
-        </div>
-      </header>
 
-      <main class="layout">
+        <div class="box-content">
+          <p>
+            Field notes, project writeups, interface obsessions, and the occasional argument in defense of
+            obsolete web features. Posts are sorted like a notebook, not a content funnel.
+          </p>
 
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Navigation</div>
-            <nav aria-label="Main navigation">
-              <a class="nav-link" href="index.html">Home</a>
-              <a class="nav-link active" aria-current="page" href="blog.html">Blog</a>
-              <a class="nav-link" href="portfolio.html">Projects</a>
-              <a class="nav-link" href="#">About</a>
-            </nav>
-          </div>
-        </div>
-
-        <div class="col">
-          <div class="box">
-            <div class="box-title">/blog</div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">How I structure frontend projects</a></div>
-              <div class="post-date">Apr 10, 2026</div>
-              <div class="post-excerpt">
-                A practical approach to folder layout, naming conventions, and maintainable UI architecture.
-              </div>
+          <div class="subsection-block">
+            <span class="subsection-title">Archive map</span>
+            <div class="subsection-list">
+              <span>2026 · 7 posts</span>
+              <span>2025 · 11 posts</span>
+              <span>2024 · 4 posts</span>
+              <span>2023 · 2 posts</span>
             </div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">Lessons from shipping my side project</a></div>
-              <div class="post-date">Mar 22, 2026</div>
-              <div class="post-excerpt">
-                Key takeaways from building, launching, and improving a personal product end to end.
-              </div>
-            </div>
-            <div class="post-item">
-              <div><a class="post-link" href="#">Clean APIs for solo developers</a></div>
-              <div class="post-date">Feb 14, 2026</div>
-              <div class="post-excerpt">
-                Simple patterns to design APIs that are easy to extend and debug over time.
-              </div>
-            </div>
           </div>
         </div>
+      </section>
 
-        <div class="col">
-          <div class="box">
-            <div class="box-title">Stars</div>
-            <a class="star-link" href="#">GitHub</a>
-            <a class="star-link" href="#">Twitter / X</a>
-            <a class="star-link" href="#">RSS</a>
-          </div>
+      <section class="box marquee-box" aria-label="Blog ticker">
+        <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
+          plain text first, polish later · no "read time" badges · notes over strategy · archive is alive ·
+        </marquee>
+      </section>
+
+      <section class="box">
+        <div class="box-heading">
+          <h2 class="box-title">Recent entries</h2>
+          <span class="box-chip">latest notes</span>
         </div>
 
-      </main>
+        <div class="entry-list">
+          <article class="entry-item">
+            <div class="entry-top">
+              <a class="entry-title" href="#reading-desk">on keeping a pocket notebook when you already have a phone</a>
+              <span class="entry-state is-live">Apr 12, 2026</span>
+            </div>
+            <p class="entry-summary">A defense of low-bandwidth memory and the dignity of losing a note once in a while.</p>
+          </article>
 
-      <footer class="site-footer">
-        <p>&copy; <span id="year"></span> anxidev</p>
-      </footer>
+          <article class="entry-item">
+            <div class="entry-top">
+              <a class="entry-title" href="#reading-desk">i rewrote my RSS reader in 180 lines and i feel better now</a>
+              <span class="entry-state is-live">Mar 28, 2026</span>
+            </div>
+            <p class="entry-summary">SQLite, one goroutine, no categories, no cloud sync, much less psychic noise.</p>
+          </article>
+
+          <article class="entry-item">
+            <div class="entry-top">
+              <a class="entry-title" href="#reading-desk">CRTs, grain, and the quiet violence of perfect pixels</a>
+              <span class="entry-state is-live">Feb 14, 2026</span>
+            </div>
+            <p class="entry-summary">What happens when interfaces erase every trace of warmth, error, and age.</p>
+          </article>
+
+          <article class="entry-item">
+            <div class="entry-top">
+              <a class="entry-title" href="#reading-desk">a defense of the guestbook, at length</a>
+              <span class="entry-state is-live">Jan 02, 2026</span>
+            </div>
+            <p class="entry-summary">Guestbooks are postcards. Comments are conversations. They should not be forced into one box.</p>
+          </article>
+
+          <article class="entry-item">
+            <div class="entry-top">
+              <a class="entry-title" href="#reading-desk">everything i learned from running a tiny forum for four years</a>
+              <span class="entry-state is-notes">Dec 19, 2025</span>
+            </div>
+            <p class="entry-summary">The moderator's knife, the lurker majority, and why small rooms produce better conversations.</p>
+          </article>
+        </div>
+      </section>
+
+      <div class="portal-split">
+        <section class="box" id="draft-board">
+          <div class="box-heading">
+            <h2 class="box-title">Draft board</h2>
+            <span class="box-chip">still cooking</span>
+          </div>
+
+          <ul class="note-list">
+            <li><strong>ambient software</strong> - why more apps should feel like a lamp instead of a workplace.</li>
+            <li><strong>plain text rituals</strong> - the point of delaying formatting on purpose.</li>
+            <li><strong>orange UI</strong> - why warmth reads as inhabited when blue often reads as sterile.</li>
+          </ul>
+        </section>
+
+        <section class="box" id="life-tracker">
+          <div class="box-heading">
+            <h2 class="box-title">Life tracker</h2>
+            <span class="box-chip">current stack</span>
+          </div>
+
+          <div class="subsection-block">
+            <span class="subsection-title">Reading</span>
+            <div class="subsection-list">
+              <span>The Glass Bead Game</span>
+              <span>A Pattern Language</span>
+            </div>
+          </div>
+
+          <div class="subsection-block">
+            <span class="subsection-title">Habits</span>
+            <div class="subsection-list">
+              <span>morning walk most days</span>
+              <span>tea instead of doomscrolling when possible</span>
+              <span>one small note before bed</span>
+            </div>
+          </div>
+
+          <div class="subsection-block">
+            <span class="subsection-title">On the desk</span>
+            <div class="subsection-list">
+              <span>hojicha, fourth pot</span>
+              <span>rewriting one section per night</span>
+              <span>leaving enough room for roughness</span>
+            </div>
+          </div>
+        </section>
+      </div></div>
+    <aside class="col col-side" data-shell="sidebar"><section class="box menu-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Stars</h2>
+      <span class="box-chip">navigation</span>
     </div>
 
-    <script src="assets/js/main.js"></script>
-  </body>
+      <nav aria-label="Primary navigation"><a class="navlink" href="index.html">Home</a><a class="navlink active" aria-current="page" href="blog.html#reading-desk">Logbook</a><a class="navlink" href="portfolio.html#project-shelf">Projects</a><a class="navlink" href="index.html#welcome">About Jose</a><a class="navlink" href="index.html#site-signals">Site signals</a><a class="navlink" href="index.html#site-button">Site button</a></nav>
+    </section>
+
+    <section class="box online-box">
+      <span class="presence-kicker">Jose is</span>
+      <h2 class="presence-title">Online!</h2>
+      <p class="presence-detail">draft shelves open / notes over polish</p>
+      <div class="status-callout">
+        <span>local time</span>
+        <strong id="local-time">--:--:--</strong>
+      </div>
+    </section>
+
+    <section class="box now-box">
+      <span class="side-kicker">Last loop</span>
+      <a class="now-link" href="blog.html#draft-board">
+        <span id="status-rotator">keeping the writing shelf honest: drafts first, polish later</span>
+      </a>
+    </section>
+
+    <section class="box music-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Now playing</h2>
+      <span class="box-chip">multi-scrobbler</span>
+    </div>
+
+      <ul class="shell-list">
+        <li class="shell-item">
+          <a class="shell-link" id="music-track-link" href="#">
+            <span class="shell-item-title" id="music-track-title">checking multi-scrobbler...</span>
+            <span class="shell-item-meta" id="music-track-meta">waiting for local now-playing data</span>
+          </a>
+        </li>
+      </ul>
+      <p class="shell-note">Reads now-playing from multi-scrobbler on this server node.</p>
+    </section>
+
+    <section class="box status-box">
+      <span class="status-heading">✧ Current mood</span>
+      <div class="status-card">
+        <div class="status-avatar" aria-hidden="true">A</div>
+        <div>
+          <p class="status-meta">
+            <strong>Jose</strong>
+            <span>• today</span>
+          </p>
+          <p class="status-message">The blog is where I keep track of what I am reading, how I am living, and what I am trying to understand about the world around me.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="box findme-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Find me</h2>
+      <span class="box-chip">paths out</span>
+    </div>
+
+      <ul class="shell-list">
+          <li class="shell-item">
+            <a class="shell-link" href="https://github.com/JoseStud" target="_blank" rel="noreferrer">
+              <span class="shell-item-title">GitHub</span><span class="shell-item-meta">@JoseStud</span>
+            </a>
+          </li>
+
+          <li class="shell-item">
+            <a class="shell-link" href="index.html#welcome">
+              <span class="shell-item-title">Home room</span><span class="shell-item-meta">rain, notes, and the main intro</span>
+            </a>
+          </li>
+
+          <li class="shell-item">
+            <a class="shell-link" href="blog.html#reading-desk">
+              <span class="shell-item-title">Logbook</span><span class="shell-item-meta">books, trackers, and social thought</span>
+            </a>
+          </li>
+
+          <li class="shell-item">
+            <a class="shell-link" href="portfolio.html#project-shelf">
+              <span class="shell-item-title">Workbench</span><span class="shell-item-meta">repos, experiments, and project notes</span>
+            </a>
+          </li>
+        </ul>
+      <p class="shell-note">Most roads still lead back to GitHub or this site.</p>
+    </section>
+
+    <section class="box interests-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Writing threads</h2>
+      <span class="box-chip">current pile</span>
+    </div>
+
+      <ul class="shell-list">
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Books I am reading</span><span class="shell-item-meta">annotations, reactions, and the books changing the weather in my head</span>
+          </div>
+        </li>
+
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Life tracker</span><span class="shell-item-meta">habits, body maintenance, and tiny systems that keep me honest</span>
+          </div>
+        </li>
+
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Social thought</span><span class="shell-item-meta">quiet notes about politics, people, and the shape of shared life</span>
+          </div>
+        </li>
+
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Documentation notes</span><span class="shell-item-meta">because references deserve a little affection too</span>
+          </div>
+        </li>
+      </ul>
+
+    </section>
+
+    <section class="box extras-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Extras</h2>
+      <span class="box-chip">room tone</span>
+    </div>
+
+      <ul class="shell-list">
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Shelf state</span><span class="shell-item-meta">drafts, notes, and loose threads welcome</span>
+          </div>
+        </li>
+
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Location signal</span><span class="shell-item-meta">still somewhere in Colombia</span>
+          </div>
+        </li>
+
+        <li class="shell-item">
+          <div class="shell-copy">
+            <span class="shell-item-title">Guestbook</span><span class="shell-item-meta">reserved space, not wired yet</span>
+          </div>
+        </li>
+      </ul>
+      <p class="shell-note">This room stays closer to notebooks than publication pipelines.</p>
+    </section>
+
+    <section class="box counter-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Visitors</h2>
+      <span class="box-chip">shared counter</span>
+    </div>
+
+      <div class="counter" id="counter" aria-label="Visitor counter">
+        <span data-counter-cell>0</span><span data-counter-cell>0</span><span data-counter-cell>4</span><span data-counter-cell>7</span><span data-counter-cell>2</span><span data-counter-cell>8</span><span data-counter-cell>1</span>
+      </div>
+      <p class="counter-label">archive readers still arriving</p>
+    </section>
+
+    <section class="box buttons-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Buttons</h2>
+      <span class="box-chip">shared wall</span>
+    </div>
+
+      <div class="button-grid">
+
+    <a class="button-badge button-badge-teal" href="https://github.com/JoseStud" target="_blank" rel="noreferrer">
+      <span>JOSE</span>
+      <span>STUD</span>
+    </a>
+
+    <a class="button-badge button-badge-gold" href="index.html">
+      <span>ANXI</span>
+      <span>DEV</span>
+    </a>
+
+    <a class="button-badge button-badge-lime" href="blog.html#reading-desk">
+      <span>READ</span>
+      <span>LOG</span>
+    </a>
+
+    <a class="button-badge button-badge-pink" href="portfolio.html#project-shelf">
+      <span>WORK</span>
+      <span>SHELF</span>
+    </a>
+
+    <a class="button-badge button-badge-violet" href="index.html#current-obsessions">
+      <span>MAPS</span>
+      <span>RAIN</span>
+    </a>
+
+    <a class="button-badge button-badge-orange" href="blog.html#life-tracker">
+      <span>BODY</span>
+      <span>OK</span>
+    </a>
+
+      </div>
+    </section>
+
+    <section class="box buttoncode-box" id="site-button">
+
+    <div class="box-heading">
+      <h2 class="box-title">Site button</h2>
+      <span class="box-chip">88x31 ready</span>
+    </div>
+
+      <div class="button-preview">
+        <span class="button-badge button-badge-teal">
+          <span>ANXI</span>
+          <span>JOSE</span>
+        </span>
+      </div>
+      <textarea class="button-snippet" readonly>&lt;a href=&quot;https://anxidev.dev/&quot;&gt;&lt;img src=&quot;https://anxidev.dev/assets/images/button-anxidev.svg&quot; alt=&quot;anxidev&quot;&gt;&lt;/a&gt;</textarea>
+      <p class="button-note">Swap the URL once the live domain settles.</p>
+    </section>
+
+    <section class="box controls-box">
+
+    <div class="box-heading">
+      <h2 class="box-title">Controls</h2>
+      <span class="box-chip">local only</span>
+    </div>
+
+      <label class="control-row" for="sidebar-rain-toggle">
+        <input type="checkbox" id="sidebar-rain-toggle" checked>
+        <span>Enable rain overlay</span>
+      </label>
+      <p class="shell-note">Rain preference is stored in this browser only.</p>
+      <p class="shell-note control-row-disabled">Theme follows your system until you toggle LIGHT, then that choice sticks in this browser.</p>
+    </section></aside>
+  </main>
+
+  <footer class="site-footer" data-shell="footer"><p>(c) 2024-<span data-year></span> anxidev // draft shelf still glowing</p></footer>
+</div>
+
+<div data-shell="tweaks"><button class="tweaks-btn" id="tweaksBtn" type="button">tweaks</button>
+    <div class="tweaks-panel" id="tweaksPanel" role="dialog" aria-label="Tweaks">
+      <div class="hd">
+        <span>TWEAKS</span>
+        <button class="tw-close" id="tweaksClose" type="button" aria-label="Close tweaks">x</button>
+      </div>
+      <div class="bd">
+        <div class="tw-row">
+          <span id="segThemeLabel">theme</span>
+          <div class="seg" id="segTheme" role="group" aria-labelledby="segThemeLabel">
+            <button type="button" data-val="dark" aria-pressed="false">DARK</button>
+            <button type="button" data-val="light" aria-pressed="false">LIGHT</button>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
 </html>

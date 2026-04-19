@@ -1,0 +1,83 @@
+@media (max-width: 920px) {
+  body {
+    background-attachment: scroll, scroll, scroll, scroll;
+  }
+
+  .page {
+    width: min(100%, calc(100% - 0.75rem));
+  }
+
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .portal-split,
+  .portal-split-signals {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  body {
+    font-size: 12px;
+  }
+
+  .site-header {
+    padding-bottom: 0.45rem;
+  }
+
+  .site-header::before {
+    height: 56px;
+    margin-bottom: -0.4rem;
+    opacity: 0.24;
+  }
+
+  .header-led {
+    font-size: 10px;
+  }
+
+  .header-sub {
+    font-size: 11px;
+  }
+
+  .logo-letter {
+    font-size: 1.7rem;
+  }
+
+  .intro-grid,
+  .tile-layout,
+  .terminal-grid,
+  .portal-split,
+  .portal-split-signals {
+    grid-template-columns: 1fr;
+  }
+
+  .avatar-stack {
+    width: 100px;
+    margin: 0 auto;
+  }
+
+  .room-image {
+    width: 100%;
+    height: auto;
+  }
+
+  .button-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .button-badge {
+    width: 100%;
+  }
+
+  .entry-top,
+  .project-top,
+  .project-links {
+    gap: 0.4rem;
+  }
+
+  .utility-toggles {
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}
