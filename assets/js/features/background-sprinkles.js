@@ -262,6 +262,95 @@ function createCloudPlacement(zone, viewportWidth) {
   };
 }
 
+function getMotionBudget(viewportWidth) {
+  const hardwareThreads = navigator.hardwareConcurrency || 0;
+  const deviceMemory = typeof navigator.deviceMemory === "number" ? navigator.deviceMemory : 0;
+  const saveDataEnabled = Boolean(navigator.connection && navigator.connection.saveData);
+  const prefersReducedMotion =
+    typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (prefersReducedMotion || saveDataEnabled) {
+    return "minimal";
+  }
+
+  if ((hardwareThreads > 0 && hardwareThreads <= 4) || (deviceMemory > 0 && deviceMemory <= 4)) {
+    return viewportWidth >= 1000 ? "balanced" : "minimal";
+  }
+
+  return "full";
+}
+
+function getPlacementCount(type, viewportWidth, motionBudget) {
+  if (type === "cloud") {
+    if (motionBudget === "minimal") {
+      return viewportWidth >= 1000 ? 2 : 1;
+    }
+
+    if (motionBudget === "balanced") {
+      return viewportWidth >= 820 ? 3 : 2;
+    }
+
+    return viewportWidth >= 1200 ? 4 : viewportWidth >= 820 ? 3 : 2;
+  }
+
+  if (type === "icon") {
+    if (motionBudget === "minimal") {
+      return viewportWidth >= 1000 ? 3 : viewportWidth >= 720 ? 2 : 1;
+    }
+
+    if (motionBudget === "balanced") {
+      return viewportWidth >= 1320 ? 5 : viewportWidth >= 1000 ? 4 : viewportWidth >= 720 ? 3 : 1;
+    }
+
+    return viewportWidth >= 1320 ? 6 : viewportWidth >= 1000 ? 5 : viewportWidth >= 720 ? 4 : 2;
+  }
+
+  if (motionBudget === "minimal") {
+    return viewportWidth >= 1320 ? 4 : viewportWidth >= 1000 ? 3 : viewportWidth >= 720 ? 2 : 0;
+  }
+
+  if (motionBudget === "balanced") {
+    return viewportWidth >= 1320 ? 8 : viewportWidth >= 1000 ? 6 : viewportWidth >= 720 ? 4 : 2;
+  }
+
+  return viewportWidth >= 1320 ? 12 : viewportWidth >= 1000 ? 10 : viewportWidth >= 720 ? 6 : 3;
+}
+
+function shouldAnimatePlacement(type, index, motionBudget) {
+  if (motionBudget === "minimal") {
+    return type === "cloud" && index === 0;
+  }
+
+  if (motionBudget === "balanced") {
+    if (type === "cloud") {
+      return index < 2;
+    }
+
+    if (type === "icon") {
+      return index % 3 === 0;
+    }
+
+    return index % 6 === 0;
+  }
+
+  if (type === "cloud") {
+    return true;
+  }
+
+  if (type === "icon") {
+    return index % 2 === 0;
+  }
+
+  return index % 4 === 0;
+}
+
+function applyMotionBudget(type, placements, motionBudget) {
+  return placements.map((placement, index) => ({
+    ...placement,
+    animate: shouldAnimatePlacement(type, index, motionBudget),
+  }));
+}
+
 function createSprinkleElement(placement) {
   const element = document.createElement("span");
   element.className = `bg-sprinkle bg-sprinkle--${placement.type}`;
@@ -269,6 +358,10 @@ function createSprinkleElement(placement) {
   element.style.top = `${placement.y}px`;
   element.style.setProperty("--sprinkle-opacity", placement.opacity.toFixed(3));
   element.style.setProperty("--sprinkle-delay", `${placement.delay.toFixed(2)}s`);
+
+  if (!placement.animate) {
+    element.style.animation = "none";
+  }
 
   if (placement.type === "icon") {
     element.style.width = `${placement.width}px`;
@@ -312,10 +405,8 @@ function createSceneLayer(className) {
 
 function buildCloudPlacements(zones, viewportWidth) {
   const placements = [];
-  const cloudCount =
-    viewportWidth >= 1200 ? 5 :
-    viewportWidth >= 820 ? 4 :
-    3;
+  const motionBudget = getMotionBudget(viewportWidth);
+  const cloudCount = getPlacementCount("cloud", viewportWidth, motionBudget);
 
   for (let index = 0; index < cloudCount; index += 1) {
     let placement = null;
@@ -334,7 +425,7 @@ function buildCloudPlacements(zones, viewportWidth) {
     }
   }
 
-  return placements;
+  return applyMotionBudget("cloud", placements, motionBudget);
 }
 
 function buildIconPlacements(zones, sideWidths, viewportWidth) {
@@ -344,11 +435,8 @@ function buildIconPlacements(zones, sideWidths, viewportWidth) {
     return placements;
   }
 
-  const iconCount =
-    viewportWidth >= 1320 ? 10 :
-    viewportWidth >= 1000 ? 8 :
-    viewportWidth >= 720 ? 5 :
-    2;
+  const motionBudget = getMotionBudget(viewportWidth);
+  const iconCount = getPlacementCount("icon", viewportWidth, motionBudget);
   const iconPool = [];
   let iconDeck = shuffle(ICONS);
 
@@ -377,7 +465,7 @@ function buildIconPlacements(zones, sideWidths, viewportWidth) {
     }
   });
 
-  return placements;
+  return applyMotionBudget("icon", placements, motionBudget);
 }
 
 function buildStarPlacements(zones, sideWidths, viewportWidth, existingPlacements) {
@@ -387,11 +475,8 @@ function buildStarPlacements(zones, sideWidths, viewportWidth, existingPlacement
     return placements;
   }
 
-  const starCount =
-    viewportWidth >= 1320 ? 28 :
-    viewportWidth >= 1000 ? 20 :
-    viewportWidth >= 720 ? 12 :
-    6;
+  const motionBudget = getMotionBudget(viewportWidth);
+  const starCount = getPlacementCount("star", viewportWidth, motionBudget);
   const occupied = [...existingPlacements];
 
   for (let index = 0; index < starCount; index += 1) {
@@ -412,7 +497,7 @@ function buildStarPlacements(zones, sideWidths, viewportWidth, existingPlacement
     }
   }
 
-  return placements;
+  return applyMotionBudget("star", placements, motionBudget);
 }
 
 export function initBackgroundSprinkles() {

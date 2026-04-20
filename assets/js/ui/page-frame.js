@@ -16,6 +16,55 @@ function buildPageFrame() {
       { className: "bg-photo", attrs: { "aria-hidden": "true" } },
       createElement(
         "div",
+        { className: "bg-photo-backdrop", attrs: { "aria-hidden": "true" } },
+        createElement("img", {
+          className: "bg-photo-backdrop__motif bg-photo-backdrop__motif--saturn",
+          attrs: {
+            src: "assets/images/background-icons/motif-saturn.svg",
+            alt: "",
+            loading: "eager",
+            decoding: "async",
+          },
+        }),
+        createElement("img", {
+          className: "bg-photo-backdrop__motif bg-photo-backdrop__motif--vase-table",
+          attrs: {
+            src: "assets/images/background-icons/motif-vase-table.svg",
+            alt: "",
+            loading: "eager",
+            decoding: "async",
+          },
+        }),
+        createElement("img", {
+          className: "bg-photo-backdrop__motif bg-photo-backdrop__motif--chaise",
+          attrs: {
+            src: "assets/images/background-icons/motif-chaise.svg",
+            alt: "",
+            loading: "eager",
+            decoding: "async",
+          },
+        }),
+        createElement("img", {
+          className: "bg-photo-backdrop__motif bg-photo-backdrop__motif--rocket",
+          attrs: {
+            src: "assets/images/background-icons/motif-rocket.svg",
+            alt: "",
+            loading: "eager",
+            decoding: "async",
+          },
+        }),
+        createElement("img", {
+          className: "bg-photo-backdrop__motif bg-photo-backdrop__motif--stool",
+          attrs: {
+            src: "assets/images/background-icons/motif-stool.svg",
+            alt: "",
+            loading: "eager",
+            decoding: "async",
+          },
+        }),
+      ),
+      createElement(
+        "div",
         { className: "bg-sunrise", attrs: { "aria-hidden": "true" } },
         createElement("span", { className: "bg-sunrise-band bg-sunrise-band--horizon" }),
         createElement("span", { className: "bg-sunrise-band bg-sunrise-band--wash" }),

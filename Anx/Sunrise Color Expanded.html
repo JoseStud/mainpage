@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunrise Expanded — B & E — anxidev</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>* { box-sizing: border-box; margin: 0; padding: 0; } body { background: #f0eee9; }</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+
+// ─────────────────────────────────────────────────────────────
+// EXPANDED PALETTE SYSTEM — B (Ember Ash) + E (Marigold Night)
+// Full arc: violet night → warm band → light blue sky
+// ─────────────────────────────────────────────────────────────
+
+const VARIANTS = [
+  // ── B variants ──────────────────────────────────────────────
+  {
+    id: 'B1', family: 'B', name: 'Ember Ash — Classic',
+    desc: 'Deep amber at the band, sky opens to clear morning blue.',
+    bg: '#6c0eff', bg2: '#110822',
+    panel: 'rgba(16,6,32,0.86)', panelEdge: '#7c3a5e',
+    text: '#f5dcc8', textStrong: '#fff0e0', muted: '#b07c96',
+    accent: '#f9a336', accentHi: '#ffd9a0',
+    line: 'rgba(140,70,100,0.38)', moon: '#e8644a', ok: '#55e87a',
+    sky: '#a8d4f0', skyMid: '#c8e8ff', skyLight: '#e8f4ff',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #250460 22%, #110822 36%, #5c1230 50%, #a33820 62%, #f9a336 74%, #ffd9a0 82%, #c8e8ff 92%, #a8d4f0 100%)',
+    swatches: ['#6c0eff','#110822','#f9a336','#e8644a','#a8d4f0','#c8e8ff'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+  {
+    id: 'B2', family: 'B', name: 'Ember Ash — Wide Band',
+    desc: 'Wider amber spread, longer golden hour before sky opens.',
+    bg: '#6c0eff', bg2: '#0e0620',
+    panel: 'rgba(14,6,30,0.88)', panelEdge: '#6e3258',
+    text: '#f8e0cc', textStrong: '#fff4ec', muted: '#a87090',
+    accent: '#f08020', accentHi: '#ffcc88',
+    line: 'rgba(120,60,90,0.4)', moon: '#e05030', ok: '#50e878',
+    sky: '#90c8ec', skyMid: '#b8e0f8', skyLight: '#dff0ff',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #200444 18%, #0e0620 30%, #50101e 42%, #8c2c14 52%, #d07020 60%, #f08020 68%, #ffcc88 76%, #ffe0b0 83%, #b8e0f8 92%, #90c8ec 100%)',
+    swatches: ['#6c0eff','#0e0620','#f08020','#e05030','#90c8ec','#b8e0f8'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+  {
+    id: 'B3', family: 'B', name: 'Ember Ash — Steel Dawn',
+    desc: 'Cooler amber, steel-blue sky. More overcast morning feeling.',
+    bg: '#6c0eff', bg2: '#12081e',
+    panel: 'rgba(18,8,30,0.84)', panelEdge: '#604472',
+    text: '#e8d4e0', textStrong: '#f8ecf4', muted: '#9878a8',
+    accent: '#d4882a', accentHi: '#f0c080',
+    line: 'rgba(110,60,110,0.38)', moon: '#c85840', ok: '#58e888',
+    sky: '#8ab4d8', skyMid: '#aaccec', skyLight: '#cce4f4',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #240450 20%, #12081e 34%, #4a1040 48%, #882818 60%, #d4882a 72%, #f0c080 80%, #cce4f4 90%, #8ab4d8 100%)',
+    swatches: ['#6c0eff','#12081e','#d4882a','#c85840','#8ab4d8','#aaccec'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+
+  // ── E variants ──────────────────────────────────────────────
+  {
+    id: 'E1', family: 'E', name: 'Marigold Night — Classic',
+    desc: 'Existing system extended to blue sky. Softest transition.',
+    bg: '#6c0eff', bg2: '#100418',
+    panel: 'rgba(16,4,24,0.84)', panelEdge: '#6b4259',
+    text: '#edd7d0', textStrong: '#fff2ea', muted: '#c2989f',
+    accent: '#f9a36b', accentHi: '#ffd1b1',
+    line: 'rgba(122,82,100,0.52)', moon: '#ea755b', ok: '#62ff75',
+    sky: '#b0d8f4', skyMid: '#cce8ff', skyLight: '#e8f4ff',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #1e0440 22%, #100418 36%, #4a0e38 50%, #8a3020 62%, #f9a36b 74%, #ffd1b1 82%, #cce8ff 91%, #b0d8f4 100%)',
+    swatches: ['#6c0eff','#100418','#f9a36b','#ea755b','#b0d8f4','#cce8ff'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+  {
+    id: 'E2', family: 'E', name: 'Marigold Night — Peach Bloom',
+    desc: 'Peachier warm band, sky shifts slightly warmer blue.',
+    bg: '#6c0eff', bg2: '#120310',
+    panel: 'rgba(18,3,16,0.86)', panelEdge: '#784060',
+    text: '#f2d8cc', textStrong: '#fff4ec', muted: '#c49098',
+    accent: '#fcb060', accentHi: '#ffd8b0',
+    line: 'rgba(130,78,108,0.5)', moon: '#ee7860', ok: '#60ff80',
+    sky: '#b8d4f0', skyMid: '#d0e8f8', skyLight: '#eaf4ff',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #1c0338 20%, #120310 34%, #4e1236 48%, #903828 60%, #fcb060 72%, #ffd8b0 80%, #ffe8d0 86%, #d0e8f8 93%, #b8d4f0 100%)',
+    swatches: ['#6c0eff','#120310','#fcb060','#ee7860','#b8d4f0','#d0e8f8'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+  {
+    id: 'E3', family: 'E', name: 'Marigold Night — Haze',
+    desc: 'Warm mist softens the transition. Diffuse, layered horizon.',
+    bg: '#6c0eff', bg2: '#0e0416',
+    panel: 'rgba(14,4,22,0.80)', panelEdge: '#5e3c54',
+    text: '#f0d8d0', textStrong: '#fff0e8', muted: '#b89098',
+    accent: '#f0a060', accentHi: '#ffd0a8',
+    line: 'rgba(110,72,94,0.44)', moon: '#e06c50', ok: '#58ff72',
+    sky: '#a8d0ee', skyMid: '#c4e0f4', skyLight: '#e2f0fc',
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #1a0438 18%, #0e0416 30%, #480e34 44%, #843018 56%, #c87840 66%, #f0a060 73%, #ffd0a8 80%, #ffe4c8 86%, #e2c8b0 89%, #c4e0f4 94%, #a8d0ee 100%)',
+    swatches: ['#6c0eff','#0e0416','#f0a060','#e06c50','#a8d0ee','#c4e0f4'],
+    swatchLabels: ['night bg','deep bg','accent','moon','sky','sky-hi'],
+  },
+];
+
+// ─────────────────────────────
+// Horizon — taller, with sky cap
+// ─────────────────────────────
+function HorizonFull({ p, width = 340, height = 160 }) {
+  return (
+    <div style={{ width, height, borderRadius: 6, overflow: 'hidden', position: 'relative', boxShadow: '0 2px 16px rgba(0,0,0,0.3)', flexShrink: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, background: p.horizon }} />
+      {/* sun */}
+      <div style={{
+        position: 'absolute', bottom: 28, left: '50%',
+        transform: 'translateX(-50%)',
+        width: 22, height: 22, borderRadius: '50%',
+        background: p.accentHi,
+        boxShadow: `0 0 24px 8px ${p.accent}aa, 0 0 60px 20px ${p.accent}44`,
+      }} />
+      {/* horizon line */}
+      <div style={{ position: 'absolute', bottom: 38, left: 0, right: 0, height: 1, background: `${p.accentHi}55` }} />
+      {/* sky label */}
+      <div style={{
+        position: 'absolute', top: 8, right: 10,
+        fontFamily: "'IBM Plex Mono', monospace", fontSize: 9,
+        color: p.sky, opacity: 0.8, letterSpacing: 1,
+      }}>sky → {p.sky}</div>
+      {/* night label */}
+      <div style={{
+        position: 'absolute', top: 8, left: 10,
+        fontFamily: "'IBM Plex Mono', monospace", fontSize: 9,
+        color: p.accentHi, opacity: 0.8, letterSpacing: 1,
+      }}>{p.bg}</div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Expanded site mockup
+// ─────────────────────────────
+function SiteMockup({ p }) {
+  return (
+    <div style={{
+      width: 260, background: p.panel, borderRadius: 8,
+      border: `1px solid ${p.panelEdge}`,
+      fontFamily: "'IBM Plex Mono', monospace",
+      boxShadow: `0 0 28px rgba(108,14,255,0.25), 0 4px 20px rgba(0,0,0,0.4)`,
+      overflow: 'hidden', flexShrink: 0,
+    }}>
+      {/* top bar */}
+      <div style={{ background: 'rgba(0,0,0,0.35)', padding: '7px 12px', borderBottom: `1px solid ${p.line}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 10, color: p.accentHi, letterSpacing: -0.2 }}>anxidev</span>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <span style={{ fontSize: 8, color: p.muted }}>home</span>
+          <span style={{ fontSize: 8, color: p.muted }}>logbook</span>
+          <span style={{ fontSize: 8, color: p.muted }}>projects</span>
+        </div>
+      </div>
+      {/* hero */}
+      <div style={{ padding: '14px 12px', borderBottom: `1px solid ${p.line}` }}>
+        <div style={{ fontSize: 8, color: p.muted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>welcome</div>
+        <div style={{ fontSize: 14, color: p.textStrong, marginBottom: 6, letterSpacing: -0.3 }}>Welcome to anxidev.dev</div>
+        <div style={{ fontSize: 8, color: p.text, lineHeight: 1.7 }}>
+          Hand-built corner of the web for notes, projects, experiments, and whatever survives the late shift.
+        </div>
+        <div style={{ marginTop: 8, display: 'flex', gap: 5 }}>
+          <span style={{ fontSize: 8, padding: '2px 6px', border: `1px solid ${p.line}`, color: p.accent, borderRadius: 2 }}>small web home</span>
+        </div>
+      </div>
+      {/* logbook */}
+      <div style={{ padding: '10px 12px', borderBottom: `1px solid ${p.line}` }}>
+        <div style={{ fontSize: 8, color: p.muted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 6 }}>from the logbook</div>
+        {['on keeping a pocket notebook', 'i rewrote my RSS reader in 180 lines', 'CRTs, grain, and perfect pixels'].map((t, i) => (
+          <div key={i} style={{ fontSize: 8, color: p.accent, marginBottom: 4, display: 'flex', gap: 6 }}>
+            <span style={{ color: p.muted }}>—</span>
+            <span>{t}</span>
+          </div>
+        ))}
+      </div>
+      {/* status */}
+      <div style={{ padding: '8px 12px', display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 8, color: p.ok }}>[ OK ] mainpage</span>
+        <span style={{ fontSize: 8, color: p.moon }}>[ WARM ] kettle</span>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Swatch row
+// ─────────────────────────────
+function Swatches({ p, wide = false }) {
+  return (
+    <div style={{ width: wide ? '100%' : 340 }}>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+        {p.swatches.map((c, i) => (
+          <div key={i} style={{ flex: 1 }}>
+            <div style={{
+              height: 30, borderRadius: 3, background: c,
+              border: '1px solid rgba(0,0,0,0.12)',
+              boxShadow: i === 0 ? `0 0 10px ${c}88` : 'none',
+            }} />
+            <div style={{ fontSize: 8, fontFamily: "'IBM Plex Mono',monospace", color: 'rgba(60,40,20,0.5)', textAlign: 'center', marginTop: 3 }}>{c}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: 4 }}>
+        {p.swatchLabels.map((l, i) => (
+          <div key={i} style={{ flex: 1, fontSize: 8, fontFamily: "'Caveat',cursive", color: 'rgba(60,40,20,0.55)', textAlign: 'center' }}>{l}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Token snippet
+// ─────────────────────────────
+function TokenSnippet({ p }) {
+  const rows = [
+    ['--bg', p.bg],
+    ['--bg-2', p.bg2],
+    ['--accent', p.accent],
+    ['--accent-highlight', p.accentHi],
+    ['--moon', p.moon],
+    ['--text', p.text],
+    ['--panel-edge', p.panelEdge],
+    ['--sunrise-sky', p.sky],
+    ['--sunrise-sky-hi', p.skyLight],
+  ];
+  return (
+    <div style={{
+      background: '#0e0a08', borderRadius: 6, padding: '12px 14px',
+      fontFamily: "'IBM Plex Mono', monospace", fontSize: 9,
+      lineHeight: 2, minWidth: 240, flexShrink: 0,
+    }}>
+      <div style={{ color: '#666', marginBottom: 6, fontSize: 8, letterSpacing: 1 }}>/* tokens.css delta */</div>
+      {rows.map(([k, v]) => (
+        <div key={k} style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <div style={{ width: 8, height: 8, borderRadius: 1, background: v, border: '1px solid rgba(255,255,255,0.15)', flexShrink: 0 }} />
+          <span style={{ color: '#7c9e6c' }}>{k}</span>
+          <span style={{ color: '#888' }}>:</span>
+          <span style={{ color: '#c8a060' }}>{v}</span>
+          <span style={{ color: '#555' }}>;</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Full variant artboard
+// ─────────────────────────────
+function VariantBoard({ p }) {
+  return (
+    <DCArtboard label={`${p.id} — ${p.name}`} width={700} style={{ background: '#f8f5f0', padding: 22 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <div style={{ fontFamily: "'Caveat',cursive", fontSize: 24, fontWeight: 600, color: '#2a1a10' }}>{p.name}</div>
+            <div style={{ fontFamily: "'Caveat',cursive", fontSize: 14, color: 'rgba(60,40,20,0.6)', marginTop: 2 }}>{p.desc}</div>
+          </div>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+            <div style={{ width: 20, height: 20, borderRadius: 3, background: p.bg, boxShadow: `0 0 8px ${p.bg}` }} />
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: 'rgba(60,40,20,0.5)' }}>→</span>
+            <div style={{ width: 20, height: 20, borderRadius: 3, background: p.accent }} />
+            <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: 'rgba(60,40,20,0.5)' }}>→</span>
+            <div style={{ width: 20, height: 20, borderRadius: 3, background: p.sky }} />
+          </div>
+        </div>
+
+        {/* horizon + mockup row */}
+        <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+          <HorizonFull p={p} width={340} height={160} />
+          <SiteMockup p={p} />
+        </div>
+
+        {/* swatches */}
+        <Swatches p={p} wide />
+
+        {/* token snippet */}
+        <TokenSnippet p={p} />
+      </div>
+    </DCArtboard>
+  );
+}
+
+// ─────────────────────────────
+// Sky colour swatch comparison
+// ─────────────────────────────
+function SkyRow() {
+  return (
+    <DCSection title="Sky colour comparison" subtitle="How the blue sky cap reads against each warm band — the final 15% of the gradient">
+      {VARIANTS.map(p => (
+        <DCArtboard key={p.id} label={p.id} width={160} style={{ background: '#f8f5f0', padding: 12 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {/* sky swatch */}
+            <div style={{ height: 50, borderRadius: 4, background: `linear-gradient(to bottom, ${p.skyLight}, ${p.sky})`, boxShadow: '0 1px 6px rgba(100,160,220,0.2)' }} />
+            <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: 'rgba(60,40,20,0.6)', textAlign: 'center' }}>{p.sky}</div>
+            {/* warm-to-sky mini transition */}
+            <div style={{ height: 30, borderRadius: 4, background: `linear-gradient(to right, ${p.accent}, ${p.accentHi}, ${p.sky})` }} />
+            <div style={{ fontFamily: "'Caveat',cursive", fontSize: 12, color: 'rgba(60,40,20,0.65)', textAlign: 'center', lineHeight: 1.3 }}>{p.name.split(' — ')[1]}</div>
+          </div>
+        </DCArtboard>
+      ))}
+    </DCSection>
+  );
+}
+
+// ─────────────────────────────
+// Overlay-on-dark preview
+// ─────────────────────────────
+function DarkPreviewRow() {
+  return (
+    <DCSection title="Panel rendering on #6c0eff" subtitle="How UI panels sit on the deep violet background in each variant">
+      {VARIANTS.map(p => (
+        <DCArtboard key={p.id} label={p.id} width={200} style={{ background: p.bg, padding: 14 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ fontFamily: "'Caveat',cursive", fontSize: 15, fontWeight: 600, color: p.accentHi }}>{p.name.split(' — ')[1]}</div>
+            <div style={{
+              background: p.panel, borderRadius: 4, padding: 10,
+              border: `1px solid ${p.panelEdge}`,
+            }}>
+              <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: p.muted, marginBottom: 4, letterSpacing: 1 }}>LOGBOOK</div>
+              <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: p.accent, marginBottom: 3 }}>— pocket notebook</div>
+              <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 9, color: p.accent, marginBottom: 3 }}>— rewrote rss reader</div>
+              <div style={{ marginTop: 6, paddingTop: 6, borderTop: `1px solid ${p.line}`, display: 'flex', justifyContent: 'space-between' }}>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: p.ok }}>OK</span>
+                <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: p.moon }}>WARM</span>
+              </div>
+            </div>
+            {/* accent chip */}
+            <div style={{ display: 'flex', gap: 4 }}>
+              <div style={{ flex: 1, height: 6, borderRadius: 2, background: p.accent }} />
+              <div style={{ flex: 1, height: 6, borderRadius: 2, background: p.moon }} />
+              <div style={{ flex: 1, height: 6, borderRadius: 2, background: p.ok }} />
+              <div style={{ flex: 1, height: 6, borderRadius: 2, background: p.sky }} />
+            </div>
+          </div>
+        </DCArtboard>
+      ))}
+    </DCSection>
+  );
+}
+
+// ─────────────────────────────
+// App
+// ─────────────────────────────
+function App() {
+  return (
+    <DesignCanvas>
+      {/* title */}
+      <div style={{ padding: '0 60px 6px', display: 'flex', alignItems: 'baseline', gap: 14 }}>
+        <span style={{ fontFamily: "'Caveat',cursive", fontSize: 30, fontWeight: 600, color: '#2a1a0e' }}>
+          Sunrise Expanded — B & E
+        </span>
+        <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, background: '#6c0eff', color: '#ffd1b1', padding: '2px 8px', borderRadius: 3 }}>
+          #6c0eff → warm → sky blue
+        </span>
+      </div>
+      <div style={{ padding: '0 60px 44px', fontFamily: "'Caveat',cursive", fontSize: 15, color: 'rgba(60,40,20,0.55)' }}>
+        3 variants each of Ember Ash (B) and Marigold Night (E) — full violet-to-sky arc
+      </div>
+
+      {/* B variants */}
+      <DCSection title="B — Ember Ash" subtitle="Amber-forward, deeper night base. Three takes on how wide and warm the band reads.">
+        {VARIANTS.filter(v => v.family === 'B').map(p => <VariantBoard key={p.id} p={p} />)}
+      </DCSection>
+
+      {/* E variants */}
+      <DCSection title="E — Marigold Night" subtitle="Closest to existing system. Three takes on warm intensity and sky softness.">
+        {VARIANTS.filter(v => v.family === 'E').map(p => <VariantBoard key={p.id} p={p} />)}
+      </DCSection>
+
+      {/* Sky comparison */}
+      <SkyRow />
+
+      {/* Dark panel preview */}
+      <DarkPreviewRow />
+
+      {/* notes */}
+      <div style={{ position: 'relative', height: 90 }}>
+        <DCPostIt top={-24} left={60} rotate={-1} width={260}>
+          B2 widest warm band — best if the bg photo sits in the middle of the horizon.
+        </DCPostIt>
+        <DCPostIt top={-14} left={360} rotate={2} width={220}>
+          E3 (Haze) has the mist layer — smoothest sky join of all 6.
+        </DCPostIt>
+        <DCPostIt top={-20} left={620} rotate={-2} width={200}>
+          Sky: #a8d0ee → #c4e0f4 works for all B & E families.
+        </DCPostIt>
+      </div>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<div id="root"></div>
+</body>
+</html>

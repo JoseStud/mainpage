@@ -5,6 +5,7 @@
 ## Documentation
 
 - `docs/README.md`: quick project orientation for contributors
+- `docs/performance.md`: local profiling workflow, current trace baseline, and regression guardrails
 - `docs/superpowers/specs/2026-04-14-dimden-style-redesign.md`: redesign spec and architecture notes
 - `docs/superpowers/plans/2026-04-14-dimden-style-redesign.md`: implementation plan history
 
@@ -57,6 +58,13 @@ done
 ```
 
 After that, smoke-test the shared shell in a browser: active nav state, local clock, rotating "Last loop" text, and the rain toggle.
+
+For any UI or animation-heavy change, also run the local trace workflow in `docs/performance.md` and compare the latest trace with:
+
+```bash
+cd /home/anxiuser/mainpage
+node scripts/inspect-trace.mjs
+```
 
 ## CI/CD to Portainer (Git polling)
 
@@ -124,3 +132,4 @@ This repo now includes:
 - Add behavior in the smallest relevant feature module under `assets/js/features/`.
 - Add styling in the smallest relevant CSS module instead of growing one large file.
 - Preserve the `data-page` value on `<body>` so the shared shell can mark the active page correctly.
+- For animation or theme work, capture a fresh Performance trace and compare it with `node scripts/inspect-trace.mjs` before merging.

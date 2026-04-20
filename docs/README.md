@@ -52,4 +52,9 @@ done
 
 ## Extra reference
 
+- `docs/performance.md`
 - `docs/superpowers/specs/2026-04-14-dimden-style-redesign.md`
+
+## Performance guardrail
+
+If a change touches shared layout, background effects, theme transitions, or other interactive UI code, follow `docs/performance.md` before merging. The repo now includes `node scripts/inspect-trace.mjs` for comparing the latest saved trace in `perf/` against the previous run.

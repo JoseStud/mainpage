@@ -29,9 +29,14 @@
   padding: 1rem 1.15rem;
   border: 0;
   background:
-    linear-gradient(90deg, rgba(83, 44, 72, 0.92), rgba(129, 75, 97, 0.98), rgba(83, 44, 72, 0.92)),
-    radial-gradient(circle at 50% 50%, rgba(249, 163, 107, 0.18), transparent 56%);
-  color: #ffe1d0;
+    linear-gradient(
+      90deg,
+      rgb(var(--starfield-deep-rgb) / 0.92),
+      rgb(var(--starfield-base-rgb) / 0.64),
+      rgb(var(--starfield-deep-rgb) / 0.92)
+    ),
+    radial-gradient(circle at 50% 50%, rgb(var(--accent-rgb) / 0.18), transparent 56%);
+  color: var(--accent-highlight);
   font-size: 11px;
   text-align: center;
   text-transform: uppercase;
@@ -40,7 +45,7 @@
 
 .project-block {
   padding-bottom: 0.75rem;
-  border-bottom: 1px dashed rgba(122, 82, 100, 0.45);
+  border-bottom: 1px dashed var(--line);
 }
 
 .project-block:last-child {
@@ -159,4 +164,34 @@
 .mini-shell-footer {
   color: var(--muted);
   font-size: 12px;
+}
+
+:root[data-theme="light"] .banner-slab,
+:root[data-theme-post-sunrise] .banner-slab {
+  background:
+    linear-gradient(90deg, #f0ddd2, #f7ebe1, #f0ddd2),
+    radial-gradient(circle at 50% 50%, rgb(204 116 64 / 0.08), transparent 58%);
+  color: var(--accent-contrast);
+}
+
+:root[data-theme="light"] .mini-shell,
+:root[data-theme-post-sunrise] .mini-shell {
+  background: linear-gradient(180deg, rgb(255 250 245 / 0.98), rgb(239 225 214 / 0.98));
+}
+
+:root[data-theme="light"] .mini-shell-header,
+:root[data-theme-post-sunrise] .mini-shell-header {
+  color: var(--accent-contrast);
+}
+
+:root[data-theme="light"] .mini-shell-body,
+:root[data-theme-post-sunrise] .mini-shell-body {
+  border-color: rgb(206 183 169 / 0.9);
+  background: rgb(255 249 243 / 0.88);
+}
+
+:root[data-theme="light"] .mini-shell-box,
+:root[data-theme-post-sunrise] .mini-shell-box {
+  border-color: rgb(216 194 182 / 0.9);
+  background: rgb(240 221 208 / 0.75);
 }

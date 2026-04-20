@@ -49,6 +49,7 @@ export function createThemeController() {
 
   function clearSunriseState() {
     delete root.dataset.themeTransition;
+    delete root.dataset.themePostSunrise;
   }
 
   function emitTransitionState(state, theme) {
@@ -70,8 +71,8 @@ export function createThemeController() {
   function readTimings() {
     const styles = window.getComputedStyle(root);
     return {
-      duration: parseTimeValue(styles.getPropertyValue("--sunrise-duration"), 4600),
-      swapDelay: parseTimeValue(styles.getPropertyValue("--sunrise-swap-delay"), 2500),
+      duration: parseTimeValue(styles.getPropertyValue("--sunrise-duration"), 1800),
+      swapDelay: parseTimeValue(styles.getPropertyValue("--sunrise-swap-delay"), 700),
     };
   }
 
@@ -80,8 +81,8 @@ export function createThemeController() {
 
     clearTimers();
     activeTransition = null;
-    clearSunriseState();
     setTheme(theme);
+    clearSunriseState();
     targetTheme = theme;
 
     if (completedTransition) {
@@ -91,23 +92,32 @@ export function createThemeController() {
 
   function startSunrise() {
     const { duration, swapDelay } = readTimings();
+    const clampedSwapDelay = Math.max(0, Math.min(duration, swapDelay));
 
     clearTimers();
     clearSunriseState();
     setTheme(DEFAULT_THEME);
-    void root.offsetWidth;
     activeTransition = "sunrise";
     root.dataset.themeTransition = "sunrise";
     emitTransitionState("start", "light");
 
-    swapTimer = window.setTimeout(() => {
+    if (duration <= 0) {
+      finish("light");
+      return;
+    }
+
+    if (clampedSwapDelay <= 0) {
       setTheme("light");
-      swapTimer = null;
-    }, swapDelay);
+    } else {
+      swapTimer = window.setTimeout(() => {
+        swapTimer = null;
+        setTheme("light");
+      }, clampedSwapDelay);
+    }
 
     finishTimer = window.setTimeout(() => {
-      clearSunriseState();
       finishTimer = null;
+      finish("light");
     }, duration);
   }
 

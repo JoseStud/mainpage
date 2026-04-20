@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunrise Warm Color — anxidev wireframes</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #f0eee9; }
+  .sketch-label {
+    font-family: 'Caveat', cursive;
+    font-size: 13px;
+    color: rgba(60,40,20,0.6);
+  }
+  .sketch-note {
+    font-family: 'Caveat', cursive;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #5a4a2a;
+  }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+
+// ─────────────────────────────
+// Shared design tokens — base
+// ─────────────────────────────
+
+const BASE = '#6c0eff'; // the fixed background anchor
+
+const PALETTES = [
+  {
+    id: 'A',
+    name: 'Horizon Glow',
+    desc: 'Violet night fades into coral horizon. The warmest sunrise reading — classic.',
+    bg: '#6c0eff',
+    bg2: '#1a0240',
+    panel: 'rgba(22,4,58,0.82)',
+    panelEdge: '#9b4e7c',
+    text: '#ffe8d6',
+    textStrong: '#fff5ee',
+    muted: '#c98fa8',
+    accent: '#ff8c42',
+    accentHi: '#ffcba4',
+    line: 'rgba(180,90,130,0.4)',
+    moon: '#ff6b6b',
+    ok: '#62ff8a',
+    swatches: ['#6c0eff','#1a0240','#ff8c42','#ffcba4','#ff6b6b','#ffe8d6'],
+    swatchLabels: ['bg base','deep night','accent','hi-glow','moon','text'],
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #3d0080 28%, #7a1a3a 52%, #c94a2a 72%, #ff8c42 88%, #ffd280 100%)',
+  },
+  {
+    id: 'B',
+    name: 'Ember Ash',
+    desc: 'Cooler violet with deep amber — moodier, more embers-in-smoke feel.',
+    bg: '#6c0eff',
+    bg2: '#110822',
+    panel: 'rgba(16,6,32,0.85)',
+    panelEdge: '#7c3a5e',
+    text: '#f5dcc8',
+    textStrong: '#fff0e0',
+    muted: '#b07c96',
+    accent: '#f9a336',
+    accentHi: '#ffd9a0',
+    line: 'rgba(140,70,100,0.38)',
+    moon: '#e8644a',
+    ok: '#55e87a',
+    swatches: ['#6c0eff','#110822','#f9a336','#ffd9a0','#e8644a','#f5dcc8'],
+    swatchLabels: ['bg base','deep bg','accent','hi-glow','moon','text'],
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #250460 30%, #5c1230 52%, #a33820 70%, #f9a336 88%, #ffd9a0 100%)',
+  },
+  {
+    id: 'C',
+    name: 'Rose Dusk',
+    desc: 'Softer pink sunrise tones — gentler contrast, dreamier feel.',
+    bg: '#6c0eff',
+    bg2: '#180230',
+    panel: 'rgba(22,4,46,0.80)',
+    panelEdge: '#a84878',
+    text: '#fde0ee',
+    textStrong: '#fff2f8',
+    muted: '#d095b4',
+    accent: '#ff7aaa',
+    accentHi: '#ffc8e0',
+    line: 'rgba(200,80,140,0.36)',
+    moon: '#ffb347',
+    ok: '#5feea0',
+    swatches: ['#6c0eff','#180230','#ff7aaa','#ffc8e0','#ffb347','#fde0ee'],
+    swatchLabels: ['bg base','deep bg','accent','hi-glow','moon','text'],
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #2c0050 30%, #6e1060 52%, #c0306a 70%, #ff7aaa 86%, #ffc8e0 100%)',
+  },
+  {
+    id: 'D',
+    name: 'Solar Storm',
+    desc: 'High voltage — vivid gold slashes violet. Bold, electric sunrise energy.',
+    bg: '#6c0eff',
+    bg2: '#0d0126',
+    panel: 'rgba(14,2,36,0.88)',
+    panelEdge: '#8a2090',
+    text: '#fff0c4',
+    textStrong: '#fffce8',
+    muted: '#c4a040',
+    accent: '#ffd000',
+    accentHi: '#fffaa0',
+    line: 'rgba(160,100,0,0.4)',
+    moon: '#ff5e1a',
+    ok: '#70ff88',
+    swatches: ['#6c0eff','#0d0126','#ffd000','#fffaa0','#ff5e1a','#fff0c4'],
+    swatchLabels: ['bg base','deep bg','accent','hi-glow','fire','text'],
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #1e0050 26%, #5a007a 46%, #a00070 62%, #e04000 78%, #ffd000 92%, #fffaa0 100%)',
+  },
+  {
+    id: 'E',
+    name: 'Marigold Night',
+    desc: 'Closest to existing anxidev system — warm marigold orange + deep violet. Refinement over reinvention.',
+    bg: '#6c0eff',
+    bg2: '#100418',
+    panel: 'rgba(16,4,24,0.84)',
+    panelEdge: '#6b4259',
+    text: '#edd7d0',
+    textStrong: '#fff2ea',
+    muted: '#c2989f',
+    accent: '#f9a36b',
+    accentHi: '#ffd1b1',
+    line: 'rgba(122,82,100,0.52)',
+    moon: '#ea755b',
+    ok: '#62ff75',
+    swatches: ['#6c0eff','#100418','#f9a36b','#ffd1b1','#ea755b','#edd7d0'],
+    swatchLabels: ['bg base','deep bg','accent','hi-glow','moon','text'],
+    horizon: 'linear-gradient(to bottom, #6c0eff 0%, #1e0440 28%, #4a0e38 50%, #8a3020 68%, #f9a36b 86%, #ffd1b1 100%)',
+  },
+];
+
+// ─────────────────────────────
+// Mini site card — shows the palette applied to a box
+// ─────────────────────────────
+function MiniCard({ p }) {
+  return (
+    <div style={{
+      width: 220, borderRadius: 6, overflow: 'hidden',
+      border: `1px solid ${p.panelEdge}`,
+      background: p.panel,
+      boxShadow: `0 0 20px rgba(108,14,255,0.3), 0 0 40px rgba(0,0,0,0.4)`,
+      fontFamily: "'IBM Plex Mono', monospace",
+    }}>
+      {/* header strip */}
+      <div style={{ background: 'rgba(0,0,0,0.3)', padding: '6px 10px', borderBottom: `1px solid ${p.line}` }}>
+        <div style={{ fontSize: 9, color: p.muted, letterSpacing: 1, textTransform: 'uppercase' }}>anxidev // home</div>
+        <div style={{ fontSize: 13, color: p.accentHi, marginTop: 2, letterSpacing: -0.3 }}>anxidev</div>
+      </div>
+      {/* body */}
+      <div style={{ padding: '10px 10px 6px' }}>
+        <div style={{ fontSize: 8, color: p.muted, letterSpacing: 0.8, textTransform: 'uppercase', marginBottom: 4 }}>Welcome</div>
+        <div style={{ fontSize: 9, color: p.text, lineHeight: 1.5, marginBottom: 8 }}>
+          Hand-built corner of the web for notes, projects, experiments.
+        </div>
+        {/* tags */}
+        <div style={{ display: 'flex', gap: 4, marginBottom: 8 }}>
+          {['python','rust','go'].map(t => (
+            <span key={t} style={{ fontSize: 8, padding: '2px 5px', border: `1px solid ${p.line}`, color: p.muted, borderRadius: 2 }}>{t}</span>
+          ))}
+        </div>
+        {/* status row */}
+        <div style={{ borderTop: `1px solid ${p.line}`, paddingTop: 6, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontSize: 8, color: p.ok }}>[ OK ] mainpage</span>
+          <span style={{ fontSize: 8, color: p.accent }}>● online</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Horizon gradient strip
+// ─────────────────────────────
+function HorizonStrip({ p, width = 220, height = 100 }) {
+  return (
+    <div style={{ width, height, borderRadius: 4, overflow: 'hidden', position: 'relative', boxShadow: '0 2px 12px rgba(0,0,0,0.25)' }}>
+      <div style={{ position: 'absolute', inset: 0, background: p.horizon }} />
+      {/* sun dot */}
+      <div style={{
+        position: 'absolute', bottom: 12, left: '50%',
+        transform: 'translateX(-50%)',
+        width: 18, height: 18, borderRadius: '50%',
+        background: p.accentHi,
+        boxShadow: `0 0 18px 6px ${p.accent}88, 0 0 40px 12px ${p.accent}44`,
+      }} />
+      {/* horizon line */}
+      <div style={{
+        position: 'absolute', bottom: 20, left: 0, right: 0,
+        height: 1, background: `${p.accentHi}66`,
+      }} />
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Swatch row
+// ─────────────────────────────
+function Swatches({ p }) {
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+        {p.swatches.map((c, i) => (
+          <div key={i} style={{ flex: 1 }}>
+            <div style={{
+              height: 28, borderRadius: 3, background: c,
+              border: '1px solid rgba(0,0,0,0.12)',
+              boxShadow: i === 0 ? `0 0 8px ${c}88` : 'none',
+            }} />
+          </div>
+        ))}
+      </div>
+      <div style={{ display: 'flex', gap: 4 }}>
+        {p.swatchLabels.map((l, i) => (
+          <div key={i} style={{ flex: 1, fontSize: 8, fontFamily: "'IBM Plex Mono', monospace", color: 'rgba(60,40,20,0.55)', textAlign: 'center', lineHeight: 1.2 }}>{l}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Typography preview
+// ─────────────────────────────
+function TypoPreview({ p }) {
+  return (
+    <div style={{
+      background: p.bg2, borderRadius: 6, padding: '12px 14px',
+      border: `1px solid ${p.line}`, width: 220,
+      fontFamily: "'IBM Plex Mono', monospace",
+    }}>
+      <div style={{ fontSize: 10, color: p.muted, letterSpacing: 1, marginBottom: 6, textTransform: 'uppercase' }}>type sample</div>
+      <div style={{ fontSize: 18, color: p.textStrong, fontWeight: 500, letterSpacing: -0.5, marginBottom: 4 }}>anxidev.dev</div>
+      <div style={{ fontSize: 11, color: p.accent, marginBottom: 6 }}>// attic relay</div>
+      <div style={{ fontSize: 9, color: p.text, lineHeight: 1.6 }}>
+        rain on · docs open · somewhere in Colombia
+      </div>
+      <div style={{ marginTop: 8, paddingTop: 8, borderTop: `1px solid ${p.line}`, display: 'flex', gap: 8 }}>
+        <span style={{ fontSize: 8, color: p.ok }}>OK</span>
+        <span style={{ fontSize: 8, color: p.moon }}>WARN</span>
+        <span style={{ fontSize: 8, color: p.muted }}>muted</span>
+        <span style={{ fontSize: 8, color: p.accentHi }}>hi-glow</span>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Full palette artboard
+// ─────────────────────────────
+function PaletteBoard({ p }) {
+  return (
+    <DCArtboard label={`${p.id} — ${p.name}`} width={520} style={{ background: '#f8f5f0', padding: 20 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        {/* title + note */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div>
+            <div style={{ fontFamily: "'Caveat', cursive", fontSize: 22, fontWeight: 600, color: '#2a1a10', lineHeight: 1 }}>{p.name}</div>
+            <div style={{ fontFamily: "'Caveat', cursive", fontSize: 14, color: 'rgba(60,40,20,0.65)', marginTop: 3 }}>{p.desc}</div>
+          </div>
+          <div style={{
+            fontFamily: "'IBM Plex Mono', monospace", fontSize: 9,
+            background: p.bg, color: p.accentHi, padding: '3px 7px', borderRadius: 2,
+            boxShadow: `0 0 10px ${p.bg}88`,
+          }}>{BASE}</div>
+        </div>
+
+        {/* horizon strip */}
+        <HorizonStrip p={p} width={480} height={80} />
+
+        {/* swatches */}
+        <Swatches p={p} />
+
+        {/* card + typo */}
+        <div style={{ display: 'flex', gap: 12 }}>
+          <MiniCard p={p} />
+          <TypoPreview p={p} />
+        </div>
+      </div>
+    </DCArtboard>
+  );
+}
+
+// ─────────────────────────────
+// Comparison row — all horizon strips
+// ─────────────────────────────
+function CompareRow() {
+  return (
+    <DCSection title="Side-by-side horizons" subtitle="All 5 approaches at a glance — how each palette handles the violet → warm fade">
+      {PALETTES.map(p => (
+        <DCArtboard key={p.id} label={`${p.id}  ${p.name}`} width={180} style={{ background: '#f8f5f0', padding: 12 }}>
+          <HorizonStrip p={p} width={156} height={90} />
+          <div style={{ marginTop: 10 }}>
+            <Swatches p={p} />
+          </div>
+          <div style={{ marginTop: 10, fontFamily: "'Caveat', cursive", fontSize: 13, color: 'rgba(60,40,20,0.6)', lineHeight: 1.4 }}>{p.desc}</div>
+        </DCArtboard>
+      ))}
+    </DCSection>
+  );
+}
+
+// ─────────────────────────────
+// App
+// ─────────────────────────────
+function App() {
+  const [active, setActive] = React.useState(null);
+
+  return (
+    <DesignCanvas>
+      {/* Header note */}
+      <div style={{ padding: '0 60px 8px', display: 'flex', alignItems: 'baseline', gap: 12 }}>
+        <span style={{ fontFamily: "'Caveat', cursive", fontSize: 28, fontWeight: 600, color: '#2a1a0e' }}>
+          Sunrise Warm Color — anxidev
+        </span>
+        <span style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: 'rgba(60,40,20,0.5)', background: '#6c0eff', color: '#ffd1b1', padding: '2px 8px', borderRadius: 3 }}>
+          base: #6c0eff
+        </span>
+      </div>
+      <div style={{ padding: '0 60px 40px', fontFamily: "'Caveat', cursive", fontSize: 15, color: 'rgba(60,40,20,0.6)' }}>
+        5 approaches to sunrise warm on violet — swatches · horizon gradients · applied to site UI
+      </div>
+
+      {/* All 5 full palettes */}
+      <DCSection title="01 — Full palette explorations" subtitle="Each card shows: horizon gradient, color swatches, site card preview, and type sample">
+        {PALETTES.map(p => <PaletteBoard key={p.id} p={p} />)}
+      </DCSection>
+
+      {/* Comparison */}
+      <CompareRow />
+
+      {/* Token delta note */}
+      <DCSection title="02 — Token changes vs. current system" subtitle="What needs to change in tokens.css to adopt each palette">
+        {PALETTES.map(p => (
+          <DCArtboard key={p.id} label={`${p.id}  ${p.name}`} width={280} style={{ background: '#f8f5f0', padding: 16 }}>
+            <div style={{ fontFamily: "'Caveat', cursive", fontSize: 18, fontWeight: 600, color: '#2a1a10', marginBottom: 10 }}>{p.name}</div>
+            <div style={{ fontFamily: "'IBM Plex Mono', monospace", fontSize: 9, lineHeight: 2, color: '#3a2a1a' }}>
+              {[
+                `--bg: ${p.bg}`,
+                `--bg-2: ${p.bg2}`,
+                `--accent: ${p.accent}`,
+                `--accent-highlight: ${p.accentHi}`,
+                `--moon: ${p.moon}`,
+                `--text: ${p.text}`,
+                `--panel-edge: ${p.panelEdge}`,
+              ].map((line, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <div style={{
+                    width: 10, height: 10, borderRadius: 2, flexShrink: 0,
+                    background: line.split(': ')[1],
+                    border: '1px solid rgba(0,0,0,0.12)',
+                  }} />
+                  <span style={{ color: i < 2 ? '#7c3080' : i < 4 ? '#c06020' : '#3a6040' }}>{line}</span>
+                </div>
+              ))}
+            </div>
+          </DCArtboard>
+        ))}
+      </DCSection>
+
+      {/* post-it */}
+      <div style={{ position: 'relative', height: 80 }}>
+        <DCPostIt top={-20} left={60} rotate={-1} width={240}>
+          💡 E (Marigold Night) is closest to current system. A & D are highest contrast. C is dreamiest.
+        </DCPostIt>
+        <DCPostIt top={-10} left={340} rotate={2} width={200}>
+          All use same #6c0eff bg anchor — only warm accent layer changes.
+        </DCPostIt>
+      </div>
+
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<div id="root"></div>
+</body>
+</html>

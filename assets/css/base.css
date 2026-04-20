@@ -29,7 +29,7 @@
 }
 
 html {
-  scrollbar-color: #6b4259 #050207;
+  scrollbar-color: var(--panel-edge) var(--bg);
 }
 
 html,
@@ -40,6 +40,35 @@ body {
 body {
   margin: 0;
   overflow-x: hidden;
+  background-color: var(--scene-stop-1);
+  background-image:
+    radial-gradient(circle at 50% 18%, var(--scene-halo), transparent 18%),
+    linear-gradient(
+      180deg,
+      var(--scene-stop-0) 0%,
+      var(--scene-stop-1) 18%,
+      var(--scene-stop-2) 30%,
+      var(--scene-stop-3) 50%,
+      var(--scene-stop-4) 66%,
+      var(--scene-stop-5) 80%,
+      var(--scene-stop-6) 90%,
+      var(--scene-stop-7) 100%
+    );
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, center;
+  background-size: auto, cover;
+  background-attachment: scroll, scroll;
+  color: var(--text);
+  font-family: "RussianGothic", "MS UI Gothic", "NEC_APC3", Tahoma, Verdana, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.45;
+  text-shadow: var(--screen-shadow);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keep default dark mode on the committed starfield treatment until the light scene has fully taken over. */
+:root:not([data-theme]):not([data-theme-post-sunrise]) body,
+:root[data-theme="dark"]:not([data-theme-post-sunrise]) body {
   background-color: var(--bg);
   background-image:
     linear-gradient(
@@ -55,12 +84,6 @@ body {
   background-position: center, 16% 14%, 82% 10%, 54% 78%;
   background-size: auto, auto, auto, auto;
   background-attachment: scroll, scroll, scroll, scroll;
-  color: var(--text);
-  font-family: "RussianGothic", "MS UI Gothic", "NEC_APC3", Tahoma, Verdana, Arial, sans-serif;
-  font-size: 13px;
-  line-height: 1.45;
-  text-shadow: var(--screen-shadow);
-  -webkit-font-smoothing: antialiased;
 }
 
 .bg-photo {
@@ -72,7 +95,6 @@ body {
   contain: paint;
 }
 
-.bg-photo::before,
 .bg-photo::after {
   content: "";
   position: absolute;
@@ -80,7 +102,11 @@ body {
   pointer-events: none;
 }
 
-.bg-photo::before {
+:root:not([data-theme]):not([data-theme-post-sunrise]) .bg-photo::before,
+:root[data-theme="dark"]:not([data-theme-post-sunrise]) .bg-photo::before,
+:root[data-theme-transition="sunrise"] .bg-photo::before {
+  content: "";
+  position: absolute;
   inset: -10%;
   z-index: 1;
   opacity: 0.34;
@@ -92,6 +118,7 @@ body {
     url("../../background.jpg") center / cover no-repeat;
   filter: blur(18px) saturate(0.9) brightness(0.72);
   mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .bg-photo::after {
@@ -106,6 +133,68 @@ body {
       rgb(var(--starfield-deep-rgb) / 0.52)
     ),
     linear-gradient(180deg, rgb(var(--starfield-deep-rgb) / 0.08), rgb(var(--starfield-deep-rgb) / 0.36));
+}
+
+:root:not([data-theme]):not([data-theme-post-sunrise]) .bg-photo-backdrop,
+:root[data-theme="dark"]:not([data-theme-post-sunrise]) .bg-photo-backdrop {
+  opacity: 0;
+}
+
+.bg-photo-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  contain: paint;
+}
+
+.bg-photo-backdrop__motif {
+  position: absolute;
+  display: block;
+  width: auto;
+  max-width: none;
+  height: auto;
+  opacity: 0.12;
+  filter: blur(3px) saturate(0.88);
+}
+
+.bg-photo-backdrop__motif--saturn {
+  width: min(34vw, 520px);
+  left: 4%;
+  top: 10%;
+  transform: rotate(-6deg);
+}
+
+.bg-photo-backdrop__motif--vase-table {
+  width: min(36vw, 560px);
+  right: -8%;
+  bottom: -4%;
+  transform: rotate(-3deg);
+  opacity: 0.1;
+}
+
+.bg-photo-backdrop__motif--chaise {
+  width: min(32vw, 500px);
+  left: -6%;
+  bottom: 10%;
+  transform: rotate(4deg);
+  opacity: 0.09;
+}
+
+.bg-photo-backdrop__motif--rocket {
+  width: min(20vw, 300px);
+  right: 18%;
+  top: 16%;
+  transform: rotate(8deg);
+  opacity: 0.08;
+}
+
+.bg-photo-backdrop__motif--stool {
+  width: min(24vw, 360px);
+  right: 6%;
+  top: 56%;
+  transform: rotate(-5deg);
+  opacity: 0.08;
 }
 
 .bg-sunrise {
@@ -130,59 +219,77 @@ body {
 }
 
 .bg-sunrise-band--horizon {
-  left: -20%;
-  right: -20%;
-  bottom: -28%;
-  height: 76%;
+  left: -18%;
+  right: -18%;
+  bottom: -26%;
+  height: 74%;
   border-radius: 50%;
   background:
     radial-gradient(
       ellipse at 50% 100%,
-      rgb(var(--sunrise-horizon-rgb) / 0.92) 0 18%,
-      rgb(var(--sunrise-peach-rgb) / 0.64) 30%,
-      rgb(var(--sunrise-blush-rgb) / 0.24) 48%,
-      transparent 74%
+      rgb(255 204 136 / 0.96) 0 12%,
+      rgb(240 160 96 / 0.82) 22%,
+      rgb(255 208 168 / 0.48) 34%,
+      rgb(255 239 224 / 0.2) 58%,
+      transparent 78%
     );
-  filter: blur(16px);
+  filter: blur(10px) saturate(1.08);
 }
 
 .bg-sunrise-band--wash {
-  inset: -4% -10%;
+  inset: -6% -12%;
+  mix-blend-mode: normal;
   background:
     linear-gradient(
       180deg,
-      rgb(var(--sunrise-day-rgb) / 0) 0%,
-      rgb(var(--sunrise-blush-rgb) / 0.12) 34%,
-      rgb(var(--sunrise-peach-rgb) / 0.24) 68%,
-      rgb(var(--sunrise-day-rgb) / 0.56) 100%
+      rgb(61 0 144 / 0.94) 0%,
+      rgb(92 24 48 / 0.88) 28%,
+      rgb(168 64 32 / 0.84) 46%,
+      rgb(240 160 96 / 0.9) 61%,
+      rgb(255 208 168 / 0.76) 72%,
+      rgb(255 228 200 / 0.48) 80%,
+      rgb(252 240 228 / 0.44) 92%,
+      rgb(255 248 240 / 0.38) 100%
     );
-  filter: blur(14px);
+  filter: blur(10px) saturate(1.12);
 }
 
 .bg-sunrise-band--veil {
-  inset: -6%;
+  inset: -4%;
+  mix-blend-mode: normal;
   background:
-    radial-gradient(circle at 50% 28%, rgb(var(--sunrise-day-rgb) / 0.18), transparent 34%),
-    linear-gradient(180deg, rgb(var(--sunrise-day-rgb) / 0.05), rgb(var(--sunrise-day-rgb) / 0.62));
+    radial-gradient(circle at 50% 18%, var(--scene-halo), transparent 18%),
+    linear-gradient(
+      180deg,
+      var(--scene-stop-0) 0%,
+      var(--scene-stop-1) 18%,
+      var(--scene-stop-2) 30%,
+      var(--scene-stop-3) 50%,
+      var(--scene-stop-4) 66%,
+      var(--scene-stop-5) 80%,
+      var(--scene-stop-6) 90%,
+      var(--scene-stop-7) 100%
+    );
 }
 
 .bg-sunrise-sun {
   left: 50%;
-  bottom: -10%;
-  width: clamp(180px, 28vw, 360px);
-  height: clamp(180px, 28vw, 360px);
+  bottom: -14%;
+  width: clamp(120px, 18vw, 220px);
+  height: clamp(120px, 18vw, 220px);
   border-radius: 50%;
   background:
     radial-gradient(
       circle,
-      rgb(var(--sunrise-sun-rgb) / 0.95) 0 18%,
-      rgb(var(--sunrise-peach-rgb) / 0.56) 36%,
-      rgb(var(--sunrise-horizon-rgb) / 0.18) 56%,
+      rgb(255 238 187 / 0.98) 0 22%,
+      rgb(255 208 168 / 0.6) 42%,
+      rgb(240 160 96 / 0.22) 58%,
       transparent 78%
     );
-  filter: blur(10px);
+  filter: blur(8px);
+  box-shadow: 0 0 80px rgb(255 238 187 / 0.12);
   mix-blend-mode: screen;
-  transform: translate3d(-50%, 18%, 0) scale(0.74);
+  transform: translate3d(-50%, 22%, 0) scale(0.7);
 }
 
 .bg-photo-scene {
@@ -282,7 +389,7 @@ body {
 a {
   color: var(--accent);
   text-decoration: none;
-  text-shadow: 0 0 10px rgba(249, 163, 107, 0.16);
+  text-shadow: 0 0 10px rgb(var(--accent-rgb) / 0.16);
   transition:
     color 180ms ease,
     border-color 180ms ease,
@@ -294,6 +401,11 @@ a {
 a:hover {
   color: var(--accent-contrast);
   text-decoration: underline;
+}
+
+:root[data-theme="light"] a,
+:root[data-theme-post-sunrise] a {
+  text-shadow: none;
 }
 
 .skip-link {
@@ -316,7 +428,14 @@ a:hover {
 .skip-link:focus-visible {
   text-decoration: none;
   outline: 0;
-  border-color: rgba(255, 209, 177, 0.92);
+  border-color: var(--accent-highlight);
+}
+
+:root[data-theme="light"] .skip-link:hover,
+:root[data-theme="light"] .skip-link:focus-visible,
+:root[data-theme-post-sunrise] .skip-link:hover,
+:root[data-theme-post-sunrise] .skip-link:focus-visible {
+  border-color: var(--accent-highlight);
 }
 
 h1,

@@ -24,9 +24,9 @@
   pointer-events: none;
   opacity: 0.34;
   background:
-    linear-gradient(180deg, transparent 0 36px, rgba(234, 117, 91, 0.2) 36px 38px, transparent 38px),
-    linear-gradient(90deg, transparent 0 9%, rgba(249, 163, 107, 0.24) 9% 9.25%, transparent 9.25% 23%, rgba(249, 163, 107, 0.24) 23% 23.25%, transparent 23.25% 50%, rgba(249, 163, 107, 0.24) 50% 50.25%, transparent 50.25% 77%, rgba(249, 163, 107, 0.24) 77% 77.25%, transparent 77.25%),
-    linear-gradient(90deg, transparent 0 16%, rgba(255, 255, 255, 0.11) 16% 16.12%, transparent 16.12% 61%, rgba(255, 255, 255, 0.11) 61% 61.12%, transparent 61.12%);
+    linear-gradient(180deg, transparent 0 36px, color-mix(in srgb, var(--moon) 18%, transparent) 36px 38px, transparent 38px),
+    linear-gradient(90deg, transparent 0 9%, color-mix(in srgb, var(--accent) 22%, transparent) 9% 9.25%, transparent 9.25% 23%, color-mix(in srgb, var(--accent) 22%, transparent) 23% 23.25%, transparent 23.25% 50%, color-mix(in srgb, var(--accent) 22%, transparent) 50% 50.25%, transparent 50.25% 77%, color-mix(in srgb, var(--accent) 22%, transparent) 77% 77.25%, transparent 77.25%),
+    linear-gradient(90deg, transparent 0 16%, color-mix(in srgb, var(--text-strong) 8%, transparent) 16% 16.12%, transparent 16.12% 61%, color-mix(in srgb, var(--text-strong) 8%, transparent) 61% 61.12%, transparent 61.12%);
 }
 
 .layout {
@@ -70,11 +70,20 @@
   position: relative;
   overflow: hidden;
   margin: 0;
-  padding: 10px 15px;
-  border: 2px solid var(--panel-edge);
-  border-radius: 4px;
-  background: var(--panel);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.02), var(--shadow);
+  padding: 11px 16px 12px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
 }
 
 .box::before {
@@ -82,9 +91,10 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  border-radius: inherit;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent 28%),
-    linear-gradient(90deg, rgba(249, 163, 107, 0.025), transparent 44%);
+    linear-gradient(180deg, color-mix(in srgb, var(--text-strong) 5%, transparent), transparent 24%),
+    linear-gradient(180deg, transparent 68%, color-mix(in srgb, var(--panel-edge) 14%, transparent));
 }
 
 .menu-box,
@@ -94,7 +104,12 @@
 .buttons-box,
 .buttoncode-box,
 .controls-box {
-  background: var(--panel-strong);
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
 }
 
 .site-header[data-shell]:empty,
@@ -108,7 +123,7 @@ aside[data-shell]:empty,
 .site-footer {
   margin-top: 0.75rem;
   padding-top: 0.75rem;
-  border-top: 1px solid rgba(107, 66, 89, 0.55);
+  border-top: 1px solid var(--line);
   text-align: center;
   color: var(--muted);
 }
@@ -125,16 +140,31 @@ aside[data-shell]:empty,
 
 .utility-toggle {
   border: 1px solid var(--panel-edge);
-  border-radius: 4px;
-  background: var(--panel-strong);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
   color: var(--text-strong);
-  padding: 0.32rem 0.58rem;
+  padding: 0.36rem 0.66rem;
   cursor: pointer;
-  box-shadow: var(--shadow);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+}
+
+:root:not([data-theme-transition]) .box,
+:root:not([data-theme-transition]) .utility-toggle {
   transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease;
+    background-color 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    box-shadow 220ms ease,
+    backdrop-filter 220ms ease;
 }
 
 .utility-toggle:hover,
@@ -145,6 +175,6 @@ aside[data-shell]:empty,
 
 #theme-toggle[aria-pressed="true"] {
   border-color: var(--accent);
-  background: rgb(var(--accent-rgb) / 0.16);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
   color: var(--accent-contrast);
 }

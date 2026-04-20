@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>E3 Panel Transition — anxidev</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #f0eee9; }
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%; height: 4px;
+  background: transparent;
+  cursor: pointer;
+  outline: none;
+}
+input[type=range]::-webkit-slider-runnable-track {
+  height: 4px; border-radius: 2px;
+  background: rgba(108,14,255,0.18);
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: #6c0eff;
+  margin-top: -5px;
+  box-shadow: 0 0 8px rgba(108,14,255,0.5);
+}
+</style>
+</head>
+<body>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel">
+
+// ─────────────────────────────────────────────────────────────
+// E3 — Marigold Night / Haze  full token set
+// ─────────────────────────────────────────────────────────────
+
+const E3 = {
+  // NIGHT (t = 0)
+  night: {
+    sceneBg: 'linear-gradient(to bottom, #6c0eff 0%, #1a0438 18%, #0e0416 30%, #480e34 44%, #843018 56%, #c87840 66%, #f0a060 73%, #ffd0a8 80%, #ffe4c8 86%, #e2c8b0 89%, #c4e0f4 94%, #a8d0ee 100%)',
+    panel: 'rgba(14,4,22,0.80)',
+    panelEdge: '#5e3c54',
+    panelBlur: 0,
+    text: '#f0d8d0',
+    textStrong: '#fff0e8',
+    muted: '#b89098',
+    accent: '#f0a060',
+    accentHi: '#ffd0a8',
+    line: 'rgba(110,72,94,0.44)',
+    moon: '#e06c50',
+    ok: '#58ff72',
+    boxShadow: '0 0 28px rgba(108,14,255,0.35), 0 4px 20px rgba(0,0,0,0.5)',
+    label: 'Night',
+    t: 0,
+  },
+  // SUNRISE PEAK (t = 0.5) — warm band hits, panels glow amber
+  mid: {
+    sceneBg: 'linear-gradient(to bottom, #3d0090 0%, #5c1830 30%, #a84020 48%, #f0a060 62%, #ffd0a8 72%, #ffe4c8 80%, #c4e0f4 92%, #a8d0ee 100%)',
+    panel: 'rgba(28,10,8,0.72)',
+    panelEdge: '#c07040',
+    panelBlur: 6,
+    text: '#ffe4d0',
+    textStrong: '#fff6ec',
+    muted: '#d4a880',
+    accent: '#ffb870',
+    accentHi: '#ffe4b8',
+    line: 'rgba(200,120,60,0.4)',
+    moon: '#ff8060',
+    ok: '#70ffaa',
+    boxShadow: '0 0 40px rgba(240,160,60,0.25), 0 0 80px rgba(240,100,30,0.15), 0 4px 20px rgba(0,0,0,0.3)',
+    label: 'Sunrise peak',
+    t: 0.5,
+  },
+  // DAY (t = 1) — settled on light blue sky
+  day: {
+    sceneBg: 'linear-gradient(to bottom, #a8d0ee 0%, #c4e0f4 40%, #e2f0fc 70%, #f0f8ff 100%)',
+    panel: 'rgba(240,248,255,0.82)',
+    panelEdge: '#8ab0d0',
+    panelBlur: 12,
+    text: '#2a1a10',
+    textStrong: '#1a0e08',
+    muted: '#7a6050',
+    accent: '#b05820',
+    accentHi: '#d88040',
+    line: 'rgba(130,170,210,0.5)',
+    moon: '#c04828',
+    ok: '#228844',
+    boxShadow: '0 0 0px rgba(108,14,255,0), 0 2px 16px rgba(100,160,220,0.18)',
+    label: 'Day',
+    t: 1,
+  },
+};
+
+// Lerp between two hex colors at ratio t
+function lerpHex(a, b, t) {
+  const ah = parseInt(a.replace('#',''), 16);
+  const bh = parseInt(b.replace('#',''), 16);
+  const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
+  const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+  const r = Math.round(ar + (br - ar) * t);
+  const g = Math.round(ag + (bg - ag) * t);
+  const b2 = Math.round(ab + (bb - ab) * t);
+  return `#${r.toString(16).padStart(2,'0')}${g.toString(16).padStart(2,'0')}${b2.toString(16).padStart(2,'0')}`;
+}
+
+function lerpNum(a, b, t) { return a + (b - a) * t; }
+
+// Easing — sunrise feels fast at start then slow settling
+function ease(t) {
+  // ease-out cubic
+  return 1 - Math.pow(1 - t, 3);
+}
+
+// Get interpolated state at t [0..1]
+function getState(t) {
+  const et = ease(t);
+  const n = E3.night, m = E3.mid, d = E3.day;
+
+  if (t <= 0.5) {
+    const r = et / ease(0.5); // 0→1 in first half
+    return {
+      t,
+      panelEdge: lerpHex(n.panelEdge, m.panelEdge, r),
+      panelBlur: lerpNum(n.panelBlur, m.panelBlur, r),
+      text: lerpHex(n.text, m.text, r),
+      textStrong: lerpHex(n.textStrong, m.textStrong, r),
+      muted: lerpHex(n.muted, m.muted, r),
+      accent: lerpHex(n.accent, m.accent, r),
+      accentHi: lerpHex(n.accentHi, m.accentHi, r),
+      moon: lerpHex(n.moon, m.moon, r),
+      ok: lerpHex(n.ok, m.ok, r),
+      panelAlpha: lerpNum(0.80, 0.72, r),
+      panelR: lerpNum(14, 28, r),
+      panelG: lerpNum(4, 10, r),
+      panelB: lerpNum(22, 8, r),
+      shadowGlow: r,
+      bgPos: r,
+      sceneBg: r < 0.5 ? n.sceneBg : m.sceneBg,
+      label: t === 0 ? 'Night' : t < 0.5 ? 'Rising…' : 'Peak warmth',
+    };
+  } else {
+    const r = (et - ease(0.5)) / (1 - ease(0.5)); // 0→1 in second half
+    return {
+      t,
+      panelEdge: lerpHex(m.panelEdge, d.panelEdge, r),
+      panelBlur: lerpNum(m.panelBlur, d.panelBlur, r),
+      text: lerpHex(m.text, d.text, r),
+      textStrong: lerpHex(m.textStrong, d.textStrong, r),
+      muted: lerpHex(m.muted, d.muted, r),
+      accent: lerpHex(m.accent, d.accent, r),
+      accentHi: lerpHex(m.accentHi, d.accentHi, r),
+      moon: lerpHex(m.moon, d.moon, r),
+      ok: lerpHex(m.ok, d.ok, r),
+      panelAlpha: lerpNum(0.72, 0.82, r),
+      panelR: lerpNum(28, 240, r),
+      panelG: lerpNum(10, 248, r),
+      panelB: lerpNum(8, 255, r),
+      shadowGlow: 1 - r,
+      bgPos: 0.5 + r * 0.5,
+      sceneBg: r > 0.5 ? d.sceneBg : m.sceneBg,
+      label: r < 0.3 ? 'Cooling…' : r < 0.7 ? 'Sky settling' : t === 1 ? 'Day' : 'Almost day',
+    };
+  }
+}
+
+// ─────────────────────────────
+// Site Panel component
+// ─────────────────────────────
+function SitePanel({ st, width = 240 }) {
+  const panel = `rgba(${Math.round(st.panelR)},${Math.round(st.panelG)},${Math.round(st.panelB)},${st.panelAlpha.toFixed(2)})`;
+  const blur = st.panelBlur;
+
+  return (
+    <div style={{
+      width,
+      background: panel,
+      backdropFilter: blur > 0 ? `blur(${blur}px)` : 'none',
+      WebkitBackdropFilter: blur > 0 ? `blur(${blur}px)` : 'none',
+      border: `1px solid ${st.panelEdge}`,
+      borderRadius: 8,
+      fontFamily: "'IBM Plex Mono', monospace",
+      overflow: 'hidden',
+      transition: 'all 120ms linear',
+    }}>
+      {/* header */}
+      <div style={{ padding: '8px 12px', borderBottom: `1px solid ${st.line || 'rgba(128,72,94,0.4)'}`, display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 11, color: st.accentHi, letterSpacing: -0.3 }}>anxidev</span>
+        <span style={{ fontSize: 8, color: st.muted }}>// home</span>
+      </div>
+      {/* welcome */}
+      <div style={{ padding: '10px 12px', borderBottom: `1px solid ${st.line || 'rgba(128,72,94,0.4)'}` }}>
+        <div style={{ fontSize: 8, color: st.muted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>welcome</div>
+        <div style={{ fontSize: 13, color: st.textStrong, letterSpacing: -0.3, marginBottom: 6 }}>Welcome to anxidev.dev</div>
+        <div style={{ fontSize: 8, color: st.text, lineHeight: 1.7 }}>
+          Hand-built corner of the web. Notes, projects, and whatever survives the late shift.
+        </div>
+      </div>
+      {/* logbook */}
+      <div style={{ padding: '8px 12px', borderBottom: `1px solid ${st.line || 'rgba(128,72,94,0.4)'}` }}>
+        <div style={{ fontSize: 8, color: st.muted, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 5 }}>from the logbook</div>
+        {['on keeping a pocket notebook', 'i rewrote my RSS reader', 'CRTs, grain, perfect pixels'].map((t, i) => (
+          <div key={i} style={{ fontSize: 8, color: st.accent, marginBottom: 4 }}>
+            <span style={{ color: st.muted }}>— </span>{t}
+          </div>
+        ))}
+      </div>
+      {/* status */}
+      <div style={{ padding: '8px 12px', display: 'flex', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 8, color: st.ok }}>[ OK ] mainpage</span>
+        <span style={{ fontSize: 8, color: st.moon }}>[ WARM ] kettle</span>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Scene backdrop — simulated bg
+// ─────────────────────────────
+function SceneBg({ t, children, width = 320, height = 420 }) {
+  // bg gradient interpolated across the full transition
+  const gradStops = [
+    { pos: 0,    night: '#6c0eff', mid: '#3d0090',  day: '#a8d0ee' },
+    { pos: 0.18, night: '#1a0438', mid: '#5c1830',  day: '#b8d8f0' },
+    { pos: 0.30, night: '#0e0416', mid: '#3a1020',  day: '#c4e0f4' },
+    { pos: 0.50, night: '#480e34', mid: '#a84020',  day: '#d4ecff' },
+    { pos: 0.66, night: '#843018', mid: '#f0a060',  day: '#e2f4ff' },
+    { pos: 0.80, night: '#f0a060', mid: '#ffd0a8',  day: '#f0f8ff' },
+    { pos: 0.90, night: '#ffd0a8', mid: '#c4e0f4',  day: '#f8fcff' },
+    { pos: 1.00, night: '#a8d0ee', mid: '#a8d0ee',  day: '#ffffff' },
+  ];
+
+  const et = ease(t);
+  const stops = gradStops.map(s => {
+    const col = t <= 0.5
+      ? lerpHex(s.night, s.mid, et / ease(0.5))
+      : lerpHex(s.mid, s.day, (et - ease(0.5)) / (1 - ease(0.5)));
+    return `${col} ${(s.pos * 100).toFixed(0)}%`;
+  });
+  const grad = `linear-gradient(to bottom, ${stops.join(', ')})`;
+
+  // Sun position: rises from bottom-center at t=0.3, peaks at t=0.5, then fades
+  const sunT = Math.max(0, Math.min(1, (t - 0.2) / 0.6));
+  const sunY = height - sunT * height * 0.72;
+  const sunOpacity = t < 0.2 ? 0 : t < 0.4 ? (t - 0.2) / 0.2 : t < 0.7 ? 1 : 1 - (t - 0.7) / 0.3;
+  const sunSize = 16 + sunT * 8;
+  const sunColor = t < 0.5 ? lerpHex('#ffcc60', '#ffeebb', et / ease(0.5)) : lerpHex('#ffeebb', '#ffffff', (et - ease(0.5)) / (1 - ease(0.5)));
+
+  return (
+    <div style={{ width, height, borderRadius: 8, overflow: 'hidden', position: 'relative', flexShrink: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, background: grad, transition: 'background 80ms linear' }} />
+      {/* scan lines */}
+      <div style={{ position: 'absolute', inset: 0, opacity: 0.06, background: 'repeating-linear-gradient(180deg, rgba(255,255,255,0.08) 0, rgba(255,255,255,0.08) 1px, transparent 1px, transparent 4px)' }} />
+      {/* sun */}
+      <div style={{
+        position: 'absolute', left: '50%', top: sunY,
+        transform: 'translateX(-50%)',
+        width: sunSize, height: sunSize, borderRadius: '50%',
+        background: sunColor,
+        opacity: sunOpacity,
+        boxShadow: `0 0 ${20 + sunT*20}px ${8 + sunT*8}px ${sunColor}88, 0 0 ${60 + sunT*40}px ${20}px ${sunColor}22`,
+        transition: 'all 80ms linear',
+      }} />
+      {/* horizon glow line */}
+      <div style={{
+        position: 'absolute',
+        top: height * 0.68,
+        left: 0, right: 0, height: 1,
+        background: `rgba(255,210,150,${Math.max(0, 0.6 - Math.abs(t - 0.5) * 1.2)})`,
+      }} />
+      {children}
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Interactive scrubber demo
+// ─────────────────────────────
+function LiveDemo() {
+  const [t, setT] = React.useState(0);
+  const [playing, setPlaying] = React.useState(false);
+  const rafRef = React.useRef(null);
+  const lastRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (playing) {
+      const step = (now) => {
+        if (lastRef.current !== null) {
+          const dt = (now - lastRef.current) / 4200; // full cycle in 4.2s
+          setT(prev => {
+            const next = prev + dt;
+            if (next >= 1) { setPlaying(false); return 1; }
+            return next;
+          });
+        }
+        lastRef.current = now;
+        rafRef.current = requestAnimationFrame(step);
+      };
+      rafRef.current = requestAnimationFrame(step);
+    } else {
+      cancelAnimationFrame(rafRef.current);
+      lastRef.current = null;
+    }
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [playing]);
+
+  const st = getState(t);
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* top label */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontFamily: "'Caveat',cursive", fontSize: 18, color: '#2a1a10', fontWeight: 600 }}>
+          {st.label}
+        </span>
+        <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 10, color: 'rgba(60,40,20,0.5)' }}>
+          t = {t.toFixed(2)}
+        </span>
+      </div>
+
+      {/* scene + panel */}
+      <div style={{ display: 'flex', gap: 0, position: 'relative' }}>
+        <SceneBg t={t} width={320} height={440}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+            <SitePanel st={st} width={260} />
+          </div>
+        </SceneBg>
+      </div>
+
+      {/* scrubber */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, color: 'rgba(60,40,20,0.5)' }}>
+          <span>Night</span>
+          <span>Sunrise peak</span>
+          <span>Day</span>
+        </div>
+        {/* track with gradient */}
+        <div style={{ position: 'relative', height: 4, borderRadius: 2, background: 'linear-gradient(to right, #6c0eff, #f0a060, #ffd0a8, #a8d0ee)', marginBottom: 4 }}>
+          <input
+            type="range" min={0} max={1} step={0.001}
+            value={t}
+            onChange={e => { setPlaying(false); setT(parseFloat(e.target.value)); }}
+            style={{ position: 'absolute', inset: 0, opacity: 0, width: '100%', cursor: 'pointer', zIndex: 2 }}
+          />
+          {/* thumb indicator */}
+          <div style={{
+            position: 'absolute', top: '50%', left: `${t * 100}%`,
+            transform: 'translate(-50%, -50%)',
+            width: 14, height: 14, borderRadius: '50%',
+            background: '#6c0eff',
+            boxShadow: '0 0 8px rgba(108,14,255,0.6)',
+            pointerEvents: 'none',
+            transition: playing ? 'none' : 'left 0ms',
+          }} />
+        </div>
+        {/* play/reset */}
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button
+            onClick={() => { if (t >= 1) { setT(0); setTimeout(() => setPlaying(true), 50); } else setPlaying(p => !p); }}
+            style={{
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10,
+              padding: '5px 14px', borderRadius: 3, cursor: 'pointer',
+              background: '#6c0eff', color: '#ffd0a8',
+              border: 'none', letterSpacing: 1,
+            }}
+          >
+            {playing ? '⏸ pause' : t >= 1 ? '↺ replay' : '▶ play'}
+          </button>
+          <button
+            onClick={() => { setPlaying(false); setT(0); }}
+            style={{
+              fontFamily: "'IBM Plex Mono',monospace", fontSize: 10,
+              padding: '5px 14px', borderRadius: 3, cursor: 'pointer',
+              background: 'transparent', color: 'rgba(60,40,20,0.5)',
+              border: '1px solid rgba(60,40,20,0.2)', letterSpacing: 1,
+            }}
+          >reset</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────
+// Static state card
+// ─────────────────────────────
+function StateCard({ state, width = 300 }) {
+  const st = getState(state.t);
+  return (
+    <DCArtboard label={state.label} width={width} style={{ background: '#f8f5f0', padding: 16 }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <div style={{ fontFamily: "'Caveat',cursive", fontSize: 18, color: '#2a1a10', fontWeight: 600 }}>{state.label}</div>
+        <SceneBg t={state.t} width={width - 32} height={300}>
+          <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+            <SitePanel st={st} width={width - 64} />
+          </div>
+        </SceneBg>
+        {/* token values */}
+        <div style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 8, lineHeight: 2, color: '#3a2a1a' }}>
+          {[
+            ['--panel', `rgba(${Math.round(st.panelR)},${Math.round(st.panelG)},${Math.round(st.panelB)},${st.panelAlpha.toFixed(2)})`],
+            ['--panel-edge', st.panelEdge],
+            ['backdrop-blur', `${st.panelBlur.toFixed(0)}px`],
+            ['--accent', st.accent],
+            ['--text', st.text],
+          ].map(([k, v]) => (
+            <div key={k} style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+              <div style={{ width: 8, height: 8, borderRadius: 1, background: v.startsWith('rgba') || v.endsWith('px') ? st.panelEdge : v, border: '1px solid rgba(0,0,0,0.15)', flexShrink: 0 }} />
+              <span style={{ color: '#7c9e6c' }}>{k}</span>
+              <span style={{ color: '#c8a060' }}>{v}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </DCArtboard>
+  );
+}
+
+// ─────────────────────────────
+// Behaviour annotation board
+// ─────────────────────────────
+function BehaviourBoard() {
+  const rows = [
+    { prop: 'backdrop-filter blur', night: '0px', mid: '6px', day: '12px', note: 'Increases — panels feel frosted as sky brightens' },
+    { prop: 'panel background', night: 'rgba(14,4,22,0.80)', mid: 'rgba(28,10,8,0.72)', day: 'rgba(240,248,255,0.82)', note: 'Shifts from deep violet-dark → warm dark → light frosted' },
+    { prop: 'panel-edge border', night: '#5e3c54 (plum)', mid: '#c07040 (amber)', day: '#8ab0d0 (sky blue)', note: 'Follows the warm band, then cools to sky tone' },
+    { prop: 'text color', night: '#f0d8d0 (cream)', mid: '#ffe4d0 (warmer)', day: '#2a1a10 (dark warm)', note: 'Gets warmer at peak, inverts to dark on light bg' },
+    { prop: 'accent color', night: '#f0a060', mid: '#ffb870 (brighter)', day: '#b05820 (deeper)', note: 'Blooms at sunrise, then deepens for contrast on light' },
+    { prop: 'box-shadow', night: 'violet glow', mid: 'amber glow', day: 'sky-blue soft', note: 'Glow colour follows ambient light source' },
+    { prop: 'transition duration', night: '—', mid: '~3800ms', day: '—', note: 'Matches --sunrise-duration var (existing system)' },
+    { prop: 'easing', night: '—', mid: 'cubic-bezier(0.22,1,0.36,1)', day: '—', note: 'Fast rise, slow settle — same as current sunrise anim' },
+  ];
+
+  return (
+    <DCArtboard label="Panel behaviour spec" width={860} style={{ background: '#f8f5f0', padding: 20 }}>
+      <div style={{ fontFamily: "'Caveat',cursive", fontSize: 20, fontWeight: 600, color: '#2a1a10', marginBottom: 14 }}>What changes, and when</div>
+      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: "'IBM Plex Mono',monospace", fontSize: 8.5 }}>
+        <thead>
+          <tr style={{ borderBottom: '2px solid rgba(60,40,20,0.15)' }}>
+            {['property', 'night', 'sunrise peak', 'day', 'note'].map(h => (
+              <th key={h} style={{ textAlign: 'left', padding: '6px 10px', color: 'rgba(60,40,20,0.5)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: 1 }}>{h}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} style={{ borderBottom: '1px solid rgba(60,40,20,0.08)', background: i % 2 === 0 ? 'rgba(255,255,255,0.5)' : 'transparent' }}>
+              <td style={{ padding: '7px 10px', color: '#7c9e6c', fontWeight: 500 }}>{r.prop}</td>
+              <td style={{ padding: '7px 10px', color: '#6c5060' }}>{r.night}</td>
+              <td style={{ padding: '7px 10px', color: '#a06020' }}>{r.mid}</td>
+              <td style={{ padding: '7px 10px', color: '#3060a0' }}>{r.day}</td>
+              <td style={{ padding: '7px 10px', color: 'rgba(60,40,20,0.55)', fontStyle: 'italic' }}>{r.note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </DCArtboard>
+  );
+}
+
+// ─────────────────────────────
+// App
+// ─────────────────────────────
+function App() {
+  return (
+    <DesignCanvas>
+      {/* title */}
+      <div style={{ padding: '0 60px 6px', display: 'flex', alignItems: 'baseline', gap: 14 }}>
+        <span style={{ fontFamily: "'Caveat',cursive", fontSize: 30, fontWeight: 600, color: '#2a1a0e' }}>
+          E3 — Panel Transition
+        </span>
+        <span style={{ fontFamily: "'IBM Plex Mono',monospace", fontSize: 11, background: '#6c0eff', color: '#ffd0a8', padding: '2px 8px', borderRadius: 3 }}>
+          Marigold Night / Haze
+        </span>
+      </div>
+      <div style={{ padding: '0 60px 44px', fontFamily: "'Caveat',cursive", fontSize: 15, color: 'rgba(60,40,20,0.55)' }}>
+        How the panel looks and behaves: at rest (night) · during sunrise · settled (day)
+      </div>
+
+      {/* row 1: live demo + 3 states */}
+      <DCSection title="01 — Scrub the transition" subtitle="Drag the slider or press play to see the panel shift through all states">
+        <DCArtboard label="Live preview" width={360} style={{ background: '#f8f5f0', padding: 20 }}>
+          <LiveDemo />
+        </DCArtboard>
+        <StateCard state={{ label: 'Night  (t = 0)', t: 0 }} width={280} />
+        <StateCard state={{ label: 'Sunrise peak  (t = 0.5)', t: 0.5 }} width={280} />
+        <StateCard state={{ label: 'Day  (t = 1)', t: 1 }} width={280} />
+      </DCSection>
+
+      {/* row 2: behaviour spec */}
+      <DCSection title="02 — Behaviour spec" subtitle="Every CSS property that needs to transition, and how">
+        <BehaviourBoard />
+      </DCSection>
+
+      {/* post-its */}
+      <div style={{ position: 'relative', height: 90 }}>
+        <DCPostIt top={-24} left={60} rotate={-1} width={230}>
+          blur 0→6→12px: panels feel like frosted glass as the sky comes in.
+        </DCPostIt>
+        <DCPostIt top={-14} left={330} rotate={2} width={220}>
+          At peak: border glows amber — the panels "catch" the sunrise.
+        </DCPostIt>
+        <DCPostIt top={-20} left={590} rotate={-1.5} width={220}>
+          Day mode inverts panel to near-white. Matches light theme tokens.
+        </DCPostIt>
+      </div>
+    </DesignCanvas>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+<div id="root"></div>
+</body>
+</html>

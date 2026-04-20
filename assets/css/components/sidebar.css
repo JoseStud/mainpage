@@ -32,8 +32,8 @@
   font-weight: 700;
   text-transform: none;
   text-shadow:
-    0 0 10px rgba(98, 255, 117, 0.2),
-    0 0 18px rgba(98, 255, 117, 0.16);
+    0 0 10px rgb(var(--ok-rgb) / 0.2),
+    0 0 18px rgb(var(--ok-rgb) / 0.16);
 }
 
 .presence-detail {
@@ -48,7 +48,7 @@
   gap: 0.55rem;
   margin-top: 0.52rem;
   padding-top: 0.42rem;
-  border-top: 1px dashed rgba(122, 82, 100, 0.45);
+  border-top: 1px dashed var(--line);
 }
 
 .status-callout strong {
@@ -80,11 +80,12 @@
   place-items: center;
   width: 32px;
   height: 32px;
-  border: 1px solid rgba(107, 66, 89, 0.96);
-  background: linear-gradient(180deg, rgba(83, 44, 72, 0.96), rgba(22, 9, 17, 0.98));
+  border: 1px solid rgb(var(--panel-edge-rgb) / 0.92);
+  background: linear-gradient(180deg, rgb(var(--starfield-base-rgb) / 0.38), rgb(var(--starfield-deep-rgb) / 0.9));
   color: var(--accent-highlight);
   font-family: "Silkscreen", monospace;
   font-size: 11px;
+  box-shadow: inset 0 1px 0 rgb(var(--text-strong-rgb) / 0.04);
 }
 
 .status-meta {
@@ -116,15 +117,15 @@
   width: 88px;
   min-height: 31px;
   padding: 0.12rem 0.25rem;
-  border: 1px solid rgba(107, 66, 89, 0.95);
-  background: linear-gradient(180deg, rgba(50, 24, 37, 0.96), rgba(14, 5, 9, 0.98));
+  border: 1px solid rgb(var(--panel-edge-rgb) / 0.92);
+  background: linear-gradient(180deg, rgb(var(--starfield-base-rgb) / 0.3), rgb(var(--starfield-deep-rgb) / 0.92));
   color: var(--text-strong);
   font-family: "Silkscreen", monospace;
   font-size: 9px;
   line-height: 1;
   text-align: center;
   text-transform: uppercase;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
+  box-shadow: inset 0 0 0 1px rgb(var(--text-strong-rgb) / 0.03);
 }
 
 .button-badge:hover {
@@ -177,8 +178,8 @@
   width: 100%;
   min-height: 4.8rem;
   padding: 0.4rem 0.5rem;
-  border: 1px solid rgba(107, 66, 89, 0.95);
-  background: rgba(11, 4, 7, 0.88);
+  border: 1px solid rgb(var(--panel-edge-rgb) / 0.9);
+  background: rgb(var(--starfield-deep-rgb) / 0.72);
   color: var(--text);
   line-height: 1.35;
   resize: vertical;
@@ -203,9 +204,9 @@
   justify-content: center;
   width: 18px;
   height: 28px;
-  border: 1px solid rgba(249, 163, 107, 0.28);
+  border: 1px solid rgb(var(--accent-rgb) / 0.32);
   border-radius: 3px;
-  background: rgba(11, 4, 7, 0.88);
+  background: rgb(var(--starfield-deep-rgb) / 0.72);
   color: var(--accent-highlight);
   font-family: "NEC_APC3", monospace;
   font-size: 14px;
@@ -235,4 +236,82 @@
 
 .control-row-disabled {
   color: var(--muted);
+}
+
+:root[data-theme="light"] .presence-title,
+:root[data-theme-post-sunrise] .presence-title {
+  text-shadow: 0 0 16px rgb(47 122 74 / 0.08);
+}
+
+:root[data-theme="light"] .status-avatar,
+:root[data-theme-post-sunrise] .status-avatar {
+  border-color: var(--line);
+  background: linear-gradient(180deg, #fffdfb, #f2e4d9);
+  color: var(--accent-contrast);
+}
+
+:root[data-theme="light"] .button-badge,
+:root[data-theme-post-sunrise] .button-badge {
+  border-color: var(--line);
+  background: linear-gradient(180deg, #fffdfb, #f4e7dd);
+  color: var(--accent-contrast);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.7),
+    0 10px 24px rgb(158 76 31 / 0.04);
+}
+
+:root[data-theme="light"] .button-badge-teal,
+:root[data-theme-post-sunrise] .button-badge-teal {
+  border-color: #cab9c6;
+  background: linear-gradient(180deg, #fffdfc, #efe2e7);
+  color: #62405c;
+}
+
+:root[data-theme="light"] .button-badge-gold,
+:root[data-theme-post-sunrise] .button-badge-gold {
+  border-color: #d4b49f;
+  background: linear-gradient(180deg, #fffaf6, #f5dfd0);
+  color: #7a3e23;
+}
+
+:root[data-theme="light"] .button-badge-lime,
+:root[data-theme-post-sunrise] .button-badge-lime {
+  border-color: #cbbfae;
+  background: linear-gradient(180deg, #fffefb, #f0e7da);
+  color: #705344;
+}
+
+:root[data-theme="light"] .button-badge-pink,
+:root[data-theme-post-sunrise] .button-badge-pink {
+  border-color: #d7b5be;
+  background: linear-gradient(180deg, #fffdfc, #f3e0e6);
+  color: #7a4154;
+}
+
+:root[data-theme="light"] .button-badge-violet,
+:root[data-theme-post-sunrise] .button-badge-violet {
+  border-color: #c8b9ca;
+  background: linear-gradient(180deg, #fffdfd, #ece2ea);
+  color: #624461;
+}
+
+:root[data-theme="light"] .button-badge-orange,
+:root[data-theme-post-sunrise] .button-badge-orange {
+  border-color: #dab79b;
+  background: linear-gradient(180deg, #fffaf5, #f4dfcf);
+  color: #81471f;
+}
+
+:root[data-theme="light"] .button-snippet,
+:root[data-theme-post-sunrise] .button-snippet {
+  border-color: var(--line);
+  background: var(--bg-2);
+  color: var(--text);
+}
+
+:root[data-theme="light"] .counter span,
+:root[data-theme-post-sunrise] .counter span {
+  border-color: #dbbcaa;
+  background: linear-gradient(180deg, #fffdfb, #f7ebe2);
+  color: var(--accent-contrast);
 }
