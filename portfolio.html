@@ -51,6 +51,7 @@
 <body data-page="portfolio">
 <a class="skip-link" href="#content">skip to content</a>
 <div class="bg-photo" aria-hidden="true">
+  <div class="bg-sky-day" aria-hidden="true"></div>
   <div class="bg-photo-backdrop" aria-hidden="true">
     <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--saturn" src="assets/images/background-icons/motif-saturn.svg" alt="" loading="eager" decoding="async">
     <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--vase-table" src="assets/images/background-icons/motif-vase-table.svg" alt="" loading="eager" decoding="async">
@@ -95,7 +96,8 @@
     <span class="header-sub">/portfolio.html · project shelf · hand-made software</span></header>
 
   <main class="layout" id="content">
-    <div class="col col-main"><section class="box" id="project-shelf">
+    <div class="col col-main"><!-- section: portfolio/shelf-intro | title: Shelf intro | source: site-src/pages/portfolio/shelf-intro.section.html | docs: docs/sections/portfolio/shelf-intro.md -->
+<section class="box" id="project-shelf">
         <div class="box-heading">
           <h1 class="box-title">/projects</h1>
           <span class="box-chip">6 active things</span>
@@ -118,13 +120,15 @@
         </div>
       </section>
 
-      <section class="box marquee-box" aria-label="Project ticker">
+<!-- section: portfolio/project-ticker | title: Project ticker | source: site-src/pages/portfolio/project-ticker.section.html | docs: docs/sections/portfolio/project-ticker.md -->
+<section class="box marquee-box" aria-label="Project ticker">
         <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
           software should be specific · shipping small beats planning huge · interfaces can be warm too ·
         </marquee>
       </section>
 
-      <section class="box">
+<!-- section: portfolio/project-lineup | title: Project lineup | source: site-src/pages/portfolio/project-lineup.section.html | docs: docs/sections/portfolio/project-lineup.md -->
+<section class="box">
         <div class="box-heading">
           <h2 class="box-title">Project shelf</h2>
           <span class="box-chip">current lineup</span>
@@ -227,7 +231,8 @@
         </div>
       </section>
 
-      <div class="portal-split">
+<!-- section: portfolio/portal-split | title: By language + workbench notes | source: site-src/pages/portfolio/portal-split.section.html | docs: docs/sections/portfolio/portal-split.md -->
+<div class="portal-split">
         <section class="box">
           <div class="box-heading">
             <h2 class="box-title">By language</h2>

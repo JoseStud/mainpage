@@ -51,6 +51,7 @@
 <body data-page="blog">
 <a class="skip-link" href="#content">skip to content</a>
 <div class="bg-photo" aria-hidden="true">
+  <div class="bg-sky-day" aria-hidden="true"></div>
   <div class="bg-photo-backdrop" aria-hidden="true">
     <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--saturn" src="assets/images/background-icons/motif-saturn.svg" alt="" loading="eager" decoding="async">
     <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--vase-table" src="assets/images/background-icons/motif-vase-table.svg" alt="" loading="eager" decoding="async">
@@ -95,7 +96,8 @@
     <span class="header-sub">/blog.html · archive mode · notes over growth loops</span></header>
 
   <main class="layout" id="content">
-    <div class="col col-main"><section class="box" id="reading-desk">
+    <div class="col col-main"><!-- section: blog/reading-desk-intro | title: Reading desk intro | source: site-src/pages/blog/reading-desk-intro.html | docs: docs/sections/blog/reading-desk-intro.md -->
+<section class="box" id="reading-desk">
         <div class="box-heading">
           <h1 class="box-title">/blog.log</h1>
           <span class="box-chip">24 entries total</span>
@@ -119,13 +121,15 @@
         </div>
       </section>
 
-      <section class="box marquee-box" aria-label="Blog ticker">
+<!-- section: blog/blog-ticker | title: Blog ticker | source: site-src/pages/blog/blog-ticker.html | docs: docs/sections/blog/blog-ticker.md -->
+<section class="box marquee-box" aria-label="Blog ticker">
         <marquee scrollamount="4" onmouseover="this.stop();" onmouseout="this.start();">
           plain text first, polish later · no "read time" badges · notes over strategy · archive is alive ·
         </marquee>
       </section>
 
-      <section class="box">
+<!-- section: blog/recent-entries | title: Recent entries | source: site-src/pages/blog/recent-entries.html | docs: docs/sections/blog/recent-entries.md -->
+<section class="box">
         <div class="box-heading">
           <h2 class="box-title">Recent entries</h2>
           <span class="box-chip">latest notes</span>
@@ -174,7 +178,8 @@
         </div>
       </section>
 
-      <div class="portal-split">
+<!-- section: blog/draft-board-life-tracker | title: Draft board + life tracker split | source: site-src/pages/blog/draft-board-life-tracker.html | docs: docs/sections/blog/draft-board-life-tracker.md -->
+<div class="portal-split">
         <section class="box" id="draft-board">
           <div class="box-heading">
             <h2 class="box-title">Draft board</h2>

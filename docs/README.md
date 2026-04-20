@@ -41,7 +41,8 @@ done
 ## Where to edit
 
 - Shared document boilerplate: `site-src/template.html`
-- Page-specific content: `site-src/pages/*.content.html`
+- Page manifests and section partials: `site-src/pages/<page>/`
+- Section docs: `docs/sections/<page>/`
 - Regenerate top-level HTML: `node scripts/build-pages.mjs`
 - Shared shell data: `assets/js/config/shared-shell.js` and `assets/js/config/page-shells.js`
 - Shared shell build output: `assets/js/ui/shell-static.js`
@@ -53,6 +54,7 @@ done
 ## Extra reference
 
 - `docs/performance.md`
+- `docs/sections/README.md`
 - `docs/superpowers/specs/2026-04-14-dimden-style-redesign.md`
 
 ## Performance guardrail

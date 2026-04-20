@@ -31,7 +31,7 @@ Now-playing is read from multi-scrobbler on the same node via:
 
 ## Regenerate pages
 
-The source of truth for the shared HTML wrapper now lives in `site-src/template.html`, and the page bodies live in `site-src/pages/*.content.html`.
+The source of truth for the shared HTML wrapper lives in `site-src/template.html`, and each page body is now assembled from section partials declared in `site-src/pages/<page>/page.config.mjs`.
 
 Rebuild the generated entry pages with:
 
@@ -93,8 +93,9 @@ This repo now includes:
 ## Architecture
 
 - `site-src/template.html` defines the shared document boilerplate for every entry page.
-- `site-src/pages/index.content.html`, `site-src/pages/blog.content.html`, and `site-src/pages/portfolio.content.html` hold the page-specific HTML fragments.
-- `scripts/build-pages.mjs` renders the generated `index.html`, `blog.html`, and `portfolio.html` files, pre-renders the shared shell, and supports `--check` for drift detection.
+- `site-src/pages/home/`, `site-src/pages/blog/`, and `site-src/pages/portfolio/` hold page manifests plus the ordered section partials for each page.
+- `docs/sections/` documents every section partial and provides page-level section indexes for contributors.
+- `scripts/build-pages.mjs` renders the generated `index.html`, `blog.html`, and `portfolio.html` files, pre-renders the shared shell, embeds source/doc breadcrumbs for each section, and supports `--check` for drift detection.
 - `assets/css/styles.css` is the single stylesheet entrypoint and imports the focused CSS modules below.
 - `assets/css/tokens.css` defines theme tokens for dark/light variants.
 - `assets/css/base.css` handles resets, document-wide typography, and default element styling.
@@ -124,8 +125,10 @@ This repo now includes:
 
 ## Editing notes
 
-- Edit page-specific writing and content boxes in `site-src/pages/*.content.html`, not in the generated top-level HTML files.
-- Run `node scripts/build-pages.mjs` after changing `site-src/template.html` or any file under `site-src/pages/`.
+- Edit page content in the smallest relevant section partial under `site-src/pages/<page>/`, not in the generated top-level HTML files.
+- Keep section docs in `docs/sections/<page>/` aligned with the matching partials. The build will fail if a section doc is missing.
+- Update `site-src/pages/<page>/page.config.mjs` when adding, removing, or reordering sections.
+- Run `node scripts/build-pages.mjs` after changing `site-src/template.html` or anything under `site-src/pages/`.
 - Update shared shell copy and widget content in `assets/js/config/shared-shell.js` or `assets/js/config/page-shells.js`.
 - Update shared frame markup in `site-src/template.html`, and keep `assets/js/ui/page-frame.js` aligned as the runtime fallback.
 - Update shared chrome rendering in `assets/js/ui/shell-sections.js`, and keep `assets/js/ui/shell-static.js` aligned for build-time output.
