@@ -1,16 +1,18 @@
+# Local browser/test scratch state
 .playwright-mcp/
 .superpowers/brainstorm/
 
-after-finish.png
-at-*.png
-before-finish.png
-post-animation.png
-post-finish-slow.png
-pre-finish-slow.png
-s-post.png
-s-pre.png
-static-light.png
-t1700.png
-t2000.png
-
+# Local performance trace captures
 perf/Trace-*.json
+
+# Root-level visual debugging captures
+/after-finish.png
+/at-*.png
+/before-finish.png
+/post-animation.png
+/post-finish-slow.png
+/pre-finish-slow.png
+/s-post.png
+/s-pre.png
+/static-light.png
+/t[0-9]*.png

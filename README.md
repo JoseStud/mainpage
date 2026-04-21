@@ -51,6 +51,7 @@ node scripts/build-pages.mjs --check
 
 ```bash
 cd /home/anxiuser/mainpage
+node scripts/test-shell-renderer.mjs
 node scripts/build-pages.mjs --check
 for f in public/index.html public/blog.html public/portfolio.html; do
   xmllint --html --noout "$f"
@@ -110,11 +111,11 @@ This repo includes:
 - `public/assets/js/config/shared-shell.js` holds shell data reused across all pages.
 - `public/assets/js/config/page-shells.js` holds per-page shell copy and page-specific sidebar and footer variants.
 - `public/assets/js/config/shell.js` provides the shell lookup entrypoint used by the app boot.
-- `public/assets/js/ui/page-frame.js` provides the runtime fallback that wraps legacy `[data-page-content]` markup if a generated page shell is missing.
 - `public/assets/js/ui/dom.js` and `public/assets/js/ui/html.js` hold safe DOM and link helpers for shell rendering.
 - `public/assets/js/ui/shell-sections.js` renders individual header, sidebar, footer, and tweaks sections with DOM APIs.
-- `public/assets/js/ui/shell-static.js` pre-renders the shared shell for generated HTML output.
 - `public/assets/js/ui/shell.js` coordinates shell rendering.
+- `scripts/render-shell-markup.mjs` serializes `public/assets/js/ui/shell-sections.js` for generated HTML output.
+- `scripts/test-shell-renderer.mjs` checks the build-time shell serialization path.
 - `public/assets/js/features/clock.js` updates the live local-time readout.
 - `public/assets/js/features/status-rotator.js` rotates the "Last loop" messages.
 - `public/assets/js/features/music-now.js` polls `/api/music/now-playing` and updates the sidebar "Now playing" track.
@@ -131,8 +132,8 @@ This repo includes:
 - Update `src/site/pages/<page>/page.config.mjs` when adding, removing, or reordering sections.
 - Run `node scripts/build-pages.mjs` after changing `src/site/template.html` or anything under `src/site/pages/`.
 - Update shared shell copy and widget content in `public/assets/js/config/shared-shell.js` or `public/assets/js/config/page-shells.js`.
-- Update shared frame markup in `src/site/template.html`, and keep `public/assets/js/ui/page-frame.js` aligned as the runtime fallback.
-- Update shared chrome rendering in `public/assets/js/ui/shell-sections.js`, and keep `public/assets/js/ui/shell-static.js` aligned for build-time output.
+- Update shared frame markup in `src/site/template.html`.
+- Update shared chrome rendering in `public/assets/js/ui/shell-sections.js`; the build serializes that same DOM renderer through `scripts/render-shell-markup.mjs`.
 - Add behavior in the smallest relevant feature module under `public/assets/js/features/`.
 - Add styling in the smallest relevant CSS module instead of growing one large file.
 - Preserve the `data-page` value on `<body>` so the shared shell can mark the active page correctly.

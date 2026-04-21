@@ -42,7 +42,9 @@ Do not treat `public/*.html` as hand-edited source.
 - Shared wrapper template: `src/site/template.html`
 - Build pipeline: `scripts/build-pages.mjs`
 - Shared shell config: `public/assets/js/config/shared-shell.js` and `public/assets/js/config/page-shells.js`
-- Shared shell renderers: `public/assets/js/ui/shell-static.js`, `public/assets/js/ui/shell-sections.js`, `public/assets/js/ui/shell.js`
+- Shared shell runtime rendering: `public/assets/js/ui/shell-sections.js` and `public/assets/js/ui/shell.js`
+- Shared shell build serialization: `scripts/render-shell-markup.mjs`
+- Shared shell renderer test: `scripts/test-shell-renderer.mjs`
 - Client features: `public/assets/js/features/`
 - CSS modules: `public/assets/css/`
 
@@ -69,6 +71,7 @@ node src/server/index.js
 
 ```bash
 cd /home/anxiuser/mainpage
+node scripts/test-shell-renderer.mjs
 node scripts/build-pages.mjs --check
 ```
 

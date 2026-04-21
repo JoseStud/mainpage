@@ -9,15 +9,12 @@ import { startStatusRotator } from "./features/status-rotator.js";
 import { createThemeController } from "./features/theme-transition.js";
 import { initTweaks } from "./features/tweaks.js";
 import { syncYear } from "./features/year.js";
-import { ensurePageFrame } from "./ui/page-frame.js";
 import { renderShell } from "./ui/shell.js";
 
 const pageId = document.body.dataset.page || "home";
 const pageRuntime = window.PAGE_RUNTIME && typeof window.PAGE_RUNTIME === "object" ? window.PAGE_RUNTIME : {};
 const showPageChrome = pageRuntime.showPageChrome !== false;
 const tweaks = getInitialTweaks();
-
-ensurePageFrame();
 
 const pageShell = getPageShell(pageId);
 const themeController = createThemeController();

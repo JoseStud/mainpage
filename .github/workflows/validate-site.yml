@@ -20,6 +20,9 @@ jobs:
           sudo apt-get update
           sudo apt-get install --yes libxml2-utils
 
+      - name: Test shell renderer
+        run: node scripts/test-shell-renderer.mjs
+
       - name: Check generated page drift
         run: node scripts/build-pages.mjs --check
 

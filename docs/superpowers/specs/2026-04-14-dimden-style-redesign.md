@@ -91,8 +91,8 @@ Shared content for those widgets now lives in `assets/js/config/shared-shell.js`
 ## Implementation Architecture
 
 ### HTML
-- `index.html`, `blog.html`, and `portfolio.html` contain page-specific content only inside `[data-page-content]`
-- The shared shell frame is mounted at runtime by `assets/js/ui/page-frame.js`
+- Historical note: this spec originally mounted the shared shell frame at runtime around `[data-page-content]`.
+- As of 2026-04-21, generated entry pages include the frame from `site-src/template.html`; the runtime frame fallback was removed.
 
 ### CSS
 - `assets/css/styles.css` is now an entrypoint that imports focused modules instead of holding all rules directly
@@ -106,8 +106,8 @@ Shared content for those widgets now lives in `assets/js/config/shared-shell.js`
 
 ### JavaScript
 - `assets/js/main.js` bootstraps the page
-- `assets/js/ui/page-frame.js` mounts the shared shell frame
 - `assets/js/ui/shell.js` renders shared shell regions
+- `scripts/render-shell-markup.mjs` serializes the same shell renderer for generated HTML output
 - `assets/js/features/clock.js` updates the local time
 - `assets/js/features/status-rotator.js` cycles "Last loop" messages
 - `assets/js/features/rain.js` drives the rain effect and stores the toggle in `localStorage` with key `rain-disabled`
@@ -132,8 +132,8 @@ Shared content for those widgets now lives in `assets/js/config/shared-shell.js`
 | `assets/js/config/shared-shell.js` | Shared sidebar/footer data reused by every page |
 | `assets/js/config/page-shells.js` | Per-page shell copy and sidebar/footer variants |
 | `assets/js/config/shell.js` | Shell lookup entrypoint |
-| `assets/js/ui/page-frame.js` | Shared page-frame mount |
 | `assets/js/ui/shell.js` | Shared shell renderer |
+| `scripts/render-shell-markup.mjs` | Build-time shell serialization |
 | `assets/js/features/clock.js` | Clock feature |
 | `assets/js/features/status-rotator.js` | Rotating status text |
 | `assets/js/features/rain.js` | Rain engine and toggle persistence |

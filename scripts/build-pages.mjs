@@ -3,11 +3,11 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import { getPageShell } from "../public/assets/js/config/shell.js";
-import { renderShellMarkup } from "../public/assets/js/ui/shell-static.js";
 import { homePage } from "../src/site/pages/home/page.config.mjs";
 import { blogPage } from "../src/site/pages/blog/page.config.mjs";
 import { portfolioPage } from "../src/site/pages/portfolio/page.config.mjs";
 import { sunriseTestPages } from "../src/site/pages/sunrise-test/page.config.mjs";
+import { renderShellMarkup } from "./render-shell-markup.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const siteDir = path.join(rootDir, "src", "site");
