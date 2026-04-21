@@ -36,6 +36,8 @@ Do not treat `public/*.html` as hand-edited source.
 
 ## Architecture At A Glance
 
+See `docs/architecture.md` for the full file map and editing rules.
+
 - Page manifests: `src/site/pages/<page>/page.config.mjs`
 - Section source files: `src/site/pages/<page>/`
 - Section docs (required by build): `docs/sections/<page>/`
@@ -136,6 +138,7 @@ If the doc file is missing, build will fail with a missing section documentation
 
 - Beginner static-site guide: `docs/static-web-basics.md`
 - Beginner animation guide: `docs/animations-beginner-guide.md`
+- Architecture and editing rules: `docs/architecture.md`
 - Section-doc contract: `docs/sections/README.md`
 - Home page docs: `docs/sections/home/README.md`
 - Blog page docs: `docs/sections/blog/README.md`
