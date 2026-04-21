@@ -2,6 +2,8 @@ const { createServer } = require("node:http");
 const { createReadStream } = require("node:fs");
 const { stat } = require("node:fs/promises");
 const path = require("node:path");
+const { pipeline } = require("node:stream/promises");
+const { createGzip } = require("node:zlib");
 
 const HOST = process.env.HOST || "0.0.0.0";
 const PORT = Number.parseInt(process.env.PORT || "8000", 10);
@@ -15,6 +17,8 @@ const DEFAULT_MULTI_SCROBBLER_SOURCE_TYPE = (process.env.MULTI_SCROBBLER_SOURCE_
 
 const PUBLIC_DIR = path.resolve(__dirname, "..", "..", "public");
 const INDEX_FILE = "/index.html";
+const HTML_CACHE_CONTROL = "public, max-age=60";
+const STATIC_ASSET_CACHE_CONTROL = "public, max-age=31536000, immutable";
 
 const MIME_TYPES = {
   ".css": "text/css; charset=utf-8",
@@ -32,6 +36,69 @@ const MIME_TYPES = {
 
 function getContentType(filePath) {
   return MIME_TYPES[path.extname(filePath).toLowerCase()] || "application/octet-stream";
+}
+
+function getCacheControl(filePath) {
+  return path.extname(filePath).toLowerCase() === ".html" ? HTML_CACHE_CONTROL : STATIC_ASSET_CACHE_CONTROL;
+}
+
+function getEntityTag(fileStats) {
+  return `W/"${fileStats.size.toString(16)}-${Math.trunc(fileStats.mtimeMs).toString(16)}"`;
+}
+
+function isFreshRequest(req, etag, lastModified) {
+  const ifNoneMatch = req.headers["if-none-match"];
+  if (typeof ifNoneMatch === "string") {
+    return ifNoneMatch
+      .split(",")
+      .map((value) => value.trim())
+      .includes(etag);
+  }
+
+  const ifModifiedSince = req.headers["if-modified-since"];
+  if (typeof ifModifiedSince !== "string") {
+    return false;
+  }
+
+  const since = Date.parse(ifModifiedSince);
+  const modified = Date.parse(lastModified);
+  return Number.isFinite(since) && Number.isFinite(modified) && modified <= since;
+}
+
+function isCompressible(filePath) {
+  return [".css", ".html", ".js", ".json", ".svg", ".txt"].includes(path.extname(filePath).toLowerCase());
+}
+
+function acceptsGzip(req) {
+  const acceptEncoding = req.headers["accept-encoding"];
+  if (typeof acceptEncoding !== "string") {
+    return false;
+  }
+
+  return acceptEncoding.split(",").some((entry) => {
+    const [coding, ...params] = entry.trim().split(";").map((part) => part.trim().toLowerCase());
+    if (coding !== "gzip" && coding !== "*") {
+      return false;
+    }
+
+    return !params.some((param) => param === "q=0" || param === "q=0.0" || param === "q=0.00");
+  });
+}
+
+function getPlayHref(meta) {
+  const url = meta.url && typeof meta.url === "object" ? meta.url : null;
+  if (!url) {
+    return null;
+  }
+
+  for (const key of ["origin", "web"]) {
+    const value = url[key];
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
 }
 
 function toEpoch(value) {
@@ -55,14 +122,7 @@ function buildPlayCandidate(source, player) {
   const artists = Array.isArray(data.artists) ? data.artists.filter((x) => typeof x === "string" && x.trim()) : [];
   const artist = artists.length > 0 ? artists.join(", ") : "";
   const album = typeof data.album === "string" ? data.album.trim() : "";
-  const href =
-    meta.url && typeof meta.url === "object"
-      ? typeof meta.url.origin === "string" && meta.url.origin
-        ? meta.url.origin
-        : typeof meta.url.web === "string" && meta.url.web
-          ? meta.url.web
-          : null
-      : null;
+  const href = getPlayHref(meta);
   const playedAt = typeof data.playDate === "string" && data.playDate ? data.playDate : null;
   const nowPlaying = meta.nowPlaying === true || player.nowPlayingMode === true;
   const title = track && artist ? `${track} - ${artist}` : track || artist || "";
@@ -149,7 +209,7 @@ async function fetchRecentForSource(source) {
     return null;
   }
 
-  const payload = await response.json();
+  const payload = await readJson(response, "recent");
   if (!Array.isArray(payload) || payload.length === 0 || !payload[0]) {
     return null;
   }
@@ -163,6 +223,16 @@ function sendJson(res, status, body) {
     "Content-Type": "application/json; charset=utf-8",
   });
   res.end(JSON.stringify(body));
+}
+
+async function readJson(response, label) {
+  try {
+    return await response.json();
+  } catch {
+    const error = new Error(`multi-scrobbler ${label} returned invalid JSON`);
+    error.statusCode = 502;
+    throw error;
+  }
 }
 
 async function handleNowPlaying(req, res) {
@@ -184,7 +254,14 @@ async function handleNowPlaying(req, res) {
     return;
   }
 
-  const statusPayload = await statusResponse.json();
+  let statusPayload;
+  try {
+    statusPayload = await readJson(statusResponse, "status");
+  } catch (error) {
+    sendJson(res, error.statusCode || 502, { message: error.message });
+    return;
+  }
+
   const source = chooseSource(statusPayload?.sources, sourceName, sourceType);
 
   if (!source) {
@@ -194,7 +271,12 @@ async function handleNowPlaying(req, res) {
 
   let candidate = pickCandidateFromSource(source);
   if (!candidate) {
-    candidate = await fetchRecentForSource(source);
+    try {
+      candidate = await fetchRecentForSource(source);
+    } catch (error) {
+      sendJson(res, error.statusCode || 502, { message: error.message });
+      return;
+    }
   }
 
   if (!candidate) {
@@ -272,8 +354,50 @@ async function handleStatic(req, res) {
     return;
   }
 
-  res.writeHead(200, { "Content-Type": getContentType(filePath) });
-  createReadStream(filePath).pipe(res);
+  const contentType = getContentType(filePath);
+  const etag = getEntityTag(fileStats);
+  const lastModified = fileStats.mtime.toUTCString();
+  const compress = isCompressible(filePath) && acceptsGzip(req);
+  const headers = {
+    "Cache-Control": getCacheControl(filePath),
+    "Content-Type": contentType,
+    ETag: etag,
+    "Last-Modified": lastModified,
+  };
+
+  if (isCompressible(filePath)) {
+    headers.Vary = "Accept-Encoding";
+  }
+
+  if (isFreshRequest(req, etag, lastModified)) {
+    res.writeHead(304, headers);
+    res.end();
+    return;
+  }
+
+  if (compress) {
+    headers["Content-Encoding"] = "gzip";
+  } else {
+    headers["Content-Length"] = fileStats.size;
+  }
+
+  res.writeHead(200, headers);
+  if (req.method === "HEAD") {
+    res.end();
+    return;
+  }
+
+  try {
+    if (compress) {
+      await pipeline(createReadStream(filePath), createGzip(), res);
+    } else {
+      await pipeline(createReadStream(filePath), res);
+    }
+  } catch (error) {
+    if (!res.destroyed) {
+      res.destroy(error);
+    }
+  }
 }
 
 const server = createServer(async (req, res) => {
