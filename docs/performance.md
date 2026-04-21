@@ -109,7 +109,7 @@ The current site is most sensitive to:
 - paint-heavy decorative background layers
 - raster cost from animated visual effects
 
-Recent fixes reduced the animation budget in `public/assets/js/features/background-sprinkles.js` and narrowed transition disabling in `public/assets/css/effects.css` to avoid full-document invalidation during theme transitions. Be careful with selectors that target `:root[data-theme-*] *`, because they can trigger wide `UpdateLayoutTree` work.
+Recent fixes reduced the animation budget in `public/assets/js/features/background-sprinkles.js` and narrowed transition disabling in `public/assets/css/effects/sunrise.css` to avoid full-document invalidation during theme transitions. Be careful with selectors that target `:root[data-theme-*] *`, because they can trigger wide `UpdateLayoutTree` work.
 
 ## PR checklist for UI changes
 

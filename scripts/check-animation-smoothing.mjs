@@ -11,9 +11,14 @@ const targets = [
     ],
   },
   {
-    file: "public/assets/css/effects.css",
+    file: "public/assets/css/effects/rain.css",
     checks: [
       [/animation:\s*rain-fallback-slide\s+18s\s+var\(--ambient-ease,\s*ease-in-out\)\s+infinite\s+alternate;/, "rain fallback drift is slower and alternates smoothly"],
+    ],
+  },
+  {
+    file: "public/assets/css/effects/crt.css",
+    checks: [
       [/0%,\s*\n\s*100%\s*\{[\s\S]*?opacity:\s*1;[\s\S]*?50%\s*\{[\s\S]*?-\s*0\.6px\)\);[\s\S]*?opacity:\s*0\.94;/, "logo pulse is gentler than the previous 1px/0.88 pulse"],
     ],
   },

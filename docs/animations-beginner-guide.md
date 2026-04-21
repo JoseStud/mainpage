@@ -23,156 +23,27 @@ On page load, `public/assets/js/main.js` starts the animation features in this o
 
 | Animation | What visitors see | Main files | Type |
 | --- | --- | --- | --- |
-| Rain overlay | diagonal rain on top of page | `public/assets/js/features/rain.js`, `public/assets/css/effects.css` | JS canvas + CSS opacity |
-| Background sprinkles | floating clouds, stars, and decorative icons in the background | `public/assets/js/features/background-sprinkles.js`, `public/assets/css/base.css`, `public/assets/css/effects.css` | JS placement + CSS keyframes |
-| Sunrise theme transition | animated dark-to-light switch with sky, sun, and soft fade effects | `public/assets/js/features/theme-transition.js`, `public/assets/css/effects.css` | JS state + CSS transitions/keyframes |
-| Header logo pulse/flicker | subtle logo glow flicker and letter pulse | `public/assets/css/components/header.css`, `public/assets/css/effects.css` | CSS keyframes |
+| Rain overlay | diagonal rain on top of page | `public/assets/js/features/rain.js`, `public/assets/css/effects/rain.css` | JS canvas + CSS opacity |
+| Background sprinkles | floating clouds, stars, and decorative icons in the background | `public/assets/js/features/background-sprinkles.js`, `public/assets/css/base.css`, `public/assets/css/effects/sprinkles.css` | JS placement + CSS keyframes |
+| Sunrise theme transition | animated dark-to-light switch with sky, sun, and soft fade effects | `public/assets/js/features/theme-transition.js`, `public/assets/css/effects/sunrise.css` | JS state + CSS transitions/keyframes |
+| Header logo pulse/flicker | subtle logo glow flicker and letter pulse | `public/assets/css/components/header.css`, `public/assets/css/effects/crt.css` | CSS keyframes |
 | Ticker motion | scrolling text strips in home/blog/portfolio | section HTML files under `src/site/pages/...`, `public/assets/css/components/intro.css` | HTML marquee behavior |
 | Status rotator | text message changes every few seconds in sidebar "Last loop" | `public/assets/js/features/status-rotator.js` | JS timer |
 
-## `effects.css` Block-By-Block (Beginner Map)
+## Effect Stylesheets (Beginner Map)
 
-This is the main animation stylesheet:
+`public/assets/css/effects.css` is an import-only entrypoint. The actual effect rules live in focused files:
 
-- `public/assets/css/effects.css`
+- `public/assets/css/effects/crt.css`: global scanline/vignette overlays, logo flicker keyframes, and reduced-motion safety for CRT-style motion.
+- `public/assets/css/effects/rain.css`: rain canvas styling, fallback rain layer, light-mode rain overrides, `rain-fallback-slide`, and reduced-motion safety.
+- `public/assets/css/effects/sprinkles.css`: light-mode sprinkle overrides plus `bg-sprinkle-float`, `bg-cloud-drift`, and `bg-star-twinkle`.
+- `public/assets/css/effects/sunrise.css`: sunrise `@property` registrations, final light scene state, transition prep, day sky layer, and sunrise softening keyframes.
 
-You can read it top-to-bottom using these section comments.
+Safe beginner tweaks:
 
-### 1) Animation tokens (`@property ...`)
-
-What it does:
-
-- Declares animatable CSS custom properties like `--scene-stop-*`, `--panel`, and `--logo-glow`.
-- Lets sunrise transitions interpolate color/length values smoothly.
-
-Why this exists:
-
-- Without `@property`, some browsers cannot animate custom property values reliably.
-
-Safe beginner tweak:
-
-- Change one initial token value at a time (example: `--scene-stop-4`) and reload.
-
-### 2) Global overlays and rain layers
-
-Main selectors:
-
-- `body::before`, `body::after`
-- `#rain-canvas`, `.rain-fallback`
-
-What it does:
-
-- Adds scanline/noise-like top overlay.
-- Adds global vignette glow.
-- Controls visible rain layer and CSS fallback rain layer.
-
-Safe beginner tweak:
-
-- Lower `#rain-canvas` opacity if rain feels too strong.
-
-### 3) Light-mode scene overrides
-
-Main selectors:
-
-- `:root[data-theme="light"] ...`
-
-What it does:
-
-- Adjusts opacity/blend mode for scene layers in light mode.
-- Fades out dark-only layers (stars/clouds/icons/vignette noise).
-
-Safe beginner tweak:
-
-- Keep layer removals (`opacity: 0`) unless you intentionally want stars visible in daytime.
-
-### 4) Sunrise transition prep
-
-Main selectors:
-
-- `:root[data-theme-transition="sunrise"] ...`
-
-What it does:
-
-- Uses `will-change` on heavy layers.
-- Pauses unrelated animation loops.
-- Temporarily disables normal transition properties to avoid competing animations.
-
-Why this matters:
-
-- Prevents jank while the sunrise transition runs.
-
-### 5) Sunrise token blend engine
-
-Main selector:
-
-- `:root[data-theme-transition="sunrise"] { transition: ... }`
-
-What it does:
-
-- Animates many custom properties over `--sunrise-duration`.
-- This is the core dark-to-light blend.
-
-Safe beginner tweak:
-
-- Change `--sunrise-duration` in JS/theme config, not by editing all transition entries.
-
-### 6) Light-theme resolved token values
-
-Main selectors:
-
-- `:root[data-theme="light"], :root[data-theme-resolved="light"]`
-
-What it does:
-
-- Defines final daytime palette/shadows after transition completes.
-
-Safe beginner tweak:
-
-- Adjust one token family at a time (panel colors first, then text colors).
-
-### 7) Day sky layer + sunrise attachments
-
-Main selectors:
-
-- `.bg-sky-day`
-- `:root[data-theme-transition="sunrise"] .bg-sunrise-*`
-- `:root[data-theme-transition="sunrise"] .bg-photo*`, `.bg-scene-layer*`, `#rain-canvas`
-
-What it does:
-
-- Adds static daytime gradient layer.
-- Hooks each visual layer to the keyframe that should run during sunrise.
-
-Safe beginner tweak:
-
-- Tweak one layer timing at a time. Start with `.bg-sunrise-sun` if you want a clearer sunrise arc.
-
-### 8) Keyframes section
-
-Main keyframe groups:
-
-- Sunrise accents: `sunrise-horizon`, `sunrise-wash`, `sunrise-veil`, `sunrise-sun`
-- Ambient loops: `bg-sprinkle-float`, `bg-cloud-drift`, `bg-star-twinkle`, `rain-fallback-slide`
-- Sunrise softening: `sunrise-window-soften`, `sunrise-photo-soften`, `sunrise-*fade/soften`
-- Header motion: `logo-flicker`, `letter-pulse` (used by `components/header.css`)
-
-What changed in this refactor:
-
-- Removed unused legacy keyframes (`sunrise-horizon-rise`, `sunrise-wash-lift`, `sunrise-veil-settle`, `sunrise-sun-arc`) so the file is easier to learn.
-
-### 9) Reduced motion safety
-
-Main block:
-
-- `@media (prefers-reduced-motion: reduce)`
-
-What it does:
-
-- Disables loops/transitions for users who request less motion.
-
-Rule for contributors:
-
-- Any new animation should include a reduced-motion fallback in this block.
+- Lower `#rain-canvas` opacity in `effects/rain.css` if rain feels too strong.
+- Tweak one sunrise layer timing at a time in `effects/sunrise.css`. Start with `.bg-sunrise-sun` if you want a clearer sunrise arc.
+- Any new animation should include a reduced-motion fallback in the same effect file.
 
 ## Where The Animation Layers Come From
 
@@ -218,7 +89,7 @@ Change:
 
 Edit:
 
-- `public/assets/css/effects.css`
+- `public/assets/css/effects/rain.css`
 
 Change:
 
@@ -235,7 +106,7 @@ The site already includes reduced-motion handling:
 
 - Rain auto-disables when `prefers-reduced-motion: reduce` is active.
 - Background sprinkles use a motion budget (minimal/balanced/full) based on device capability and reduced-motion/save-data signals.
-- CSS disables several animations under reduced-motion media query in `public/assets/css/effects.css`.
+- CSS disables animations under reduced-motion media queries in the relevant `public/assets/css/effects/*.css` files.
 
 If you add or increase animation work, run the profiling flow in `docs/performance.md`.
 

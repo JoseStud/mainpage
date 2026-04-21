@@ -1,0 +1,72 @@
+#rain-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.26;
+  mix-blend-mode: screen;
+  transition: opacity 220ms ease;
+}
+
+#rain-canvas.rain-hidden {
+  opacity: 0;
+}
+
+.rain-fallback {
+  position: fixed;
+  inset: -18%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.1;
+  mix-blend-mode: screen;
+  background-image:
+    repeating-linear-gradient(
+      168deg,
+      rgba(214, 232, 255, 0.58) 0 2px,
+      transparent 2px 18px
+    ),
+    repeating-linear-gradient(
+      168deg,
+      rgba(177, 210, 255, 0.24) 0 2px,
+      transparent 2px 26px
+    );
+  background-size: 220px 240px, 320px 360px;
+  animation: rain-fallback-slide 18s var(--ambient-ease, ease-in-out) infinite alternate;
+  transition: opacity 720ms ease;
+}
+
+:root[data-theme="light"] #rain-canvas {
+  opacity: 0.08;
+  mix-blend-mode: multiply;
+}
+
+:root[data-theme="light"] .rain-fallback {
+  opacity: 0.03;
+  mix-blend-mode: multiply;
+}
+
+body.rain-ready .rain-fallback {
+  opacity: 0;
+}
+
+@keyframes rain-fallback-slide {
+  0% {
+    transform: translate3d(0, -8%, 0);
+  }
+
+  100% {
+    transform: translate3d(-5%, 12%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rain-fallback {
+    animation: none !important;
+  }
+
+  #rain-canvas {
+    transition: none !important;
+  }
+}
