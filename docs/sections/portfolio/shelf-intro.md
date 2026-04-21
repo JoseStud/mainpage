@@ -2,15 +2,58 @@
 
 ## Purpose
 
-Owns the opening `/projects` box, including the page anchor and the short workbench rules summary.
+The shelf intro opens the portfolio page and establishes workbench framing:
 
-## Important anchors and classes
+- `/projects` heading
+- active-item chip
+- short philosophy paragraph
+- compact workbench rules list
 
-- `id="project-shelf"`: primary in-page anchor referenced by shared navigation and links from other pages.
-- `.box`, `.box-heading`, `.box-content`: outer portfolio intro structure.
-- `.subsection-block`, `.subsection-title`, `.subsection-list`: inline workbench-rules cluster.
+## Source
 
-## Edit this when
+- Source file: `src/site/pages/portfolio/shelf-intro.section.html`
+- Manifest entry: `src/site/pages/portfolio/page.config.mjs` (`id: "shelf-intro"`)
 
-- The portfolio heading, intro copy, chip count, or workbench rules summary changes.
-- A site-wide link target needs the portfolio landing anchor to remain stable.
+## Structure Contract
+
+Current expected structure:
+
+1. `<section class="box" id="project-shelf">`
+2. `.box-heading` with `.box-title` and `.box-chip`
+3. `.box-content` with intro paragraph
+4. `.subsection-block` for "Workbench rules"
+5. `.subsection-list` entries
+
+## Anchor Governance
+
+`#project-shelf` is a stable cross-page target used by:
+
+- shared star links (`Projects`) in `public/assets/js/config/shared-shell.js`
+- shared find-me links (`Workbench`) in `public/assets/js/config/shared-shell.js`
+- shared button links (`WORK/SHELF`) in `public/assets/js/config/shared-shell.js`
+- portfolio shell `now.href` in `public/assets/js/config/page-shells.js`
+- home project preview links (`portfolio.html#project-shelf`)
+
+Do not rename this anchor without coordinated updates.
+
+## Editing Guidance
+
+Edit this section when changing:
+
+- heading/chip text
+- intro paragraph
+- workbench rules summary text
+
+If chip count changes (for example from "6 active things"), verify project card count in `project-lineup.section.html` matches.
+
+## Styling Dependencies
+
+- Shared box/heading: `public/assets/css/layout.css`
+- Subsection typography: `public/assets/css/components/sections.css`
+
+## Quick Validation
+
+- `#project-shelf` still exists.
+- Intro and rules remain inside one `.box` section.
+- Chip count aligns with actual project lineup.
+- Build has no drift: `node scripts/build-pages.mjs --check`.

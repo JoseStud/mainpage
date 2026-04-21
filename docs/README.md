@@ -1,62 +1,150 @@
-# Project Docs (Light Guide)
+# Project Documentation
 
-This directory holds lightweight project documentation for `mainpage`.
+This directory is the maintainer guide for `mainpage`, a static three-page site assembled from section partials.
 
-## What this project is
+## New To Static Websites?
 
-`mainpage` is a static site with three generated entry pages:
+Start here first:
 
-- `index.html`
-- `blog.html`
-- `portfolio.html`
+- `docs/static-web-basics.md`
 
-The source files for those pages live in `site-src/`, and `node scripts/build-pages.mjs` regenerates the shared document wrapper and pre-rendered shell around each page body. Each page uses shared styles from `assets/css/styles.css` and shared behavior from `assets/js/main.js` for live features like the clock, rain, music, and status updates.
+Then for motion/visual behavior:
 
-## Quick start
+- `docs/animations-beginner-guide.md`
+
+That guide explains source vs generated files, what the build script does, and how to make your first safe edit.
+
+## Project In One Minute
+
+`mainpage` generates three entry pages:
+
+- `public/index.html`
+- `public/blog.html`
+- `public/portfolio.html`
+
+Authoring content and structure live in `src/site/`. Build output is written to `public/`.
+
+## Source Vs Generated Files
+
+If you are not used to static sites, this is the most important rule:
+
+- Edit source files in `src/site/...`
+- Rebuild
+- Let the build script update `public/...`
+
+Do not treat `public/*.html` as hand-edited source.
+
+## Architecture At A Glance
+
+- Page manifests: `src/site/pages/<page>/page.config.mjs`
+- Section source files: `src/site/pages/<page>/`
+- Section docs (required by build): `docs/sections/<page>/`
+- Shared wrapper template: `src/site/template.html`
+- Build pipeline: `scripts/build-pages.mjs`
+- Shared shell config: `public/assets/js/config/shared-shell.js` and `public/assets/js/config/page-shells.js`
+- Shared shell renderers: `public/assets/js/ui/shell-static.js`, `public/assets/js/ui/shell-sections.js`, `public/assets/js/ui/shell.js`
+- Client features: `public/assets/js/features/`
+- CSS modules: `public/assets/css/`
+
+`scripts/build-pages.mjs` validates section metadata and refuses to render sections that are missing their matching documentation file.
+
+## Build, Run, And Validate
+
+### Build generated pages
 
 ```bash
 cd /home/anxiuser/mainpage
 node scripts/build-pages.mjs
-node server.js
 ```
 
-Open one of:
+### Run local server
 
-- `http://localhost:8000/index.html`
-- `http://localhost:8000/blog.html`
-- `http://localhost:8000/portfolio.html`
+```bash
+cd /home/anxiuser/mainpage
+node scripts/build-pages.mjs
+node src/server/index.js
+```
 
-## Before opening a PR
-
-Run HTML validation:
+### Check generated drift without writing files
 
 ```bash
 cd /home/anxiuser/mainpage
 node scripts/build-pages.mjs --check
-for f in index.html blog.html portfolio.html; do
+```
+
+### Validate HTML output
+
+```bash
+cd /home/anxiuser/mainpage
+for f in public/index.html public/blog.html public/portfolio.html; do
   xmllint --html --noout "$f"
 done
 ```
 
-## Where to edit
+## Beginner First Contribution Flow
 
-- Shared document boilerplate: `site-src/template.html`
-- Page manifests and section partials: `site-src/pages/<page>/`
-- Section docs: `docs/sections/<page>/`
-- Regenerate top-level HTML: `node scripts/build-pages.mjs`
-- Shared shell data: `assets/js/config/shared-shell.js` and `assets/js/config/page-shells.js`
-- Shared shell build output: `assets/js/ui/shell-static.js`
-- Shared shell runtime rendering: `assets/js/ui/shell-sections.js` and `assets/js/ui/shell.js`
-- Shared shell fallback frame: `assets/js/ui/page-frame.js`
-- Feature behavior: `assets/js/features/`
-- Styling: smallest relevant file in `assets/css/`
+Use this if this is your first static-site change in this repo:
 
-## Extra reference
+1. Pick one source section file in `src/site/pages/<page>/`.
+2. Make a small content-only edit.
+3. Run `node scripts/build-pages.mjs`.
+4. Run `node scripts/build-pages.mjs --check`.
+5. Open the page locally and confirm result.
 
-- `docs/performance.md`
-- `docs/sections/README.md`
-- `docs/superpowers/specs/2026-04-14-dimden-style-redesign.md`
+If your edit changed section structure or behavior, update the matching section doc in `docs/sections/<page>/`.
 
-## Performance guardrail
+## Editing Workflows
 
-If a change touches shared layout, background effects, theme transitions, or other interactive UI code, follow `docs/performance.md` before merging. The repo now includes `node scripts/inspect-trace.mjs` for comparing the latest saved trace in `perf/` against the previous run.
+### Workflow A: Update Section Content
+
+1. Edit the smallest relevant source file under `src/site/pages/<page>/`.
+2. Update matching section docs under `docs/sections/<page>/` if structure, anchors, semantics, or responsibilities changed.
+3. Run `node scripts/build-pages.mjs`.
+4. Run `node scripts/build-pages.mjs --check` to verify no drift remains.
+5. Validate generated output with `xmllint`.
+
+### Workflow B: Update Shared Shell Content
+
+Use config files when changing sidebar/footer/header copy or shared navigation links.
+
+- Shared links/buttons/counter/controls: `public/assets/js/config/shared-shell.js`
+- Page-specific shell copy: `public/assets/js/config/page-shells.js`
+
+Avoid editing generated shell output directly.
+
+### Workflow C: Update Behavior Or UI Effects
+
+- Feature modules: `public/assets/js/features/`
+- Shell rendering behavior: `public/assets/js/ui/`
+- Styles: smallest relevant file in `public/assets/css/`
+
+If behavior touches performance-sensitive code (rain, transitions, layout), run the checks in `docs/performance.md`.
+
+### Workflow D: Add Or Remove A Section
+
+1. Update `src/site/pages/<page>/page.config.mjs`.
+2. Add/remove section source file in `src/site/pages/<page>/`.
+3. Add/remove matching section doc in `docs/sections/<page>/`.
+4. Build and validate.
+
+If the doc file is missing, build will fail with a missing section documentation error.
+
+## Documentation Map
+
+- Beginner static-site guide: `docs/static-web-basics.md`
+- Beginner animation guide: `docs/animations-beginner-guide.md`
+- Section-doc contract: `docs/sections/README.md`
+- Home page docs: `docs/sections/home/README.md`
+- Blog page docs: `docs/sections/blog/README.md`
+- Portfolio page docs: `docs/sections/portfolio/README.md`
+- Performance workflow: `docs/performance.md`
+- Design references and plans: `docs/superpowers/`
+
+## Contributor Checklist
+
+- Confirm anchors used by cross-page links are still valid.
+- Keep existing layout classes unless intentionally redesigning.
+- Regenerate pages after source edits.
+- Ensure generated output has no drift.
+- Validate all generated HTML files.
+- Update section docs for any structural or semantic change.
