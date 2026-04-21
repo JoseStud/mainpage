@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>anxidev // sunrise test stars</title>
+<meta name="description" content="Sunrise test with icons and star elements.">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030105" media="(prefers-color-scheme: dark)" data-theme-color="dark">
+<meta name="theme-color" content="#a8d0ee" media="(prefers-color-scheme: light)" data-theme-color="light">
+<script>
+window.PAGE_RUNTIME = {"initialTheme":"dark","ignoreStoredTheme":true,"autoSunrise":true,"autoSunriseDelayMs":160,"showPageChrome":false,"showBackdrop":true,"enableBackgroundSprinkles":true,"backgroundSprinkleTypes":["icon","star"],"enableRain":false};
+</script>
+<script>
+(() => {
+  const STORAGE_KEY = "theme";
+  const LIGHT_MEDIA = "(prefers-color-scheme: light)";
+  const root = document.documentElement;
+  const pageRuntime = window.PAGE_RUNTIME && typeof window.PAGE_RUNTIME === "object" ? window.PAGE_RUNTIME : {};
+  const initialTheme = pageRuntime.initialTheme === "dark" || pageRuntime.initialTheme === "light"
+    ? pageRuntime.initialTheme
+    : null;
+  const ignoreStoredTheme = pageRuntime.ignoreStoredTheme === true;
+  let storedTheme = null;
+
+  try {
+    const value = window.localStorage.getItem(STORAGE_KEY);
+    if (value === "dark" || value === "light") {
+      storedTheme = value;
+    }
+  } catch (_error) {
+    storedTheme = null;
+  }
+
+  const resolvedStored = !ignoreStoredTheme && storedTheme ? storedTheme : null;
+  const theme =
+    resolvedStored ||
+    initialTheme ||
+    (typeof window.matchMedia === "function" && window.matchMedia(LIGHT_MEDIA).matches ? "light" : "dark");
+  const themeSource = resolvedStored || initialTheme ? "storage" : "system";
+
+  const sceneFlags = [
+    ["showBackdrop", "sceneBackdrop"],
+    ["enableBackgroundSprinkles", "sceneSprinkles"],
+    ["enableRain", "sceneRain"],
+    ["showPageChrome", "sceneChrome"],
+  ];
+  for (const [runtimeKey, datasetKey] of sceneFlags) {
+    if (typeof pageRuntime[runtimeKey] === "boolean") {
+      root.dataset[datasetKey] = pageRuntime[runtimeKey] ? "on" : "off";
+    }
+  }
+
+  root.dataset.theme = theme;
+  window.TWEAK_DEFAULTS = Object.assign({}, window.TWEAK_DEFAULTS, {
+    theme,
+    themeSource,
+  });
+
+  document.querySelectorAll('meta[name="theme-color"][data-theme-color]').forEach((meta) => {
+    const metaTheme = meta.getAttribute("data-theme-color");
+    meta.setAttribute(
+      "media",
+      themeSource === "storage"
+        ? metaTheme === theme
+          ? "all"
+          : "not all"
+        : `(prefers-color-scheme: ${metaTheme})`,
+    );
+  });
+})();
+</script>
+<link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body data-page="sunrise-test-stars">
+<a class="skip-link" href="#content">skip to content</a>
+<div class="bg-photo" aria-hidden="true">
+  <div class="bg-sky-day" aria-hidden="true"></div>
+  <div class="bg-photo-backdrop" aria-hidden="true">
+    <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--saturn" src="assets/images/background-icons/motif-saturn.svg" alt="" loading="eager" decoding="async">
+    <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--vase-table" src="assets/images/background-icons/motif-vase-table.svg" alt="" loading="eager" decoding="async">
+    <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--chaise" src="assets/images/background-icons/motif-chaise.svg" alt="" loading="eager" decoding="async">
+    <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--rocket" src="assets/images/background-icons/motif-rocket.svg" alt="" loading="eager" decoding="async">
+    <img class="bg-photo-backdrop__motif bg-photo-backdrop__motif--stool" src="assets/images/background-icons/motif-stool.svg" alt="" loading="eager" decoding="async">
+  </div>
+  <div class="bg-sunrise" aria-hidden="true">
+    <span class="bg-sunrise-band bg-sunrise-band--horizon"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--wash"></span>
+    <span class="bg-sunrise-band bg-sunrise-band--veil"></span>
+    <span class="bg-sunrise-sun"></span>
+  </div>
+  <div class="bg-photo-scene"></div>
+</div>
+<div class="rain-fallback" aria-hidden="true"></div>
+<canvas id="rain-canvas" aria-hidden="true"></canvas>
+<div class="utility-toggles" role="group" aria-label="Site controls">
+  <button class="utility-toggle" id="theme-toggle" type="button" aria-label="Light mode" aria-pressed="false" title="Switch to light mode">LIGHT</button>
+  <button class="utility-toggle" id="rain-toggle" type="button" aria-pressed="true">Disable rain</button>
+</div>
+<script>
+(() => {
+  const themeToggle = document.getElementById("theme-toggle");
+  const theme = window.TWEAK_DEFAULTS && window.TWEAK_DEFAULTS.theme;
+  if (!themeToggle || theme !== "light") {
+    return;
+  }
+
+  themeToggle.setAttribute("aria-pressed", "true");
+  themeToggle.setAttribute("title", "Switch to dark mode");
+})();
+</script>
+
+<div class="page">
+  <header class="site-header" data-shell="header"></header>
+
+  <main class="layout" id="content">
+    <div class="col col-main"><!-- section: sunrise-test-stars/background-only | title: Background-only sunrise stage | source: src/site/pages/sunrise-test/background-only.partial.html | docs: docs/sections/sunrise-test/background-only.md -->
+<section class="sunrise-test-stage" aria-label="Sunrise animation test"></section></div>
+    <aside class="col col-side" data-shell="sidebar"></aside>
+  </main>
+
+  <footer class="site-footer" data-shell="footer"></footer>
+</div>
+
+<div data-shell="tweaks"></div>
+
+<script type="module" src="assets/js/main.js"></script>
+</body>
+</html>

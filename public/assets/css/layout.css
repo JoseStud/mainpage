@@ -1,0 +1,261 @@
+.page {
+  position: relative;
+  z-index: 4;
+  width: min(980px, calc(100% - 0.9rem));
+  margin: 0 auto;
+  padding: 0.45rem 0 1.7rem;
+}
+
+.site-header {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.14rem;
+  padding: 0.08rem 0 0.52rem;
+  text-align: center;
+}
+
+.site-header::before {
+  display: none;
+}
+
+.layout {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 252px);
+  align-items: start;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.col-main {
+  min-width: 0;
+}
+
+.col-side {
+  position: relative;
+  min-width: 0;
+}
+
+.portal-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  align-items: start;
+}
+
+.portal-split > .box {
+  height: 100%;
+}
+
+.portal-split-signals {
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+
+.box {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 8px 12px 9px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
+}
+
+.box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--text-strong) 5%, transparent), transparent 24%),
+    linear-gradient(180deg, transparent 68%, color-mix(in srgb, var(--panel-edge) 14%, transparent));
+}
+
+.menu-box,
+.online-box,
+.now-box,
+.status-box,
+.buttons-box,
+.buttoncode-box,
+.controls-box {
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+}
+
+.site-header[data-shell]:empty,
+aside[data-shell]:empty,
+.box[data-shell]:empty,
+.site-footer[data-shell]:empty,
+[data-shell="tweaks"]:empty {
+  display: none;
+}
+
+.site-footer {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  text-align: center;
+  color: var(--muted);
+}
+
+.utility-toggles {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.utility-toggle {
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
+  color: var(--text-strong);
+  padding: 0.36rem 0.66rem;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+}
+
+:root:not([data-theme-transition]) .utility-toggle {
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.utility-toggle:hover,
+.utility-toggle:focus-visible {
+  opacity: 0.94;
+  transform: translateY(-1px);
+  border-color: var(--accent-contrast);
+  color: var(--accent-contrast);
+}
+
+#theme-toggle[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent-contrast);
+}
+
+body[data-page^="sunrise-test"] .page {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body[data-page^="sunrise-test"] .layout {
+  display: block;
+  min-height: 100svh;
+}
+
+body[data-page^="sunrise-test"] .col-main {
+  min-height: 100svh;
+  gap: 0;
+}
+
+body[data-page^="sunrise-test"] .sunrise-test-stage {
+  position: relative;
+  min-height: 100svh;
+}
+
+body[data-page^="sunrise-test"] .sunrise-test-stage::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(
+      ellipse 36rem 22rem at 50% 38%,
+      rgb(26 14 8 / 0.08) 0,
+      rgb(244 234 227 / 0.18) 20%,
+      rgb(240 248 255 / 0.14) 34%,
+      rgb(240 248 255 / 0.07) 48%,
+      transparent 66%
+    );
+  opacity: 0;
+  transition: opacity 320ms ease;
+}
+
+:root[data-theme="light"] body[data-page^="sunrise-test"] .sunrise-test-stage::before {
+  opacity: 1;
+}
+
+:root[data-theme-transition="sunrise"] body[data-page^="sunrise-test"] .sunrise-test-stage::before {
+  animation: sunrise-test-title-matte var(--sunrise-duration, 2200ms) var(--sunrise-ease-in-out, ease-in-out) both;
+}
+
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] .skip-link,
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] .site-header,
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] .col-side,
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] .site-footer,
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] [data-shell="tweaks"],
+:root[data-scene-chrome="off"] body[data-page^="sunrise-test"] .utility-toggles {
+  display: none;
+}
+
+:root[data-scene-backdrop="off"] body[data-page^="sunrise-test"] .bg-photo-backdrop {
+  display: none;
+}
+
+:root[data-scene-sprinkles="off"] body[data-page^="sunrise-test"] .bg-photo-scene {
+  display: none;
+}
+
+:root[data-scene-rain="off"] body[data-page^="sunrise-test"] .rain-fallback,
+:root[data-scene-rain="off"] body[data-page^="sunrise-test"] #rain-canvas {
+  display: none;
+}
+
+@keyframes sunrise-test-title-matte {
+  0% {
+    opacity: 0;
+  }
+
+  38% {
+    opacity: 0.08;
+  }
+
+  62% {
+    opacity: 0.38;
+  }
+
+  82% {
+    opacity: 0.76;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

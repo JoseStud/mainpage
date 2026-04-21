@@ -1,0 +1,73 @@
+.box-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.42rem;
+}
+
+.box-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--text-strong);
+  font-size: 1.24rem;
+  font-weight: 700;
+}
+
+.box-title::before {
+  content: "☾";
+  color: var(--moon);
+  font-size: 0.78rem;
+}
+
+.col-side .box-title {
+  font-size: 1.04rem;
+}
+
+.menu-box .box-title::before {
+  content: "✩";
+}
+
+.buttoncode-box .box-title::before,
+.status-box .box-title::before,
+.controls-box .box-title::before {
+  content: "✧";
+}
+
+.counter-box .box-title::before {
+  content: "#";
+}
+
+.box-chip,
+.rss-link,
+.section-label,
+.side-kicker,
+.status-heading,
+.presence-kicker,
+.status-callout span {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.box-chip,
+.rss-link {
+  padding: 0.14rem 0.32rem;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel-strong);
+  color: var(--accent-contrast);
+}
+
+.section-label {
+  display: block;
+  margin-bottom: 0.26rem;
+  color: var(--muted);
+}
+
+.box-content p + p,
+.intro-copy p + p,
+.tile-copy p + p {
+  margin-top: 0.48rem;
+}

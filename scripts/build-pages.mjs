@@ -2,17 +2,20 @@ import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
-import { getPageShell } from "../assets/js/config/shell.js";
-import { renderShellMarkup } from "../assets/js/ui/shell-static.js";
-import { homePage } from "../site-src/pages/home/page.config.mjs";
-import { blogPage } from "../site-src/pages/blog/page.config.mjs";
-import { portfolioPage } from "../site-src/pages/portfolio/page.config.mjs";
+import { getPageShell } from "../public/assets/js/config/shell.js";
+import { renderShellMarkup } from "../public/assets/js/ui/shell-static.js";
+import { homePage } from "../src/site/pages/home/page.config.mjs";
+import { blogPage } from "../src/site/pages/blog/page.config.mjs";
+import { portfolioPage } from "../src/site/pages/portfolio/page.config.mjs";
+import { sunriseTestPages } from "../src/site/pages/sunrise-test/page.config.mjs";
 
 const rootDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const templatePath = path.join(rootDir, "site-src", "template.html");
+const siteDir = path.join(rootDir, "src", "site");
+const publicDir = path.join(rootDir, "public");
+const templatePath = path.join(siteDir, "template.html");
 const shouldCheckOnly = process.argv.includes("--check");
 
-const pages = [homePage, blogPage, portfolioPage];
+const pages = [homePage, blogPage, portfolioPage, ...sunriseTestPages];
 
 function toProjectPath(filePath) {
   return path.relative(rootDir, filePath).split(path.sep).join("/");
@@ -20,6 +23,12 @@ function toProjectPath(filePath) {
 
 function cleanHtml(html) {
   return String(html ?? "").trim();
+}
+
+const EMPTY_SHELL_MARKUP = Object.freeze({ header: "", sidebar: "", footer: "", tweaks: "" });
+
+function serializeInlineScriptData(value) {
+  return JSON.stringify(value ?? {}).replace(/</g, "\\u003c");
 }
 
 function resolvePage(page) {
@@ -31,7 +40,7 @@ function resolvePage(page) {
 
   return {
     ...page,
-    outputPath: path.join(rootDir, page.outputFile),
+    outputPath: path.join(publicDir, page.outputFile),
     sections: resolvedSections,
   };
 }
@@ -83,13 +92,17 @@ function renderSectionComment(page, section) {
 }
 
 function renderPage(template, page, content) {
-  const shellMarkup = renderShellMarkup(page.page, getPageShell(page.page));
+  const shellMarkup =
+    page.runtime && page.runtime.showPageChrome === false
+      ? EMPTY_SHELL_MARKUP
+      : renderShellMarkup(page.page, getPageShell(page.page));
 
   return (
     template
       .replace("{{title}}", page.title)
       .replace("{{description}}", page.description)
       .replace("{{page}}", page.page)
+      .replace("{{pageRuntime}}", serializeInlineScriptData(page.runtime))
       .replace("{{header}}", cleanHtml(shellMarkup.header))
       .replace("{{content}}", cleanHtml(content))
       .replace("{{sidebar}}", cleanHtml(shellMarkup.sidebar))

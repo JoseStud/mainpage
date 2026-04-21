@@ -1,0 +1,249 @@
+.shell-note + .shell-note {
+  margin-top: 0.22rem;
+}
+
+.findme-box .box-title::before {
+  content: "↗";
+}
+
+.interests-box .box-title::before {
+  content: "✎";
+}
+
+.extras-box .box-title::before,
+.guestbook-box .box-title::before {
+  content: "⌂";
+}
+
+.obsession-list,
+.entry-list,
+.shell-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.38rem;
+}
+
+.shell-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.obsession-item,
+.entry-item,
+.shell-item {
+  padding-bottom: 0.42rem;
+  border-bottom: 1px dashed var(--line);
+}
+
+.obsession-item:last-child,
+.entry-item:last-child,
+.shell-item:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.obsession-label,
+.entry-title,
+.shell-item-title {
+  display: block;
+  color: var(--text-strong);
+}
+
+.obsession-copy,
+.entry-summary,
+.shell-item-meta,
+.shell-note {
+  color: var(--muted);
+  line-height: 1.38;
+}
+
+.obsession-copy,
+.entry-summary,
+.shell-item-meta {
+  margin-top: 0.1rem;
+}
+
+.subsection-block + .subsection-block {
+  margin-top: 0.62rem;
+  padding-top: 0.55rem;
+  border-top: 1px dashed var(--line);
+}
+
+.subsection-title {
+  display: block;
+  margin-bottom: 0.26rem;
+  color: var(--moon);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.subsection-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  color: var(--text-strong);
+}
+
+.entry-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.entry-state,
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.32rem;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel-strong);
+  color: var(--accent-contrast);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.entry-state.is-live,
+.project-status.is-live {
+  border-color: rgba(98, 255, 117, 0.45);
+  color: var(--ok);
+}
+
+.entry-state.is-draft,
+.project-status.is-draft {
+  border-color: rgba(234, 117, 91, 0.45);
+  color: var(--moon);
+}
+
+.entry-state.is-notes,
+.project-status.is-notes {
+  border-color: rgba(166, 106, 129, 0.45);
+  color: #f3c0c2;
+}
+
+.entry-state.is-building,
+.project-status.is-building {
+  border-color: rgba(249, 163, 107, 0.45);
+  color: var(--accent);
+}
+
+.entry-state.is-open,
+.project-status.is-open,
+.entry-state.is-soon,
+.project-status.is-soon {
+  border-color: rgba(194, 152, 159, 0.45);
+  color: #f3c8c1;
+}
+
+.room-copy p + p {
+  margin-top: 0.48rem;
+}
+
+.room-list {
+  margin-top: 0.55rem;
+}
+
+.room-list li + li {
+  margin-top: 0.16rem;
+}
+
+.room-image {
+  display: block;
+  width: 154px;
+  height: 122px;
+  object-fit: cover;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel);
+}
+
+.tag-row {
+  display: flex;
+  gap: 0.24rem;
+  flex-wrap: wrap;
+  margin-top: 0.26rem;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.1rem 0.3rem;
+  border: 1px solid var(--panel-edge);
+  background: var(--panel-strong);
+  color: var(--accent-contrast);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.note-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.34rem;
+  padding-left: 0.95rem;
+}
+
+.note-list li {
+  color: var(--text-strong);
+}
+
+.note-list strong {
+  color: var(--accent-contrast);
+}
+
+.project-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.48rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.16rem;
+}
+
+.project-summary {
+  color: var(--text-strong);
+  line-height: 1.42;
+}
+
+.project-links {
+  display: flex;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-top: 0.3rem;
+  color: var(--muted);
+}
+
+.project-links a {
+  color: var(--accent);
+}
+
+.shell-link,
+.shell-copy {
+  display: block;
+  color: var(--text);
+  line-height: 1.38;
+}
+
+.shell-link {
+  transition: opacity 160ms ease;
+}
+
+.shell-link:hover {
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.shell-link:focus-visible {
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.shell-note {
+  margin-top: 0.36rem;
+}

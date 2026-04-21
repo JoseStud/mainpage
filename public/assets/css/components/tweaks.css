@@ -1,0 +1,109 @@
+.tweaks-btn {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 3.1rem;
+  z-index: 9;
+  display: none;
+  border: 1px solid var(--panel-edge);
+  border-radius: 6px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
+  color: var(--text-strong);
+  padding: 0.36rem 0.66rem;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+}
+
+.tweaks-btn.visible {
+  display: inline-block;
+}
+
+.tweaks-panel {
+  position: fixed;
+  right: 0.75rem;
+  bottom: 5.5rem;
+  z-index: 9;
+  display: none;
+  width: 240px;
+  border: 1px solid var(--panel-edge);
+  border-radius: 8px;
+  background:
+    linear-gradient(180deg, var(--panel-sheen), transparent 58%),
+    linear-gradient(140deg, var(--panel-wash), transparent 46%),
+    var(--panel-strong);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text-strong) 6%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--panel-edge) 12%, transparent),
+    0 0 var(--panel-shadow-glow-blur) var(--panel-shadow-glow),
+    0 var(--panel-shadow-depth-y) var(--panel-shadow-depth-blur) var(--panel-shadow-depth);
+  backdrop-filter: blur(var(--panel-blur, 0px));
+  -webkit-backdrop-filter: blur(var(--panel-blur, 0px));
+}
+
+.tweaks-panel.open {
+  display: block;
+}
+
+.tweaks-panel .hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.55rem 0.62rem;
+  border-bottom: 1px solid var(--line);
+  color: var(--accent);
+}
+
+.tweaks-panel .bd {
+  padding: 0.62rem 0.75rem 0.75rem;
+}
+
+.tw-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--panel-edge);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.seg button {
+  border: 0;
+  background: var(--panel-strong);
+  color: var(--text);
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  transition: opacity 180ms ease;
+}
+
+.seg button:hover,
+.seg button:focus-visible {
+  opacity: 0.9;
+}
+
+.seg button.on {
+  background: var(--accent);
+  color: var(--bg-2);
+  opacity: 1;
+}
+
+.tw-close {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+}
