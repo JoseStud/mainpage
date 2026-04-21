@@ -1,6 +1,6 @@
 services:
   mainpage:
-    image: ghcr.io/josestud/mainpage:9c5f4793e38167459be15560db1ec072c8d71160
+    image: ghcr.io/josestud/mainpage:597719926481184598695eaa51ea43435416313a
     container_name: mainpage
     restart: unless-stopped
     pull_policy: always
@@ -12,7 +12,7 @@ services:
       - multi-scrobbler
 
   multi-scrobbler:
-    image: ghcr.io/josestud/mainpage:9c5f4793e38167459be15560db1ec072c8d71160
+    image: ghcr.io/josestud/mainpage:597719926481184598695eaa51ea43435416313a
     container_name: multi-scrobbler
     restart: unless-stopped
     ports:
