@@ -4,8 +4,8 @@ This project has enough animation, paint, and layout work that visual changes ca
 
 ## Use this workflow when
 
-- changing `assets/css/`
-- changing `assets/js/features/`
+- changing `public/assets/css/`
+- changing `public/assets/js/features/`
 - changing theme-transition behavior
 - changing background layers, rain, or decorative motion
 - changing shared shell markup that affects layout across pages
@@ -17,7 +17,7 @@ Use the project server instead of an ad-hoc static server so the trace matches t
 ```bash
 cd /home/anxiuser/mainpage
 node scripts/build-pages.mjs
-node server.js
+node src/server/index.js
 ```
 
 Open:
@@ -109,7 +109,7 @@ The current site is most sensitive to:
 - paint-heavy decorative background layers
 - raster cost from animated visual effects
 
-Recent fixes reduced the animation budget in `assets/js/features/background-sprinkles.js` and narrowed transition disabling in `assets/css/effects.css` to avoid full-document invalidation during theme transitions. Be careful with selectors that target `:root[data-theme-*] *`, because they can trigger wide `UpdateLayoutTree` work.
+Recent fixes reduced the animation budget in `public/assets/js/features/background-sprinkles.js` and narrowed transition disabling in `public/assets/css/effects.css` to avoid full-document invalidation during theme transitions. Be careful with selectors that target `:root[data-theme-*] *`, because they can trigger wide `UpdateLayoutTree` work.
 
 ## PR checklist for UI changes
 

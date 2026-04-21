@@ -1,0 +1,16 @@
+.playwright-mcp/
+.superpowers/brainstorm/
+
+after-finish.png
+at-*.png
+before-finish.png
+post-animation.png
+post-finish-slow.png
+pre-finish-slow.png
+s-post.png
+s-pre.png
+static-light.png
+t1700.png
+t2000.png
+
+perf/Trace-*.json
